@@ -90,12 +90,22 @@ cp $SYSROOT/arm-linux-androideabi/libc++_shared.so crates/tgpulse/armeabi-v7a/
 The package name, SDK levels and activity settings are in the
 `[package.metadata.android]` section of `crates/tgpulse/Cargo.toml`.
 
-ROMs go in the application's external data directory, under `roms/`:
+The manifest also declares `MANAGE_EXTERNAL_STORAGE`. Since Android 11 no
+file manager may browse another app's `Android/data`, so the ROM library is
+kept in a shared folder instead: `/sdcard/TGPulse/roms`, which any file
+manager (and USB file transfer) can read and write. That folder needs the
+All files access grant, and the app opens its own page in the system
+settings the first time it runs without it; the grant is picked up when the
+app comes back to the foreground, no restart needed. Declining is fine --
+the library then stays in the private directory, and adb is the way in:
 
 ```sh
 adb shell mkdir -p /sdcard/Android/data/org.tgpulse.emulator/files/roms
 adb push vf2.zip /sdcard/Android/data/org.tgpulse.emulator/files/roms/
 ```
+
+On devices older than Android 11 the private directory is always used.
+NVRAM and save states live in the private directory either way.
 
 Battery-backed RAM and save states are written alongside them.
 

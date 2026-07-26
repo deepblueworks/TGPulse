@@ -428,6 +428,20 @@ impl App {
     /// opened first, so the renderer is built for the board it needs rather
     /// than built twice.
     fn on_resumed(&mut self, window: &Window) {
+        // The All files access grant is given in the system settings, with the
+        // app in the background; coming back is the moment to notice it and
+        // move the library to the shared folder.
+        #[cfg(target_os = "android")]
+        if crate::storage::has_all_files_access() {
+            if let Some(dir) = crate::storage::shared_rom_dir() {
+                if self.config.rom_dir != dir {
+                    let _ = std::fs::create_dir_all(&dir);
+                    self.config.rom_dir = dir;
+                    let config = self.config.clone();
+                    self.gui.refresh_library(&config);
+                }
+            }
+        }
         if self.presenter.is_some() {
             return;
         }
