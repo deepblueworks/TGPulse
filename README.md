@@ -1,7 +1,7 @@
 # <img src="assets/logo.png" alt="TGPulse Emulator" width="420">
 
 Emulator for Sega's Model 1 and Model 2 arcade boards, written in Rust.
-Currently with Linux, Windows and Android builds (Android branch.)
+Currently with Linux, Windows and Android builds (Android branch).
 
 Every processor is emulated at instruction level: the NEC V60 and MB86233 "TGP"
 on the Model 1; the Intel i960, the TGP, the ADSP-21062 SHARC and the MB86235
