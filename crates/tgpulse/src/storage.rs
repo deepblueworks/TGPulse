@@ -117,6 +117,25 @@ pub fn shared_rom_dir() -> Option<PathBuf> {
     shared_root().map(|root| root.join(SHARED_DIR).join(tgpulse_core::library::DEFAULT_DIR))
 }
 
+/// Turns the display between the two landscapes.
+///
+/// The manifest asks for the ordinary one so the activity starts right side
+/// up on a bare phone; this overrides it at runtime. `8` and `0` are the
+/// platform's `SCREEN_ORIENTATION_REVERSE_LANDSCAPE` and
+/// `SCREEN_ORIENTATION_LANDSCAPE`.
+pub fn set_reverse_landscape(reverse: bool) {
+    let orientation = if reverse { 8 } else { 0 };
+    with_jni(|env, activity| {
+        env.call_method(
+            activity,
+            "setRequestedOrientation",
+            "(I)V",
+            &[JValue::Int(orientation)],
+        )?;
+        Ok(())
+    });
+}
+
 /// Opens the app's All files access page in the system settings, the first
 /// time only. `private_dir` is where the "already asked" marker lives.
 pub fn request_all_files_access_once(private_dir: &Path) {

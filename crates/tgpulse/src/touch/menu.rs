@@ -41,6 +41,7 @@ pub enum Setting {
     SmoothShadows,
     Rumble,
     Cabinet,
+    ReverseLandscape,
 }
 
 impl Setting {
@@ -58,6 +59,7 @@ impl Setting {
             Setting::SmoothShadows => "Smooth shadows",
             Setting::Rumble => "Rumble",
             Setting::Cabinet => "Network board (twin)",
+            Setting::ReverseLandscape => "Reverse landscape",
         }
     }
 
@@ -72,6 +74,9 @@ impl Setting {
             Setting::SmoothShadows => "Blends the hardware's stipple instead of reproducing it.",
             Setting::Rumble => "Drive-board force sent to the pad's motors.",
             Setting::Cabinet => "Takes effect the next time a game is loaded.",
+            Setting::ReverseLandscape => {
+                "Turns the display around, for a cradle that holds the phone the other way."
+            }
         }
     }
 
@@ -87,6 +92,7 @@ impl Setting {
                 Cabinet::Twin => "TWIN".to_string(),
                 Cabinet::Single => "SINGLE".to_string(),
             },
+            Setting::ReverseLandscape => on_off(config.reverse_landscape),
         }
     }
 
@@ -109,6 +115,7 @@ impl Setting {
                     Cabinet::Single => Cabinet::Twin,
                 }
             }
+            Setting::ReverseLandscape => config.reverse_landscape = !config.reverse_landscape,
         }
     }
 }
@@ -117,7 +124,7 @@ fn on_off(value: bool) -> String {
     if value { "ON" } else { "OFF" }.to_string()
 }
 
-const SETTINGS: [Setting; 7] = [
+const SETTINGS: [Setting; 8] = [
     Setting::Ssaa,
     Setting::Volume,
     Setting::Widescreen,
@@ -125,6 +132,7 @@ const SETTINGS: [Setting; 7] = [
     Setting::SmoothShadows,
     Setting::Rumble,
     Setting::Cabinet,
+    Setting::ReverseLandscape,
 ];
 
 /// Volume moves in steps a player can hear, and stops where the mixer does.
@@ -310,9 +318,9 @@ impl Menu {
     }
 
     fn layout_settings(&mut self, w: f32, h: f32, margin: f32, bar: f32, gap: f32) {
-        // The lines are shorter than a header bar so all seven fit between the
-        // header and the bottom of the screen without scrolling.
-        let line_h = 0.10 * h;
+        // The lines are shorter than a header bar so all eight fit between
+        // the header and the bottom of the screen without scrolling.
+        let line_h = 0.095 * h;
         let line_gap = 0.010 * h;
         let box_w = line_h * 1.6;
         let step_w = line_h;
@@ -627,7 +635,7 @@ mod tests {
         r.x >= 0.0 && r.y >= 0.0 && r.x + r.w <= SCREEN.0 && r.y + r.h <= SCREEN.1
     }
 
-    /// Seven settings have to fit between the header and the bottom edge
+    /// Eight settings have to fit between the header and the bottom edge
     /// without scrolling, and none may sit on top of another.
     #[test]
     fn the_settings_screen_fits_and_does_not_overlap() {

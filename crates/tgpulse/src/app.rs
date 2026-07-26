@@ -850,6 +850,8 @@ impl App {
                         None
                     });
                     self.fullscreen = self.config.fullscreen;
+                    #[cfg(target_os = "android")]
+                    crate::storage::set_reverse_landscape(self.config.reverse_landscape);
                     if let Some(session) = &mut self.session {
                         session.audio.set_volume(self.config.volume);
                         session.input.enable_rumble(self.config.rumble);

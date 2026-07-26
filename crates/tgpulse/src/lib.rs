@@ -61,12 +61,18 @@ fn android_main(android_app: winit::platform::android::activity::AndroidApp) {
         .build()
         .expect("event loop");
 
-    let config = tgpulse_core::config::Config {
+    let mut config = tgpulse_core::config::Config {
         // A phone screen is the whole display; there is no window to size.
         fullscreen: true,
         rom_dir,
         ..Default::default()
     };
+    // The desktop reads the saved adjustments in the command-line parser,
+    // which this entry point never goes through; without this the touch
+    // settings screen would write settings.conf and nothing would read it.
+    crate::settings::Settings::load_or_create(&crate::settings::Settings::path())
+        .apply_to(&mut config);
+    storage::set_reverse_landscape(config.reverse_landscape);
     if let Err(e) = app::run_with(event_loop, config, None) {
         log::error!(target: "app", "{e}");
     }
