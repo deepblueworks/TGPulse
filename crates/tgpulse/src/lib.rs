@@ -8,6 +8,8 @@
 #[cfg(target_os = "android")]
 mod app;
 #[cfg(target_os = "android")]
+mod attract;
+#[cfg(target_os = "android")]
 mod bindings;
 #[cfg(target_os = "android")]
 mod cli;
@@ -17,6 +19,10 @@ mod gui;
 mod input;
 #[cfg(target_os = "android")]
 mod platform;
+#[cfg(target_os = "android")]
+mod settings;
+#[cfg(target_os = "android")]
+mod touch;
 
 #[cfg(target_os = "android")]
 #[no_mangle]

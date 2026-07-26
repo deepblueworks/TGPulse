@@ -22,6 +22,11 @@ use crate::bindings::{Bindings, Control, Hotkey, Source};
 
 pub use renderer::Renderer;
 
+/// How much larger everything is drawn than on a desktop. A phone is held at
+/// arm's length and has no pointer to aim with, so both the text and the hit
+/// targets have to grow; everywhere else this is 1 and nothing changes.
+const UI_SCALE: f32 = if cfg!(target_os = "android") { 2.5 } else { 1.0 };
+
 /// What the interface is asking the application to do.
 pub enum Action {
     Launch(PathBuf),
@@ -35,6 +40,8 @@ pub enum Action {
     SettingsChanged,
     /// Bindings were edited; the application re-reads and saves them.
     BindingsChanged,
+    /// The ROM directory should be scanned again.
+    RefreshLibrary,
     Quit,
 }
 
@@ -90,6 +97,20 @@ impl Gui {
         // against a zero-sized display collapses them.
         context.io_mut().display_size = [(SCREEN_W * 2) as f32, (SCREEN_H * 2) as f32];
         style(&mut context);
+
+        // Nothing on a handset is legible at the default 13 pixels, and the
+        // touch interface draws its labels from this same atlas. The atlas is
+        // not built until the renderer asks for it, so the size only has to be
+        // settled before then.
+        if UI_SCALE > 1.0 {
+            context.fonts().add_font(&[imgui::FontSource::DefaultFontData {
+                config: Some(imgui::FontConfig {
+                    size_pixels: 13.0 * UI_SCALE,
+                    ..imgui::FontConfig::default()
+                }),
+            }]);
+            context.style_mut().scale_all_sizes(UI_SCALE);
+        }
 
         Self {
             context,
@@ -167,6 +188,9 @@ impl Gui {
     /// Builds a frame and returns what the user asked for.
     ///
     /// `running` is the title of the game currently loaded, if any.
+    // A frame needs the renderer, the clock, and every piece of state the
+    // windows can edit; bundling them into a struct would only move the list.
+    #[allow(clippy::too_many_arguments)]
     pub fn frame(
         &mut self,
         renderer: &mut Renderer,
@@ -175,8 +199,19 @@ impl Gui {
         config: &mut Config,
         bindings: &mut Bindings,
         stats: Stats,
+        touch: Option<&mut crate::touch::TouchUi>,
     ) -> Vec<Action> {
         self.context.io_mut().delta_time = dt.as_secs_f32().max(1.0 / 1000.0);
+
+        // A handset drives the touch interface instead of these windows: they
+        // are built for a pointer that can hover and a keyboard that can type,
+        // and it has neither.
+        if let Some(touch) = touch.filter(|t| t.enabled()) {
+            let ui = self.context.frame();
+            let actions = touch.render(ui, &self.entries, running, config, &mut self.state_slot);
+            renderer.capture(self.context.render());
+            return actions;
+        }
 
         let mut actions = Vec::new();
         if !self.showing() {

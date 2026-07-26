@@ -11,6 +11,7 @@ mod gui;
 mod input;
 mod platform;
 mod settings;
+mod touch;
 
 use std::io::{BufRead, Write};
 

@@ -28,6 +28,7 @@ use crate::gui::{Action, Gui, Stats};
 use crate::input::{ControlScheme, InputState};
 use crate::platform::audio::Audio;
 use crate::platform::video::Model2Video;
+use crate::touch::TouchUi;
 
 /// 25 MHz i960 over the exact Model 2 raster period: a 16 MHz pixel clock over
 /// 656x424 total pixels gives 57.524 Hz.
@@ -262,6 +263,11 @@ struct App {
     /// The attract screen's own layers, so it does not borrow a session's.
     idle_background: Vec<u32>,
     idle_foreground: Vec<u32>,
+    /// The on-screen controls and the phone menu. Dormant on desktop.
+    touch: TouchUi,
+    /// Devices that have reported a real press. See `on_touch` for why a
+    /// touchscreen has to be told apart from a gamepad's sticks.
+    touch_devices: std::collections::HashSet<winit::event::DeviceId>,
 }
 
 impl App {
@@ -292,6 +298,14 @@ impl App {
             stats: Stats::default(),
             idle_background: vec![0; SCREEN_W * SCREEN_H],
             idle_foreground: vec![0; SCREEN_W * SCREEN_H],
+            touch: {
+                let mut touch = TouchUi::new();
+                // A desktop has a mouse and a keyboard and wants neither of
+                // these; a handset has neither and needs both.
+                touch.set_enabled(cfg!(target_os = "android"));
+                touch
+            },
+            touch_devices: std::collections::HashSet::new(),
         }
     }
 
@@ -336,6 +350,9 @@ impl App {
         self.debugger = None;
         window.set_title("TGPulse");
         self.gui.visible = true;
+        // With nothing running there is nothing for the overlay to control, so
+        // the phone goes back to the library rather than to an empty screen.
+        self.touch.set_menu_open(true);
         self.build_presenter(window);
     }
 
@@ -398,6 +415,7 @@ impl App {
             .build_renderer(video.device(), video.queue(), video.surface_format());
         let size = window.inner_size();
         self.gui.set_display_size(size.width, size.height);
+        self.touch.resize(size.width as f32, size.height as f32);
         self.presenter = Some(Presenter { video, ui });
     }
 
@@ -441,6 +459,12 @@ impl App {
                     WindowEvent::Resized(size) => {
                         presenter.video.resize(size);
                         self.gui.set_display_size(size.width, size.height);
+                        self.touch.resize(size.width as f32, size.height as f32);
+                    }
+                    WindowEvent::Touch(finger) => {
+                        let view = presenter.video.view_rect();
+                        self.touch.set_view(view);
+                        self.on_touch(finger);
                     }
                     WindowEvent::KeyboardInput { event, .. } => {
                         self.on_key(window, &event, captured)
@@ -480,7 +504,51 @@ impl App {
         }
     }
 
+    /// One finger, or one stick that is pretending to be one.
+    ///
+    /// Android delivers a gamepad's sticks as motion events, and winit turns
+    /// every motion event into a touch: the "location" of one of those is the
+    /// stick's own -1..1 travel rather than a place on the screen. They cannot
+    /// be told apart by their coordinates alone -- a finger really can land on
+    /// pixel (1, 1) -- but a touchscreen always announces a contact with a
+    /// press before it reports movement, and a stick never does. So a device
+    /// that has only ever moved is a stick, and is read as one.
+    fn on_touch(&mut self, finger: winit::event::Touch) {
+        let (x, y) = (finger.location.x as f32, finger.location.y as f32);
+        if finger.phase == winit::event::TouchPhase::Started {
+            self.touch_devices.insert(finger.device_id);
+        }
+        if !self.touch_devices.contains(&finger.device_id) {
+            // Guard the range as well: a motion event from a device we somehow
+            // missed the press of would otherwise slam the stick to its stop.
+            if (-1.05..=1.05).contains(&x) && (-1.05..=1.05).contains(&y) {
+                if let Some(session) = &mut self.session {
+                    // Android counts Y downward; a pad counts it up.
+                    session.input.set_pad_stick(x, -y);
+                }
+            }
+            return;
+        }
+        self.touch.on_touch(finger.id, finger.phase, x, y);
+    }
+
     fn on_key(&mut self, window: &Window, event: &winit::event::KeyEvent, captured: bool) {
+        // winit maps an Android pad's d-pad onto the arrow keys and hands back
+        // everything else as a raw platform keycode, so the face and shoulder
+        // buttons arrive here unrecognised.
+        #[cfg(target_os = "android")]
+        if let PhysicalKey::Unidentified(winit::keyboard::NativeKeyCode::Android(code)) =
+            event.physical_key
+        {
+            if let Some(button) = android_pad_button(code) {
+                let pressed = event.state == ElementState::Pressed;
+                if let Some(session) = &mut self.session {
+                    session.input.set_pad_button(button, pressed);
+                }
+            }
+            return;
+        }
+
         let PhysicalKey::Code(code) = event.physical_key else {
             return;
         };
@@ -584,6 +652,15 @@ impl App {
 
     /// Runs emulated time forward to catch up with the wall clock.
     fn advance(&mut self) {
+        // The screen's controls are sampled once per displayed frame, not once
+        // per emulated one: catching up several frames must not replay a thumb
+        // press as several distinct presses.
+        if let Some(session) = &mut self.session {
+            session.input.set_touch(self.touch.amounts());
+            if let Some((x, y)) = self.touch.aim() {
+                session.input.on_cursor(x, y);
+            }
+        }
         let Some(session) = &mut self.session else {
             self.last_frame = Instant::now();
             return;
@@ -650,16 +727,29 @@ impl App {
             fullscreen,
             idle_background,
             idle_foreground,
+            touch,
             ..
         } = self;
         let Some(Presenter { video, ui }) = presenter else {
             return;
         };
+        // The controls follow the cabinet, so the overlay is told which one is
+        // loaded before it draws itself.
+        touch.set_scheme(session.as_ref().map(|s| s.scheme));
         // Fullscreen is the "get out of the way" mode: the interface is
         // suppressed there whatever the player last toggled, so the picture
-        // fills the screen with nothing over it.
+        // fills the screen with nothing over it. A handset is always
+        // fullscreen, which is why its interface is not one of these windows.
         gui.set_suppressed(*fullscreen);
-        let actions = gui.frame(ui, dt, title.as_deref(), config, bindings, *stats);
+        let actions = gui.frame(
+            ui,
+            dt,
+            title.as_deref(),
+            config,
+            bindings,
+            *stats,
+            Some(touch),
+        );
         let empty = Vec::new();
         match layers {
             Layers::Model2 { triangles, colors } => {
@@ -748,6 +838,10 @@ impl App {
                     self.save_settings();
                 }
                 Action::BindingsChanged => self.apply_bindings(),
+                Action::RefreshLibrary => {
+                    let config = self.config.clone();
+                    self.gui.refresh_library(&config);
+                }
                 Action::Quit => {
                     if let Some(session) = &self.session {
                         session.save_nvram();
@@ -871,6 +965,34 @@ impl App {
             }
         }
     }
+}
+
+/// An Android gamepad button, named as the `gilrs::Button` a desktop pad would
+/// report for it.
+///
+/// Translating into gilrs' vocabulary rather than inventing a second one means
+/// the default bindings -- and anything the player has since rebound -- resolve
+/// identically on a handset and on a desktop. The numbers are the framework's
+/// own `KEYCODE_BUTTON_*` constants.
+#[cfg(target_os = "android")]
+fn android_pad_button(code: u32) -> Option<gilrs::Button> {
+    use gilrs::Button;
+    Some(match code {
+        96 => Button::South,          // BUTTON_A
+        97 => Button::East,           // BUTTON_B
+        99 => Button::West,           // BUTTON_X
+        100 => Button::North,         // BUTTON_Y
+        102 => Button::LeftTrigger,   // BUTTON_L1
+        103 => Button::RightTrigger,  // BUTTON_R1
+        104 => Button::LeftTrigger2,  // BUTTON_L2
+        105 => Button::RightTrigger2, // BUTTON_R2
+        106 => Button::LeftThumb,     // BUTTON_THUMBL
+        107 => Button::RightThumb,    // BUTTON_THUMBR
+        108 => Button::Start,         // BUTTON_START
+        109 => Button::Select,        // BUTTON_SELECT
+        110 => Button::Mode,          // BUTTON_MODE
+        _ => return None,
+    })
 }
 
 enum Layers {
