@@ -263,6 +263,9 @@ struct App {
     /// The attract screen's own layers, so it does not borrow a session's.
     idle_background: Vec<u32>,
     idle_foreground: Vec<u32>,
+    /// The settings the current renderer was built for. They are fixed when
+    /// the pipelines are created, so changing one means building it again.
+    video_settings: VideoSettings,
     /// The on-screen controls and the phone menu. Dormant on desktop.
     touch: TouchUi,
     /// Devices that have reported a real press. See `on_touch` for why a
@@ -298,6 +301,7 @@ impl App {
             stats: Stats::default(),
             idle_background: vec![0; SCREEN_W * SCREEN_H],
             idle_foreground: vec![0; SCREEN_W * SCREEN_H],
+            video_settings: VideoSettings::default(),
             touch: {
                 let mut touch = TouchUi::new();
                 // A desktop has a mouse and a keyboard and wants neither of
@@ -416,6 +420,7 @@ impl App {
         let size = window.inner_size();
         self.gui.set_display_size(size.width, size.height);
         self.touch.resize(size.width as f32, size.height as f32);
+        self.video_settings = VideoSettings::of(&self.config);
         self.presenter = Some(Presenter { video, ui });
     }
 
@@ -835,6 +840,12 @@ impl App {
                         session.audio.set_volume(self.config.volume);
                         session.input.enable_rumble(self.config.rumble);
                     }
+                    // Supersampling and the widescreen framing shape the
+                    // pipelines themselves, so editing one only takes effect
+                    // once the renderer has been built again.
+                    if self.video_settings != VideoSettings::of(&self.config) {
+                        self.build_presenter(window);
+                    }
                     self.save_settings();
                 }
                 Action::BindingsChanged => self.apply_bindings(),
@@ -993,6 +1004,26 @@ fn android_pad_button(code: u32) -> Option<gilrs::Button> {
         110 => Button::Mode,          // BUTTON_MODE
         _ => return None,
     })
+}
+
+/// The parts of the configuration the renderer bakes in at construction.
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
+struct VideoSettings {
+    ssaa: u32,
+    smooth_shadows: bool,
+    widescreen: bool,
+    stretch_2d: bool,
+}
+
+impl VideoSettings {
+    fn of(config: &Config) -> Self {
+        Self {
+            ssaa: config.ssaa,
+            smooth_shadows: config.smooth_shadows,
+            widescreen: config.widescreen,
+            stretch_2d: config.widescreen_stretch_2d,
+        }
+    }
 }
 
 enum Layers {

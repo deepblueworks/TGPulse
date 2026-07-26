@@ -159,6 +159,9 @@ pub(crate) enum Target {
     Aim,
     /// A button on the menu.
     MenuButton(menu::Button),
+    /// A settings line: which one, and which way. Zero flips a setting that
+    /// has only two states.
+    MenuAdjust(menu::Setting, i32),
     /// A finger in the game list: it scrolls the list, and if it never moved
     /// it launches whatever row it landed on.
     MenuList { row: Option<usize>, from: f32 },
@@ -286,6 +289,7 @@ impl TouchUi {
                 // the instant the thumb lands.
                 match target {
                     Target::MenuButton(button) => self.menu.press(button),
+                    Target::MenuAdjust(setting, delta) => self.menu.adjust(setting, delta),
                     Target::Control(index) => self.overlay.press(index),
                     _ => {}
                 }
