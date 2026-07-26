@@ -1,0 +1,52 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/i960",
+    "crates/v60",
+    "crates/mb86233",
+    "crates/mb86235",
+    "crates/sharc",
+    "crates/sega-crypt",
+    "crates/tgpulse-core",
+    "crates/tgpulse",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[workspace.dependencies]
+i960 = { path = "crates/i960" }
+v60 = { path = "crates/v60" }
+mb86233 = { path = "crates/mb86233" }
+mb86235 = { path = "crates/mb86235" }
+sharc = { path = "crates/sharc" }
+sega-crypt = { path = "crates/sega-crypt" }
+tgpulse-core = { path = "crates/tgpulse-core" }
+
+bincode = "1.3"
+bytemuck = { version = "1.14", features = ["derive"] }
+cpal = "0.15"
+env_logger = "0.10"
+gilrs = "0.10"
+imgui = "0.12"
+log = "0.4"
+m68000 = "0.2"
+pollster = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde-big-array = "0.5"
+wgpu = { version = "0.19", features = ["glsl"] }
+winit = "0.29"
+zip = "0.6"
+
+# The CPU cores and the rasterizer are tight numeric loops; an unoptimised
+# build is far too slow to run a game interactively. Keep debug assertions but
+# compile `cargo run` with optimisation.
+[profile.dev]
+opt-level = 2
+debug = 1
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

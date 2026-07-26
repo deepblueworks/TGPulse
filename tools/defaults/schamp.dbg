@@ -1,0 +1,17 @@
+# Sonic Championship
+#
+# Already ships set to COUNTRY: USA. The default is captured anyway so a
+# first boot starts from initialised backup RAM rather than announcing that
+# it is broken.
+#
+# Drives the game's own test menu, because that is the only supported way to
+# change a setting these boards keep in battery-backed RAM. Regenerate with:
+#
+#     tools/make-defaults.sh schamp
+run 700
+testmenu 60
+run 150
+# Leaving the menus properly is what makes some of these games commit
+# the change to backup RAM.
+run 400
+nvram defaults

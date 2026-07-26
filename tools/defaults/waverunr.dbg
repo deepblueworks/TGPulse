@@ -1,0 +1,122 @@
+# Wave Runner
+#
+# GAME ASSIGNMENTS / COUNTRY: JAPAN to USA.
+# The service button moves the cursor; the test button selects.
+#
+# Drives the game's own test menu, because that is the only supported way to
+# change a setting these boards keep in battery-backed RAM. Regenerate with:
+#
+#     tools/make-defaults.sh waverunr
+run 700
+testmenu 60
+run 150
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xFB
+run 5
+input in0 0xFF
+run 15
+run 40
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xFB
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xFB
+run 5
+input in0 0xFF
+run 15
+run 40
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xFB
+run 5
+input in0 0xFF
+run 15
+# Leaving the menus properly is what makes some of these games commit
+# the change to backup RAM.
+run 400
+nvram defaults

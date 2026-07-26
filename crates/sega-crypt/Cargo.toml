@@ -1,0 +1,8 @@
+[package]
+name = "sega-crypt"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+log = { workspace = true }

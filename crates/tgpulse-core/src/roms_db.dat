@@ -1,0 +1,4247 @@
+G airwlkrs m2a joystick
+T Air Walkers	1997	Data East Corporation
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu j_2-14_ic12_fe7e.12 0 80000 4w
+L maincpu j_2-14_ic13_d539.13 2 80000 4w
+L main_data mpr-19236.10 0 400000 4w
+L main_data mpr-19237.11 2 400000 4w
+L main_data 11-7_ic8_d400.8 800000 80000 4w
+L main_data 11-7_ic9_6e4a.9 800002 80000 4w
+L polygons mpr-19235.16 0 200000 4w
+L polygons mpr-19232.20 2 200000 4w
+L textures mpr-19234.25 0 200000 4w
+L textures mpr-19233.24 2 200000 4w
+L audiocpu 10-18_ic30_30f2.30 0 80000 w
+L samples mpr-19243.31 0 200000 w
+L samples mpr-19242.32 200000 200000 w
+L samples mpr-19241.36 400000 200000 w
+L samples mpr-19240.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 800000 900000 100000
+C main_data 800000 a00000 200000
+C main_data 800000 c00000 400000
+G bel m2c gun gun1x gun2x gun1y gun2y
+T Behind Enemy Lines	1997	Sega / EPL Productions
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures c00000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20225.15 0 20000 4w
+L maincpu epr-20226.16 2 20000 4w
+L maincpu epr-20223.13 40000 20000 4w
+L maincpu epr-20224.14 40002 20000 4w
+L main_data mpr-20233.11 0 200000 4w
+L main_data mpr-20234.12 2 200000 4w
+L main_data mpr-20231.9 400000 200000 4w
+L main_data mpr-20232.10 400002 200000 4w
+L main_data mpr-20229.7 800000 200000 4w
+L main_data mpr-20230.8 800002 200000 4w
+L main_data mpr-20227.5 c00000 200000 4w
+L main_data mpr-20228.6 c00002 200000 4w
+L copro_data mpr-20236.29 0 200000 4w
+L copro_data mpr-20235.30 2 200000 4w
+L polygons mpr-20244.17 0 200000 4w
+L polygons mpr-20240.21 2 200000 4w
+L polygons mpr-20243.18 400000 200000 4w
+L polygons mpr-20239.22 400002 200000 4w
+L polygons mpr-20242.19 800000 200000 4w
+L polygons mpr-20238.23 800002 200000 4w
+L polygons mpr-20241.20 c00000 200000 4w
+L polygons mpr-20237.24 c00002 200000 4w
+L textures mpr-20247.27 0 200000 4w
+L textures mpr-20245.25 2 200000 4w
+L textures mpr-20248.28 800000 200000 4w
+L textures mpr-20246.26 800002 200000 4w
+L audiocpu mpr-20249.31 0 20000 w
+L samples mpr-20250.32 0 200000 w
+L samples mpr-20251.33 200000 200000 w
+L samples mpr-20252.34 400000 200000 w
+L samples mpr-20253.35 600000 200000 w
+G daytona m2o racing steer accel brake
+T Daytona USA (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu epr-16722a.12 0 20000 4w
+L maincpu epr-16723a.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-16724a.6 800000 80000 4w
+L main_data epr-16725a.7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytona93 m2o racing steer accel brake
+T Daytona USA	1993	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu epr-16530a.12 0 20000 4w
+L maincpu epr-16531a.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16526.8 400000 200000 4w
+L main_data mpr-16527.9 400002 200000 4w
+L main_data epr-16534a.6 800000 100000 4w
+L main_data epr-16535a.7 800002 100000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons epr-16646.ic19 c00000 80000 4w
+L polygons epr-16645.ic23 c00002 80000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16517.27 800000 200000 4w
+L textures mpr-16516.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16489.7 0 20000 w
+L m1audio:sndcpu epr-16490.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 900000 a00000 100000
+C main_data 900000 b00000 100000
+C main_data 900000 c00000 100000
+C main_data 900000 d00000 100000
+C main_data 900000 e00000 100000
+C main_data 900000 f00000 100000
+G daytonagtx m2o racing steer accel brake
+T Daytona USA (GTX 2004 Edition)	2003	hack (Kyle Hodgetts)
+R maincpu 200000 00
+R main_data 2000000 00
+R prot_data 300000 ff
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu gtx.12 0 20000 4w
+L maincpu gtx.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-16724a.6 800000 80000 4w
+L main_data epr-16725a.7 800002 80000 4w
+L prot_data bank0.bin 2 80000 4w
+L prot_data bank1.bin 100002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytonam m2o racing steer accel brake
+T Daytona USA (To The MAXX)	2001	hack (Kyle Hodgetts)
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+R pic 10000 00
+L maincpu maxx.12 0 20000 4w
+L maincpu maxx.13 2 20000 4w
+L maincpu maxx.14 40000 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-16724a.6 800000 80000 4w
+L main_data epr-16725a.7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+L pic pic.bin 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytonas m2o racing steer accel brake
+T Daytona USA (with Saturn advertisements)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu epr-17965.ic12 0 20000 4w
+L maincpu epr-17966.ic13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-17967.ic6 800000 80000 4w
+L main_data epr-17968.ic7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytonase m2o racing steer accel brake
+T Daytona USA Special Edition (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu epr-17369a.12 0 20000 4w
+L maincpu epr-17370a.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-17371.6 800000 80000 4w
+L main_data epr-17372.7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytonat m2o racing steer accel brake
+T Daytona USA (Turbo hack, set 1)	1994?	hack (Kyle Hodgetts)
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu turbo1.12 0 20000 4w
+L maincpu turbo2.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-16724a.6 800000 80000 4w
+L main_data epr-16725a.7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G daytonata m2o racing steer accel brake
+T Daytona USA (Turbo hack, set 2)	1994?	hack (Kyle Hodgetts)
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R cpu3 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R drivecpu 10000 00
+L maincpu dayturbo.12 0 20000 4w
+L maincpu dayturbo.13 2 20000 4w
+L main_data mpr-16528.10 0 200000 4w
+L main_data mpr-16529.11 2 200000 4w
+L main_data mpr-16808.8 400000 200000 4w
+L main_data mpr-16809.9 400002 200000 4w
+L main_data epr-16724a.6 800000 80000 4w
+L main_data epr-16725a.7 800002 80000 4w
+L copro_data mpr-16537.ic28 0 200000 4w
+L copro_data mpr-16536.ic29 2 200000 4w
+L polygons mpr-16523.ic16 0 200000 4w
+L polygons mpr-16518.ic20 2 200000 4w
+L polygons mpr-16524.ic17 400000 200000 4w
+L polygons mpr-16519.ic21 400002 200000 4w
+L polygons mpr-16525.ic18 800000 200000 4w
+L polygons mpr-16520.ic22 800002 200000 4w
+L polygons mpr-16772.ic19 c00000 200000 4w
+L polygons mpr-16771.ic23 c00002 200000 4w
+L textures mpr-16522.25 0 200000 4w
+L textures mpr-16521.24 2 200000 4w
+L textures mpr-16770.27 800000 200000 4w
+L textures mpr-16769.26 800002 200000 4w
+L cpu3 epr-16726.bin 0 20000 p
+L m1audio:sndcpu epr-16720.7 0 20000 w
+L m1audio:sndcpu epr-16721.8 20000 20000 w
+L m1audio:pcm1 mpr-16491.32 0 200000 p
+L m1audio:pcm1 mpr-16492.33 200000 200000 p
+L m1audio:pcm2 mpr-16493.4 0 200000 p
+L m1audio:pcm2 mpr-16494.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L drivecpu epr-16488a.ic12 0 10000 p
+L drivecpu epr-16488.ic12 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+G desert m2o racing steer accel brake
+T Desert Tank	1994	Sega / Martin Marietta
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 1000000 00
+R cpu4 20000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+L maincpu epr-16976.12 0 20000 4w
+L maincpu epr-16977.13 2 20000 4w
+L maincpu epr-16970.14 40000 20000 4w
+L maincpu epr-16971.15 40002 20000 4w
+L main_data mpr-16974.10 0 200000 4w
+L main_data mpr-16975.11 2 200000 4w
+L main_data mpr-16972.8 400000 200000 4w
+L main_data mpr-16973.9 400002 200000 4w
+L main_data epr-16978.6 800000 80000 4w
+L main_data epr-16979.7 800002 80000 4w
+L copro_data epr-16981.28 0 80000 4w
+L copro_data epr-16980.29 2 80000 4w
+L polygons mpr-16968.16 0 200000 4w
+L polygons mpr-16964.20 2 200000 4w
+L polygons mpr-16969.17 400000 200000 4w
+L polygons mpr-16965.21 400002 200000 4w
+L textures mpr-16967.25 0 200000 4w
+L textures mpr-16966.24 2 200000 4w
+L m1audio:sndcpu epr-16985.7 0 20000 w
+L m1audio:pcm1 mpr-16986.32 0 200000 p
+L m1audio:pcm2 mpr-16988.4 0 200000 p
+L m1audio:pcm2 mpr-16989.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+G doa m2b joystick
+T Dead or Alive (Model 2B, Revision C)	1996	Tecmo
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 2000000 ff
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19379c.15 0 80000 4w
+L maincpu epr-19380c.16 2 80000 4w
+L main_data mpr-19318.11 0 400000 4w
+L main_data mpr-19319.12 2 400000 4w
+L main_data mpr-19316.9 800000 400000 4w
+L main_data mpr-19317.10 800002 400000 4w
+L main_data mpr-19314.7 1000000 400000 4w
+L main_data mpr-19315.8 1000002 400000 4w
+L main_data mpr-19312.5 1800000 200000 4w
+L main_data mpr-19313.6 1800002 200000 4w
+L polygons mpr-19322.17 0 400000 4w
+L polygons mpr-19325.21 2 400000 4w
+L polygons mpr-19323.18 800000 400000 4w
+L polygons mpr-19326.22 800002 400000 4w
+L polygons mpr-19324.19 1000000 400000 4w
+L polygons mpr-19327.23 1000002 400000 4w
+L textures mpr-19321.27 0 400000 4w
+L textures mpr-19320.25 2 400000 4w
+L audiocpu epr-19328.31 0 80000 w
+L samples mpr-19329.32 0 200000 w
+L samples mpr-19330.33 200000 200000 w
+L samples mpr-19331.34 400000 200000 w
+L samples mpr-19332.35 600000 200000 w
+C main_data 1800000 1c00000 400000
+G doaa m2a joystick
+T Dead or Alive (Model 2A, Revision A)	1996	Tecmo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 ff
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-19310a.12 0 80000 4w
+L maincpu epr-19311a.13 2 80000 4w
+L main_data mpr-19318.10 0 400000 4w
+L main_data mpr-19319.11 2 400000 4w
+L main_data mpr-19316.8 800000 400000 4w
+L main_data mpr-19317.9 800002 400000 4w
+L main_data mpr-19314.6 1000000 400000 4w
+L main_data mpr-19315.7 1000002 400000 4w
+L main_data mpr-19312.4 1800000 200000 4w
+L main_data mpr-19313.5 1800002 200000 4w
+L polygons mpr-19322.16 0 400000 4w
+L polygons mpr-19325.20 2 400000 4w
+L polygons mpr-19323.17 800000 400000 4w
+L polygons mpr-19326.21 800002 400000 4w
+L polygons mpr-19324.18 1000000 400000 4w
+L polygons mpr-19327.22 1000002 400000 4w
+L textures mpr-19321.25 0 400000 4w
+L textures mpr-19320.24 2 400000 4w
+L audiocpu epr-19328.30 0 80000 w
+L samples mpr-19329.31 0 200000 w
+L samples mpr-19330.32 200000 200000 w
+L samples mpr-19331.36 400000 200000 w
+L samples mpr-19332.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1800000 1c00000 400000
+G doaab m2a joystick
+T Dead or Alive (Model 2A)	1996	Tecmo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 ff
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-19310.12 0 80000 4w
+L maincpu epr-19311.13 2 80000 4w
+L main_data mpr-19318.10 0 400000 4w
+L main_data mpr-19319.11 2 400000 4w
+L main_data mpr-19316.8 800000 400000 4w
+L main_data mpr-19317.9 800002 400000 4w
+L main_data mpr-19314.6 1000000 400000 4w
+L main_data mpr-19315.7 1000002 400000 4w
+L main_data mpr-19312.4 1800000 200000 4w
+L main_data mpr-19313.5 1800002 200000 4w
+L polygons mpr-19322.16 0 400000 4w
+L polygons mpr-19325.20 2 400000 4w
+L polygons mpr-19323.17 800000 400000 4w
+L polygons mpr-19326.21 800002 400000 4w
+L polygons mpr-19324.18 1000000 400000 4w
+L polygons mpr-19327.22 1000002 400000 4w
+L textures mpr-19321.25 0 400000 4w
+L textures mpr-19320.24 2 400000 4w
+L audiocpu epr-19328.30 0 80000 w
+L samples mpr-19329.31 0 200000 w
+L samples mpr-19330.32 200000 200000 w
+L samples mpr-19331.36 400000 200000 w
+L samples mpr-19332.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1800000 1c00000 400000
+G doaae m2a joystick
+T Dead or Alive (Export, Model 2A, Revision A)	1996	Tecmo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 ff
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-19383a.12 0 80000 4w
+L maincpu epr-19384a.13 2 80000 4w
+L main_data mpr-19318.10 0 400000 4w
+L main_data mpr-19319.11 2 400000 4w
+L main_data mpr-19316.8 800000 400000 4w
+L main_data mpr-19317.9 800002 400000 4w
+L main_data mpr-19314.6 1000000 400000 4w
+L main_data mpr-19315.7 1000002 400000 4w
+L main_data mpr-19312.4 1800000 200000 4w
+L main_data mpr-19313.5 1800002 200000 4w
+L polygons mpr-19322.16 0 400000 4w
+L polygons mpr-19325.20 2 400000 4w
+L polygons mpr-19323.17 800000 400000 4w
+L polygons mpr-19326.21 800002 400000 4w
+L polygons mpr-19324.18 1000000 400000 4w
+L polygons mpr-19327.22 1000002 400000 4w
+L textures mpr-19321.25 0 400000 4w
+L textures mpr-19320.24 2 400000 4w
+L audiocpu epr-19328.30 0 80000 w
+L samples mpr-19329.31 0 200000 w
+L samples mpr-19330.32 200000 200000 w
+L samples mpr-19331.36 400000 200000 w
+L samples mpr-19332.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1800000 1c00000 400000
+G doab m2b joystick
+T Dead or Alive (Model 2B, Revision B)	1996	Tecmo
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 2000000 ff
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19379b.15 0 80000 4w
+L maincpu epr-19380b.16 2 80000 4w
+L main_data mpr-19318.11 0 400000 4w
+L main_data mpr-19319.12 2 400000 4w
+L main_data mpr-19316.9 800000 400000 4w
+L main_data mpr-19317.10 800002 400000 4w
+L main_data mpr-19314.7 1000000 400000 4w
+L main_data mpr-19315.8 1000002 400000 4w
+L main_data mpr-19312.5 1800000 200000 4w
+L main_data mpr-19313.6 1800002 200000 4w
+L polygons mpr-19322.17 0 400000 4w
+L polygons mpr-19325.21 2 400000 4w
+L polygons mpr-19323.18 800000 400000 4w
+L polygons mpr-19326.22 800002 400000 4w
+L polygons mpr-19324.19 1000000 400000 4w
+L polygons mpr-19327.23 1000002 400000 4w
+L textures mpr-19321.27 0 400000 4w
+L textures mpr-19320.25 2 400000 4w
+L audiocpu epr-19328.31 0 80000 w
+L samples mpr-19329.32 0 200000 w
+L samples mpr-19330.33 200000 200000 w
+L samples mpr-19331.34 400000 200000 w
+L samples mpr-19332.35 600000 200000 w
+C main_data 1800000 1c00000 400000
+G dynabb m2b joystick bat1 bat2
+T Dynamite Baseball	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 1000000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 600000 00
+L maincpu epr-19170.15 0 80000 4w
+L maincpu epr-19171.16 2 80000 4w
+L maincpu epr-19168.13 100000 80000 4w
+L maincpu epr-19169.14 100002 80000 4w
+L main_data mpr-19176.9 800000 400000 4w
+L main_data mpr-19177.10 800002 400000 4w
+L main_data mpr-19174.7 1000000 400000 4w
+L main_data mpr-19175.8 1000002 400000 4w
+L main_data mpr-19172.5 1800000 400000 4w
+L main_data mpr-19173.6 1800002 400000 4w
+L polygons mpr-19178.17 0 400000 4w
+L polygons mpr-19180.21 2 400000 4w
+L polygons mpr-19179.18 800000 400000 4w
+L polygons mpr-19181.22 800002 400000 4w
+L textures mpr-19183.27 0 400000 4w
+L textures mpr-19182.25 2 400000 4w
+L audiocpu epr-19184.31 0 80000 w
+L samples mpr-19185.32 0 200000 w
+L samples mpr-19186.33 200000 200000 w
+L samples mpr-19187.34 400000 200000 w
+G dynabb97 m2b joystick bat1 bat2
+T Dynamite Baseball 97 (Revision A)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 1000000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19833a.15 0 80000 4w
+L maincpu epr-19834a.16 2 80000 4w
+L maincpu epr-19831a.13 100000 80000 4w
+L maincpu epr-19832a.14 100002 80000 4w
+L main_data mpr-19841.11 0 400000 4w
+L main_data mpr-19842.12 2 400000 4w
+L main_data mpr-19839.9 800000 400000 4w
+L main_data mpr-19840.10 800002 400000 4w
+L main_data mpr-19837.7 1000000 400000 4w
+L main_data mpr-19838.8 1000002 400000 4w
+L main_data mpr-19835.5 1800000 400000 4w
+L main_data mpr-19836.6 1800002 400000 4w
+L polygons mpr-19843.17 0 400000 4w
+L polygons mpr-19845.21 2 400000 4w
+L polygons mpr-19844.18 800000 400000 4w
+L polygons mpr-19846.22 800002 400000 4w
+L textures mpr-19848.27 0 400000 4w
+L textures mpr-19847.25 2 400000 4w
+L audiocpu epr-19849.31 0 80000 w
+L samples mpr-19850.32 0 200000 w
+L samples mpr-19851.33 200000 200000 w
+L samples mpr-19852.34 400000 200000 w
+L samples mpr-19853.35 600000 200000 w
+G dynamcop m2a joystick
+T Dynamite Cop (Export, Model 2A)	1998	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20930.12 0 80000 4w
+L maincpu epr-20931.13 2 80000 4w
+L maincpu epr-20932.14 100000 80000 4w
+L maincpu epr-20933.15 100002 80000 4w
+L main_data mpr-20797.10 0 400000 4w
+L main_data mpr-20798.11 2 400000 4w
+L main_data mpr-20795.8 800000 400000 4w
+L main_data mpr-20796.9 800002 400000 4w
+L main_data mpr-20793.6 1000000 400000 4w
+L main_data mpr-20794.7 1000002 400000 4w
+L main_data mpr-20791.4 1800000 400000 4w
+L main_data mpr-20792.5 1800002 400000 4w
+L polygons mpr-20799.16 0 400000 4w
+L polygons mpr-20803.20 2 400000 4w
+L polygons mpr-20800.17 800000 400000 4w
+L polygons mpr-20804.21 800002 400000 4w
+L polygons mpr-20801.18 1000000 400000 4w
+L polygons mpr-20805.22 1000002 400000 4w
+L polygons mpr-20802.19 1800000 400000 4w
+L polygons mpr-20806.23 1800002 400000 4w
+L textures mpr-20809.25 0 400000 4w
+L textures mpr-20807.24 2 400000 4w
+L textures mpr-20810.27 800000 400000 4w
+L textures mpr-20808.26 800002 400000 4w
+L audiocpu epr-20811.30 0 80000 w
+L samples mpr-20812.31 0 200000 w
+L samples mpr-20813.32 200000 200000 w
+L samples mpr-20814.36 400000 200000 w
+L samples mpr-20815.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G dynamcopb m2b joystick
+T Dynamite Cop (Export, Model 2B)	1998	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 2000000 00
+R textures 1000000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20944.15 0 80000 4w
+L maincpu epr-20945.16 2 80000 4w
+L maincpu epr-20942.13 100000 80000 4w
+L maincpu epr-20943.14 100002 80000 4w
+L main_data mpr-20797.10 0 400000 4w
+L main_data mpr-20798.11 2 400000 4w
+L main_data mpr-20795.8 800000 400000 4w
+L main_data mpr-20796.9 800002 400000 4w
+L main_data mpr-20793.6 1000000 400000 4w
+L main_data mpr-20794.7 1000002 400000 4w
+L main_data mpr-20791.4 1800000 400000 4w
+L main_data mpr-20792.5 1800002 400000 4w
+L polygons mpr-20799.16 0 400000 4w
+L polygons mpr-20803.20 2 400000 4w
+L polygons mpr-20800.17 800000 400000 4w
+L polygons mpr-20804.21 800002 400000 4w
+L polygons mpr-20801.18 1000000 400000 4w
+L polygons mpr-20805.22 1000002 400000 4w
+L polygons mpr-20802.19 1800000 400000 4w
+L polygons mpr-20806.23 1800002 400000 4w
+L textures mpr-20809.25 0 400000 4w
+L textures mpr-20807.24 2 400000 4w
+L textures mpr-20810.27 800000 400000 4w
+L textures mpr-20808.26 800002 400000 4w
+L audiocpu epr-20811.30 0 80000 w
+L samples mpr-20812.31 0 200000 w
+L samples mpr-20813.32 200000 200000 w
+L samples mpr-20814.36 400000 200000 w
+L samples mpr-20815.37 600000 200000 w
+G dynamcopc m2c joystick
+T Dynamite Cop (USA, Model 2C)	1998	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20952.15 0 80000 4w
+L maincpu epr-20953.16 2 80000 4w
+L maincpu epr-20950.13 100000 80000 4w
+L maincpu epr-20951.14 100002 80000 4w
+L main_data mpr-20797.10 0 400000 4w
+L main_data mpr-20798.11 2 400000 4w
+L main_data mpr-20795.8 800000 400000 4w
+L main_data mpr-20796.9 800002 400000 4w
+L main_data mpr-20793.6 1000000 400000 4w
+L main_data mpr-20794.7 1000002 400000 4w
+L main_data mpr-20791.4 1800000 400000 4w
+L main_data mpr-20792.5 1800002 400000 4w
+L polygons mpr-20799.16 0 400000 4w
+L polygons mpr-20803.20 2 400000 4w
+L polygons mpr-20800.17 800000 400000 4w
+L polygons mpr-20804.21 800002 400000 4w
+L polygons mpr-20801.18 1000000 400000 4w
+L polygons mpr-20805.22 1000002 400000 4w
+L polygons mpr-20802.19 1800000 400000 4w
+L polygons mpr-20806.23 1800002 400000 4w
+L textures mpr-20809.25 0 400000 4w
+L textures mpr-20807.24 2 400000 4w
+L textures mpr-20810.27 800000 400000 4w
+L textures mpr-20808.26 800002 400000 4w
+L audiocpu epr-20811.30 0 80000 w
+L samples mpr-20812.31 0 200000 w
+L samples mpr-20813.32 200000 200000 w
+L samples mpr-20814.36 400000 200000 w
+L samples mpr-20815.37 600000 200000 w
+G dyndeka2 m2a joystick
+T Dynamite Deka 2 (Japan, Model 2A)	1998	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20922.12 0 80000 4w
+L maincpu epr-20923.13 2 80000 4w
+L maincpu epr-20924.14 100000 80000 4w
+L maincpu epr-20925.15 100002 80000 4w
+L main_data mpr-20797.10 0 400000 4w
+L main_data mpr-20798.11 2 400000 4w
+L main_data mpr-20795.8 800000 400000 4w
+L main_data mpr-20796.9 800002 400000 4w
+L main_data mpr-20793.6 1000000 400000 4w
+L main_data mpr-20794.7 1000002 400000 4w
+L main_data mpr-20791.4 1800000 400000 4w
+L main_data mpr-20792.5 1800002 400000 4w
+L polygons mpr-20799.16 0 400000 4w
+L polygons mpr-20803.20 2 400000 4w
+L polygons mpr-20800.17 800000 400000 4w
+L polygons mpr-20804.21 800002 400000 4w
+L polygons mpr-20801.18 1000000 400000 4w
+L polygons mpr-20805.22 1000002 400000 4w
+L polygons mpr-20802.19 1800000 400000 4w
+L polygons mpr-20806.23 1800002 400000 4w
+L textures mpr-20809.25 0 400000 4w
+L textures mpr-20807.24 2 400000 4w
+L textures mpr-20810.27 800000 400000 4w
+L textures mpr-20808.26 800002 400000 4w
+L audiocpu epr-20811.30 0 80000 w
+L samples mpr-20812.31 0 200000 w
+L samples mpr-20813.32 200000 200000 w
+L samples mpr-20814.36 400000 200000 w
+L samples mpr-20815.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G dyndeka2b m2b joystick
+T Dynamite Deka 2 (Japan, Model 2B)	1998	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 2000000 00
+R textures 1000000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20936.15 0 80000 4w
+L maincpu epr-20937.16 2 80000 4w
+L maincpu epr-20934.13 100000 80000 4w
+L maincpu epr-20935.14 100002 80000 4w
+L main_data mpr-20797.10 0 400000 4w
+L main_data mpr-20798.11 2 400000 4w
+L main_data mpr-20795.8 800000 400000 4w
+L main_data mpr-20796.9 800002 400000 4w
+L main_data mpr-20793.6 1000000 400000 4w
+L main_data mpr-20794.7 1000002 400000 4w
+L main_data mpr-20791.4 1800000 400000 4w
+L main_data mpr-20792.5 1800002 400000 4w
+L polygons mpr-20799.16 0 400000 4w
+L polygons mpr-20803.20 2 400000 4w
+L polygons mpr-20800.17 800000 400000 4w
+L polygons mpr-20804.21 800002 400000 4w
+L polygons mpr-20801.18 1000000 400000 4w
+L polygons mpr-20805.22 1000002 400000 4w
+L polygons mpr-20802.19 1800000 400000 4w
+L polygons mpr-20806.23 1800002 400000 4w
+L textures mpr-20809.25 0 400000 4w
+L textures mpr-20807.24 2 400000 4w
+L textures mpr-20810.27 800000 400000 4w
+L textures mpr-20808.26 800002 400000 4w
+L audiocpu epr-20811.30 0 80000 w
+L samples mpr-20812.31 0 200000 w
+L samples mpr-20813.32 200000 200000 w
+L samples mpr-20814.36 400000 200000 w
+L samples mpr-20815.37 600000 200000 w
+G fvipers m2b joystick
+T Fighting Vipers (Revision D)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18606d.15 0 20000 4w
+L maincpu epr-18607d.16 2 20000 4w
+L maincpu epr-18604d.13 40000 20000 4w
+L maincpu epr-18605d.14 40002 20000 4w
+L main_data mpr-18614.11 0 400000 4w
+L main_data mpr-18615.12 2 400000 4w
+L main_data mpr-18612.9 800000 400000 4w
+L main_data mpr-18613.10 800002 400000 4w
+L main_data epr-18610d.7 1000000 80000 4w
+L main_data epr-18611d.8 1000002 80000 4w
+L main_data epr-18608d.5 1800000 80000 4w
+L main_data epr-18609d.6 1800002 80000 4w
+L copro_data mpr-18622.29 0 200000 4w
+L copro_data mpr-18623.30 2 200000 4w
+L polygons mpr-18616.17 0 200000 4w
+L polygons mpr-18619.21 2 200000 4w
+L polygons mpr-18617.18 400000 200000 4w
+L polygons mpr-18620.22 400002 200000 4w
+L polygons mpr-18618.19 800000 200000 4w
+L polygons mpr-18621.23 800002 200000 4w
+L textures mpr-18626.27 0 200000 4w
+L textures mpr-18624.25 2 200000 4w
+L textures mpr-18627.28 800000 200000 4w
+L textures mpr-18625.26 800002 200000 4w
+L audiocpu epr-18628.31 0 80000 w
+L samples mpr-18629.32 0 200000 w
+L samples mpr-18630.33 200000 200000 w
+L samples mpr-18631.34 400000 200000 w
+L samples mpr-18632.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G fvipersa m2b joystick
+T Fighting Vipers (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18606a.15 0 20000 4w
+L maincpu epr-18607a.16 2 20000 4w
+L maincpu epr-18604a.13 40000 20000 4w
+L maincpu epr-18605a.14 40002 20000 4w
+L main_data mpr-18614.11 0 400000 4w
+L main_data mpr-18615.12 2 400000 4w
+L main_data mpr-18612.9 800000 400000 4w
+L main_data mpr-18613.10 800002 400000 4w
+L main_data epr-18610a.7 1000000 80000 4w
+L main_data epr-18611a.8 1000002 80000 4w
+L main_data epr-18608a.5 1800000 80000 4w
+L main_data epr-18609a.6 1800002 80000 4w
+L copro_data mpr-18622.29 0 200000 4w
+L copro_data mpr-18623.30 2 200000 4w
+L polygons mpr-18616.17 0 200000 4w
+L polygons mpr-18619.21 2 200000 4w
+L polygons mpr-18617.18 400000 200000 4w
+L polygons mpr-18620.22 400002 200000 4w
+L polygons mpr-18618.19 800000 200000 4w
+L polygons mpr-18621.23 800002 200000 4w
+L textures mpr-18626.27 0 200000 4w
+L textures mpr-18624.25 2 200000 4w
+L textures mpr-18627.28 800000 200000 4w
+L textures mpr-18625.26 800002 200000 4w
+L audiocpu epr-18628.31 0 80000 w
+L samples mpr-18629.32 0 200000 w
+L samples mpr-18630.33 200000 200000 w
+L samples mpr-18631.34 400000 200000 w
+L samples mpr-18632.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G fvipersb m2b joystick
+T Fighting Vipers (Revision B)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18606b.15 0 20000 4w
+L maincpu epr-18607b.16 2 20000 4w
+L maincpu epr-18604b.13 40000 20000 4w
+L maincpu epr-18605b.14 40002 20000 4w
+L main_data mpr-18614.11 0 400000 4w
+L main_data mpr-18615.12 2 400000 4w
+L main_data mpr-18612.9 800000 400000 4w
+L main_data mpr-18613.10 800002 400000 4w
+L main_data epr-18610b.7 1000000 80000 4w
+L main_data epr-18611b.8 1000002 80000 4w
+L main_data epr-18608b.5 1800000 80000 4w
+L main_data epr-18609b.6 1800002 80000 4w
+L copro_data mpr-18622.29 0 200000 4w
+L copro_data mpr-18623.30 2 200000 4w
+L polygons mpr-18616.17 0 200000 4w
+L polygons mpr-18619.21 2 200000 4w
+L polygons mpr-18617.18 400000 200000 4w
+L polygons mpr-18620.22 400002 200000 4w
+L polygons mpr-18618.19 800000 200000 4w
+L polygons mpr-18621.23 800002 200000 4w
+L textures mpr-18626.27 0 200000 4w
+L textures mpr-18624.25 2 200000 4w
+L textures mpr-18627.28 800000 200000 4w
+L textures mpr-18625.26 800002 200000 4w
+L audiocpu epr-18628.31 0 80000 w
+L samples mpr-18629.32 0 200000 w
+L samples mpr-18630.33 200000 200000 w
+L samples mpr-18631.34 400000 200000 w
+L samples mpr-18632.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G gunblade m2b gun gun1x gun2x gun1y gun2y
+T Gunblade NY (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18988a.15 0 80000 4w
+L maincpu epr-18989a.16 2 80000 4w
+L main_data mpr-18974.11 0 400000 4w
+L main_data mpr-18975.12 2 400000 4w
+L main_data mpr-18976.9 800000 400000 4w
+L main_data mpr-18977.10 800002 400000 4w
+L copro_data mpr-18986.29 0 400000 4w
+L copro_data mpr-18987.30 2 400000 4w
+L polygons mpr-18980.17 0 400000 4w
+L polygons mpr-18981.21 2 400000 4w
+L polygons mpr-18982.18 800000 400000 4w
+L polygons mpr-18983.22 800002 400000 4w
+L textures mpr-18985.27 0 400000 4w
+L textures mpr-18984.25 2 400000 4w
+L audiocpu epr-18990.31 0 80000 w
+L samples mpr-18978.32 0 400000 w
+L samples mpr-18979.34 400000 400000 w
+G hotd m2c gun gun1x gun1y gun2x gun2y
+T The House of the Dead (Revision A)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19696a.15 0 80000 4w
+L maincpu epr-19697a.16 2 80000 4w
+L maincpu epr-19694.13 100000 80000 4w
+L maincpu epr-19695.14 100002 80000 4w
+L main_data mpr-19704.11 0 400000 4w
+L main_data mpr-19705.12 2 400000 4w
+L main_data mpr-19702.9 800000 400000 4w
+L main_data mpr-19703.10 800002 400000 4w
+L main_data mpr-19700.7 1000000 400000 4w
+L main_data mpr-19701.8 1000002 400000 4w
+L main_data epr-19698.5 1800000 80000 4w
+L main_data epr-19699.6 1800002 80000 4w
+L copro_data epr-19707.29 0 80000 4w
+L copro_data epr-19706.30 2 80000 4w
+L polygons mpr-19715.17 0 400000 4w
+L polygons mpr-19711.21 2 400000 4w
+L polygons mpr-19714.18 800000 400000 4w
+L polygons mpr-19710.22 800002 400000 4w
+L polygons mpr-19713.19 1000000 400000 4w
+L polygons mpr-19709.23 1000002 400000 4w
+L polygons mpr-19712.20 1800000 400000 4w
+L polygons mpr-19708.24 1800002 400000 4w
+L textures mpr-19718.27 0 400000 4w
+L textures mpr-19716.25 2 400000 4w
+L textures mpr-19719.28 800000 400000 4w
+L textures mpr-19717.26 800002 400000 4w
+L audiocpu epr-19720.31 0 80000 w
+L samples mpr-19721.32 0 400000 w
+L samples mpr-19722.34 400000 400000 w
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G hotdo m2c gun gun1x gun1y gun2x gun2y
+T The House of the Dead	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19696.15 0 80000 4w
+L maincpu epr-19697.16 2 80000 4w
+L maincpu epr-19694.13 100000 80000 4w
+L maincpu epr-19695.14 100002 80000 4w
+L main_data mpr-19704.11 0 400000 4w
+L main_data mpr-19705.12 2 400000 4w
+L main_data mpr-19702.9 800000 400000 4w
+L main_data mpr-19703.10 800002 400000 4w
+L main_data mpr-19700.7 1000000 400000 4w
+L main_data mpr-19701.8 1000002 400000 4w
+L main_data epr-19698.5 1800000 80000 4w
+L main_data epr-19699.6 1800002 80000 4w
+L copro_data epr-19707.29 0 80000 4w
+L copro_data epr-19706.30 2 80000 4w
+L polygons mpr-19715.17 0 400000 4w
+L polygons mpr-19711.21 2 400000 4w
+L polygons mpr-19714.18 800000 400000 4w
+L polygons mpr-19710.22 800002 400000 4w
+L polygons mpr-19713.19 1000000 400000 4w
+L polygons mpr-19709.23 1000002 400000 4w
+L polygons mpr-19712.20 1800000 400000 4w
+L polygons mpr-19708.24 1800002 400000 4w
+L textures mpr-19718.27 0 400000 4w
+L textures mpr-19716.25 2 400000 4w
+L textures mpr-19719.28 800000 400000 4w
+L textures mpr-19717.26 800002 400000 4w
+L audiocpu epr-19720.31 0 80000 w
+L samples mpr-19721.32 0 400000 w
+L samples mpr-19722.34 400000 400000 w
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G hotdp m2c gun gun1x gun1y gun2x gun2y
+T The House of the Dead (prototype)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu prg0.15 0 80000 4w
+L maincpu prg1.16 2 80000 4w
+L main_data dat0.11 0 400000 4w
+L main_data dat1.12 2 400000 4w
+L main_data dat2.9 800000 400000 4w
+L main_data dat3.10 800002 400000 4w
+L main_data dat4.7 1000000 400000 4w
+L main_data dat5.8 1000002 400000 4w
+L copro_data copro0.29 0 200000 4w
+L copro_data copro1.30 2 200000 4w
+L polygons tgp0.17 0 400000 4w
+L polygons tgp1.21 2 400000 4w
+L polygons tgp2.18 800000 400000 4w
+L polygons tgp3.22 800002 400000 4w
+L polygons tgp4.19 1000000 400000 4w
+L polygons tgp5.23 1000002 400000 4w
+L textures tex1.27 0 400000 4w
+L textures tex0.25 2 400000 4w
+L textures tex3.28 800000 400000 4w
+L textures tex2.26 800002 400000 4w
+L audiocpu sndpgm0.31 0 80000 w
+L samples sound1.32 0 200000 w
+L samples sound2.33 200000 200000 w
+L samples sound3.34 400000 200000 w
+L samples sound4.35 600000 200000 w
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G hpyagu98 m2a joystick
+T Hanguk Pro Yagu 98	1998	Deniam
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R eeprom 80 00
+R backup1 4000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu hn27c4096.12 0 80000 4w
+L maincpu hn27c4096.13 2 80000 4w
+L maincpu hn27c4096.14 100000 80000 4w
+L maincpu hn27c4096.15 100002 80000 4w
+L main_data bb-dt-0.10 0 400000 4w
+L main_data bb-dt-1.11 2 400000 4w
+L main_data bb-dt-2.8 800000 400000 4w
+L main_data bb-dt-3.9 800002 400000 4w
+L main_data bb-dt-4.6 1000000 400000 4w
+L main_data bb-dt-5.7 1000002 400000 4w
+L main_data bb-dt-6.4 1800000 400000 4w
+L main_data bb-dt-7.5 1800002 400000 4w
+L polygons bb-tp-0.16 0 400000 4w
+L polygons bb-tp-1.20 2 400000 4w
+L polygons bb-tp-2.17 800000 400000 4w
+L polygons bb-tp-3.21 800002 400000 4w
+L textures bb-tx-1.25 0 400000 4w
+L textures bb-tx-0.24 2 400000 4w
+L audiocpu am27c1024.30 0 20000 w
+L samples bb-sn-1.31 0 200000 w
+L samples bb-sn-2.32 200000 200000 w
+L samples bb-sn-3.36 400000 200000 w
+L samples bb-sn-4.37 600000 200000 w
+L eeprom hpyagu98_nvram 0 80 p
+L backup1 hpyagu98_backup 0 4000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G indy500 m2b racing steer accel brake
+T INDY 500 Twin (Revision A, Newer)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18598a.15 0 80000 4w
+L maincpu epr-18599a.16 2 80000 4w
+L main_data mpr-18237.11 0 400000 4w
+L main_data mpr-18238.12 2 400000 4w
+L main_data mpr-18239.9 800000 400000 4w
+L main_data mpr-18240.10 800002 400000 4w
+L main_data epr-18596.7 1000000 80000 4w
+L main_data epr-18597.8 1000002 80000 4w
+L copro_data epr-18249.29 0 80000 4w
+L copro_data epr-18250.30 2 80000 4w
+L polygons mpr-18233.17 0 400000 4w
+L polygons mpr-18234.21 2 400000 4w
+L polygons mpr-18235.18 800000 400000 4w
+L polygons mpr-18236.22 800002 400000 4w
+L textures mpr-18232.27 0 400000 4w
+L textures mpr-18231.25 2 400000 4w
+L audiocpu epr-18600.31 0 40000 w
+L samples mpr-18241.32 0 200000 w
+L samples mpr-18242.33 200000 200000 w
+L samples mpr-18243.34 400000 200000 w
+L samples mpr-18244.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G indy500d m2b racing steer accel brake
+T INDY 500 Deluxe (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18251a.15 0 80000 4w
+L maincpu epr-18252a.16 2 80000 4w
+L main_data mpr-18237.11 0 400000 4w
+L main_data mpr-18238.12 2 400000 4w
+L main_data mpr-18239.9 800000 400000 4w
+L main_data mpr-18240.10 800002 400000 4w
+L main_data epr-18245.7 1000000 80000 4w
+L main_data epr-18246.8 1000002 80000 4w
+L copro_data epr-18249.29 0 80000 4w
+L copro_data epr-18250.30 2 80000 4w
+L polygons mpr-18233.17 0 400000 4w
+L polygons mpr-18234.21 2 400000 4w
+L polygons mpr-18235.18 800000 400000 4w
+L polygons mpr-18236.22 800002 400000 4w
+L textures mpr-18232.27 0 400000 4w
+L textures mpr-18231.25 2 400000 4w
+L audiocpu epr-18253.31 0 40000 w
+L samples mpr-18241.32 0 200000 w
+L samples mpr-18242.33 200000 200000 w
+L samples mpr-18243.34 400000 200000 w
+L samples mpr-18244.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G indy500to m2b racing steer accel brake
+T INDY 500 Twin (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18254a.15 0 80000 4w
+L maincpu epr-18255a.16 2 80000 4w
+L main_data mpr-18237.11 0 400000 4w
+L main_data mpr-18238.12 2 400000 4w
+L main_data mpr-18239.9 800000 400000 4w
+L main_data mpr-18240.10 800002 400000 4w
+L main_data epr-18389.7 1000000 80000 4w
+L main_data epr-18390.8 1000002 80000 4w
+L copro_data epr-18249.29 0 80000 4w
+L copro_data epr-18250.30 2 80000 4w
+L polygons mpr-18233.17 0 400000 4w
+L polygons mpr-18234.21 2 400000 4w
+L polygons mpr-18235.18 800000 400000 4w
+L polygons mpr-18236.22 800002 400000 4w
+L textures mpr-18232.27 0 400000 4w
+L textures mpr-18231.25 2 400000 4w
+L audiocpu epr-18391.31 0 40000 w
+L samples mpr-18241.32 0 200000 w
+L samples mpr-18242.33 200000 200000 w
+L samples mpr-18243.34 400000 200000 w
+L samples mpr-18244.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G lastbrnx m2b joystick
+T Last Bronx (Export, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 800000 ff
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19061a.15 0 80000 4w
+L maincpu epr-19062a.16 2 80000 4w
+L main_data mpr-19050.11 0 400000 4w
+L main_data mpr-19051.12 2 400000 4w
+L main_data mpr-19048.9 800000 400000 4w
+L main_data mpr-19049.10 800002 400000 4w
+L polygons mpr-19052.17 0 400000 4w
+L polygons mpr-19053.21 2 400000 4w
+L textures mpr-19055.27 0 200000 4w
+L textures mpr-19054.25 2 200000 4w
+L audiocpu mpr-19056.31 0 80000 w
+L samples mpr-19057.32 0 400000 w
+L samples mpr-19058.34 400000 400000 w
+G lastbrnxj m2b joystick
+T Last Bronx: Tokyo Bangaichi (Japan, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19046a.15 0 80000 4w
+L maincpu epr-19047a.16 2 80000 4w
+L main_data mpr-19050.11 0 400000 4w
+L main_data mpr-19051.12 2 400000 4w
+L main_data mpr-19048.9 800000 400000 4w
+L main_data mpr-19049.10 800002 400000 4w
+L polygons mpr-19052.17 0 400000 4w
+L polygons mpr-19053.21 2 400000 4w
+L textures mpr-19055.27 0 200000 4w
+L textures mpr-19054.25 2 200000 4w
+L audiocpu mpr-19056.31 0 80000 w
+L samples mpr-19057.32 0 400000 w
+L samples mpr-19058.34 400000 400000 w
+G lastbrnxu m2b joystick
+T Last Bronx (USA, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19059a.15 0 80000 4w
+L maincpu epr-19060a.16 2 80000 4w
+L main_data mpr-19050.11 0 400000 4w
+L main_data mpr-19051.12 2 400000 4w
+L main_data mpr-19048.9 800000 400000 4w
+L main_data mpr-19049.10 800002 400000 4w
+L polygons mpr-19052.17 0 400000 4w
+L polygons mpr-19053.21 2 400000 4w
+L textures mpr-19055.27 0 200000 4w
+L textures mpr-19054.25 2 200000 4w
+L audiocpu mpr-19056.31 0 80000 w
+L samples mpr-19057.32 0 400000 w
+L samples mpr-19058.34 400000 400000 w
+G manxtt m2a bike throttle brake steer
+T Manx TT Superbike - DX/Twin (Revision D)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R polygons 1000000 ff
+R copro_data 800000 00
+R textures 400000 00
+R audiocpu 80000 00
+R samples 800000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R cpu4 20000 00
+R eeprom 80 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18822d.12 0 20000 4w
+L maincpu epr-18823d.13 2 20000 4w
+L maincpu epr-18824d.14 40000 20000 4w
+L maincpu epr-18825d.15 40002 20000 4w
+L main_data mpr-18751.10 0 200000 4w
+L main_data mpr-18752.11 2 200000 4w
+L main_data mpr-18749.8 400000 200000 4w
+L main_data mpr-18750.9 400002 200000 4w
+L main_data mpr-18747.6 800000 200000 4w
+L main_data mpr-18748.7 800002 200000 4w
+L main_data epr-18862.4 c00000 80000 4w
+L main_data epr-18863.5 c00002 80000 4w
+L polygons mpr-18753.16 0 200000 4w
+L polygons mpr-18756.20 2 200000 4w
+L polygons mpr-18754.17 400000 200000 4w
+L polygons mpr-18757.21 400002 200000 4w
+L polygons mpr-18755.18 800000 200000 4w
+L polygons mpr-18758.22 800002 200000 4w
+L copro_data mpr-18761.28 0 200000 4w
+L copro_data mpr-18762.29 2 200000 4w
+L textures mpr-18760.25 0 200000 4w
+L textures mpr-18759.24 2 200000 4w
+L audiocpu epr-18924a.30 0 40000 w
+L samples mpr-18763.31 0 200000 w
+L samples mpr-18764.32 200000 200000 w
+L samples mpr-18765.36 400000 200000 w
+L samples mpr-18766.37 600000 200000 w
+L m1audio:sndcpu epr-18742.7 0 20000 w
+L m1audio:pcm1 mpr-18743.32 0 200000 p
+L cpu4 epr-18643a.7 0 20000 w
+L eeprom manxtt_dx_nvran 0 80 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data c00000 d00000 100000
+C main_data c00000 e00000 100000
+C main_data c00000 f00000 100000
+G manxttc m2a bike throttle brake steer
+T Manx TT Superbike - DX/Twin (Revision C)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R polygons 2000000 00
+R copro_data 800000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R cpu4 20000 00
+R eeprom 80 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18822c.12 0 20000 4w
+L maincpu epr-18823c.13 2 20000 4w
+L maincpu epr-18824c.14 40000 20000 4w
+L maincpu epr-18825c.15 40002 20000 4w
+L main_data mpr-18751.10 0 200000 4w
+L main_data mpr-18752.11 2 200000 4w
+L main_data mpr-18749.8 400000 200000 4w
+L main_data mpr-18750.9 400002 200000 4w
+L main_data mpr-18747.6 800000 200000 4w
+L main_data mpr-18748.7 800002 200000 4w
+L main_data epr-18862.4 c00000 80000 4w
+L main_data epr-18863.5 c00002 80000 4w
+L polygons mpr-18753.16 0 200000 4w
+L polygons mpr-18756.20 2 200000 4w
+L polygons mpr-18754.17 400000 200000 4w
+L polygons mpr-18757.21 400002 200000 4w
+L polygons mpr-18755.18 800000 200000 4w
+L polygons mpr-18758.22 800002 200000 4w
+L copro_data mpr-18761.28 0 200000 4w
+L copro_data mpr-18762.29 2 200000 4w
+L textures mpr-18760.25 0 200000 4w
+L textures mpr-18759.24 2 200000 4w
+L audiocpu epr-18826.30 0 40000 w
+L samples mpr-18827.31 0 200000 w
+L samples mpr-18764.32 200000 200000 w
+L samples mpr-18765.36 400000 200000 w
+L samples mpr-18766.37 600000 200000 w
+L cpu4 epr-18643.7 0 20000 w
+L eeprom manxttc_twin_nvran 0 80 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data c00000 d00000 100000
+C main_data c00000 e00000 100000
+C main_data c00000 f00000 100000
+G manxttdx m2a bike throttle brake steer
+T Manx TT Superbike - DX	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R polygons 2000000 00
+R copro_data 800000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R cpu4 20000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18744.12 0 20000 4w
+L maincpu epr-18745.13 2 20000 4w
+L maincpu epr-18784.14 40000 20000 4w
+L maincpu epr-18785.15 40002 20000 4w
+L main_data mpr-18751.10 0 200000 4w
+L main_data mpr-18752.11 2 200000 4w
+L main_data mpr-18749.8 400000 200000 4w
+L main_data mpr-18750.9 400002 200000 4w
+L main_data mpr-18747.6 800000 200000 4w
+L main_data mpr-18748.7 800002 200000 4w
+L main_data epr-18786.4 c00000 80000 4w
+L main_data epr-18787.5 c00002 80000 4w
+L polygons mpr-18753.16 0 200000 4w
+L polygons mpr-18756.20 2 200000 4w
+L polygons mpr-18754.17 400000 200000 4w
+L polygons mpr-18757.21 400002 200000 4w
+L polygons mpr-18755.18 800000 200000 4w
+L polygons mpr-18758.22 800002 200000 4w
+L copro_data mpr-18761.28 0 200000 4w
+L copro_data mpr-18762.29 2 200000 4w
+L textures mpr-18760.25 0 200000 4w
+L textures mpr-18759.24 2 200000 4w
+L audiocpu epr-18746.30 0 40000 w
+L samples mpr-18763.31 0 200000 w
+L samples mpr-18764.32 200000 200000 w
+L samples mpr-18765.36 400000 200000 w
+L samples mpr-18766.37 600000 200000 w
+L m1audio:sndcpu epr-18742.7 0 20000 w
+L m1audio:pcm1 mpr-18743.32 0 200000 p
+L cpu4 epr-18643.7 0 20000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data c00000 d00000 100000
+C main_data c00000 e00000 100000
+C main_data c00000 f00000 100000
+G motoraid m2a bike throttle brake steer
+T Motor Raid - Twin	1997	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R polygons 2000000 00
+R copro_data 800000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20007.12 0 80000 4w
+L maincpu epr-20008.13 2 80000 4w
+L main_data mpr-20019.10 0 400000 4w
+L main_data mpr-20020.11 2 400000 4w
+L main_data mpr-20017.8 800000 400000 4w
+L main_data mpr-20018.9 800002 400000 4w
+L main_data mpr-20015.6 1000000 400000 4w
+L main_data mpr-20016.7 1000002 400000 4w
+L main_data epr-20013.4 1800000 80000 4w
+L main_data epr-20014.5 1800002 80000 4w
+L polygons mpr-20023.16 0 400000 4w
+L polygons mpr-20026.20 2 400000 4w
+L polygons mpr-20024.17 800000 400000 4w
+L polygons mpr-20027.21 800002 400000 4w
+L polygons mpr-20025.18 1000000 400000 4w
+L polygons mpr-20028.22 1000002 400000 4w
+L copro_data epr-20011.28 0 100000 4w
+L copro_data epr-20012.29 2 100000 4w
+L textures mpr-20022.25 0 400000 4w
+L textures mpr-20021.24 2 400000 4w
+L audiocpu epr-20029.30 0 80000 w
+L samples mpr-20030.31 0 200000 w
+L samples mpr-20031.32 200000 200000 w
+L samples mpr-20032.36 400000 200000 w
+L samples mpr-20033.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G motoraiddx m2a bike throttle brake steer
+T Motor Raid - Twin/DX	1997	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R polygons 2000000 00
+R copro_data 800000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R cpu4 20000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20213.12 0 80000 4w
+L maincpu epr-20214.13 2 80000 4w
+L main_data mpr-20019.10 0 400000 4w
+L main_data mpr-20020.11 2 400000 4w
+L main_data mpr-20017.8 800000 400000 4w
+L main_data mpr-20018.9 800002 400000 4w
+L main_data mpr-20015.6 1000000 400000 4w
+L main_data mpr-20016.7 1000002 400000 4w
+L main_data epr-20215.4 1800000 80000 4w
+L main_data epr-20216.5 1800002 80000 4w
+L polygons mpr-20023.16 0 400000 4w
+L polygons mpr-20026.20 2 400000 4w
+L polygons mpr-20024.17 800000 400000 4w
+L polygons mpr-20027.21 800002 400000 4w
+L polygons mpr-20025.18 1000000 400000 4w
+L polygons mpr-20028.22 1000002 400000 4w
+L copro_data epr-20011.28 0 100000 4w
+L copro_data epr-20012.29 2 100000 4w
+L textures mpr-20022.25 0 400000 4w
+L textures mpr-20021.24 2 400000 4w
+L audiocpu epr-20222.30 0 80000 w
+L samples mpr-20030.31 0 200000 w
+L samples mpr-20031.32 200000 200000 w
+L samples mpr-20032.36 400000 200000 w
+L samples mpr-20033.37 600000 200000 w
+L cpu4 epr-18643a.7 0 20000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G netmerc m1 flight stickx none sticky
+T Sega NetMerc	1993	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+R polhemus 8000 00
+R nvram 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-18120.ic5 f80000 80000 p
+L maincpu epr-18120.ic5 0 80000 p
+L maincpu epr-18122.ic6 1000000 80000 2b
+L maincpu epr-18123.ic7 1000001 80000 2b
+L maincpu epr-18124.ic8 1100000 80000 2b
+L maincpu epr-18125.ic9 1100001 80000 2b
+L maincpu epr-18126.ic10 1200000 80000 2b
+L maincpu epr-18127.ic11 1200001 80000 2b
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-18121.ic7 0 80000 w
+L m1audio:sndcpu epr-18121.ic7 80000 20000 w
+L m1audio:pcm1 mpr-18134.ic32 0 200000 p
+L m1audio:pcm1 mpr-18135.ic33 200000 200000 p
+L m1audio:pcm2 mpr-18136.ic4 0 200000 p
+L polygons mpr-18128.ic26 0 200000 4w
+L polygons mpr-18129.ic27 2 200000 4w
+L polygons mpr-18130.ic28 400000 200000 4w
+L polygons mpr-18131.ic29 400002 200000 4w
+L polygons mpr-18132.ic30 800000 200000 4w
+L polygons mpr-18133.ic31 800002 200000 4w
+L polhemus u1 0 4000 2b
+L polhemus u2 1 4000 2b
+L nvram netmerc_nvram.bin 0 10000 p
+G overrev m2c racing steer accel brake
+T Over Rev (Model 2C, Revision A)	1997	Jaleco
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 400000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20124a.15 0 80000 4w
+L maincpu epr-20125a.16 2 80000 4w
+L main_data mpr-19996.11 0 400000 4w
+L main_data mpr-19997.12 2 400000 4w
+L main_data mpr-19994.9 800000 400000 4w
+L main_data mpr-19995.10 800002 400000 4w
+L polygons mpr-19998.17 0 200000 4w
+L polygons mpr-19999.21 2 200000 4w
+L textures mpr-20001.27 0 200000 4w
+L textures mpr-20000.25 2 200000 4w
+L cpu4 epr-18643.7 0 20000 w
+L audiocpu epr-20002.31 0 80000 w
+L samples mpr-20003.32 0 400000 w
+L samples mpr-20004.34 400000 400000 w
+G overrevb m2b racing steer accel brake
+T Over Rev (Model 2B, Revision B)	1997	Jaleco
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 400000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19992b.15 0 80000 4w
+L maincpu epr-19993b.16 2 80000 4w
+L main_data mpr-19996.11 0 400000 4w
+L main_data mpr-19997.12 2 400000 4w
+L main_data mpr-19994.9 800000 400000 4w
+L main_data mpr-19995.10 800002 400000 4w
+L polygons mpr-19998.17 0 200000 4w
+L polygons mpr-19999.21 2 200000 4w
+L textures mpr-20001.27 0 200000 4w
+L textures mpr-20000.25 2 200000 4w
+L cpu4 epr-18643.7 0 20000 w
+L audiocpu epr-20002.31 0 80000 w
+L samples mpr-20003.32 0 400000 w
+L samples mpr-20004.34 400000 400000 w
+G overrevba m2b racing steer accel brake
+T Over Rev (Model 2B, Revision A)	1997	Jaleco
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 400000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19992a.15 0 80000 4w
+L maincpu epr-19993a.16 2 80000 4w
+L main_data mpr-19996.11 0 400000 4w
+L main_data mpr-19997.12 2 400000 4w
+L main_data mpr-19994.9 800000 400000 4w
+L main_data mpr-19995.10 800002 400000 4w
+L polygons mpr-19998.17 0 200000 4w
+L polygons mpr-19999.21 2 200000 4w
+L textures mpr-20001.27 0 200000 4w
+L textures mpr-20000.25 2 200000 4w
+L cpu4 epr-18643.7 0 20000 w
+L audiocpu epr-20002.31 0 80000 w
+L samples mpr-20003.32 0 400000 w
+L samples mpr-20004.34 400000 400000 w
+G pltkids m2b joystick
+T Pilot Kids (Model 2B, Revision A)	1998	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 2000000 00
+R textures 1000000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-21285a.15 0 80000 4w
+L maincpu epr-21286a.16 2 80000 4w
+L main_data mpr-21262.da0 0 400000 4w
+L main_data mpr-21263.da1 2 400000 4w
+L polygons mpr-21264.tp0 0 400000 4w
+L polygons mpr-21268.tp1 2 400000 4w
+L polygons mpr-21265.tp2 800000 400000 4w
+L polygons mpr-21269.tp3 800002 400000 4w
+L polygons mpr-21266.tp4 1000000 400000 4w
+L polygons mpr-21270.tp5 1000002 400000 4w
+L polygons mpr-21267.tp6 1800000 400000 4w
+L polygons mpr-21271.tp7 1800002 400000 4w
+L textures mpr-21274.tx1 0 400000 4w
+L textures mpr-21272.tx0 2 400000 4w
+L textures mpr-21275.tx3 800000 400000 4w
+L textures mpr-21273.tx2 800002 400000 4w
+L audiocpu epr-21276.sd0 0 80000 w
+L samples mpr-21277.sd1 0 200000 w
+L samples mpr-21278.sd2 200000 200000 w
+L samples mpr-21279.sd3 400000 200000 w
+L samples mpr-21280.sd4 600000 200000 w
+G pltkidsa m2a joystick
+T Pilot Kids (Model 2A)	1998	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-21281.pr0 0 80000 4w
+L maincpu epr-21282.pr1 2 80000 4w
+L main_data mpr-21262.da0 0 400000 4w
+L main_data mpr-21263.da1 2 400000 4w
+L polygons mpr-21264.tp0 0 400000 4w
+L polygons mpr-21268.tp1 2 400000 4w
+L polygons mpr-21265.tp2 800000 400000 4w
+L polygons mpr-21269.tp3 800002 400000 4w
+L polygons mpr-21266.tp4 1000000 400000 4w
+L polygons mpr-21270.tp5 1000002 400000 4w
+L polygons mpr-21267.tp6 1800000 400000 4w
+L polygons mpr-21271.tp7 1800002 400000 4w
+L textures mpr-21274.tx1 0 400000 4w
+L textures mpr-21272.tx0 2 400000 4w
+L textures mpr-21275.tx3 800000 400000 4w
+L textures mpr-21273.tx2 800002 400000 4w
+L audiocpu epr-21276.sd0 0 80000 w
+L samples mpr-21277.sd1 0 200000 w
+L samples mpr-21278.sd2 200000 200000 w
+L samples mpr-21279.sd3 400000 200000 w
+L samples mpr-21280.sd4 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G powsled m2b sled none p1r none p1l none p2r none p2l
+T Power Sled (Slave, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 1000000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19470a.15 0 80000 4w
+L maincpu epr-19471a.16 2 80000 4w
+L main_data fpr-19468.11 0 400000 4w
+L main_data fpr-19469.12 2 400000 4w
+L polygons fpr-19455.17 0 400000 4w
+L polygons fpr-19456.21 2 400000 4w
+L textures fpr-19458.27 0 400000 4w
+L textures fpr-19457.25 2 400000 4w
+L audiocpu epr-19466.31 0 20000 w
+L samples fpr-19459.32 0 400000 w
+G powsledm m2b sled none p1r none p1l none p2r none p2l
+T Power Sled (Main, hack of Relay)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 1000000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19472a.15 0 80000 4w
+L maincpu epr-19473a.16 2 80000 4w
+L main_data fpr-19468.11 0 400000 4w
+L main_data fpr-19469.12 2 400000 4w
+L polygons fpr-19455.17 0 400000 4w
+L polygons fpr-19456.21 2 400000 4w
+L textures fpr-19458.27 0 400000 4w
+L textures fpr-19457.25 2 400000 4w
+L audiocpu epr-19467.31 0 20000 w
+L samples fpr-19460.32 0 400000 w
+L samples fpr-19461.34 400000 400000 w
+G powsledr m2b sled none p1r none p1l none p2r none p2l
+T Power Sled (Relay, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 1000000 00
+R textures 800000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19472a.15 0 80000 4w
+L maincpu epr-19473a.16 2 80000 4w
+L main_data fpr-19468.11 0 400000 4w
+L main_data fpr-19469.12 2 400000 4w
+L polygons fpr-19455.17 0 400000 4w
+L polygons fpr-19456.21 2 400000 4w
+L textures fpr-19458.27 0 400000 4w
+L textures fpr-19457.25 2 400000 4w
+L audiocpu epr-19467.31 0 20000 w
+L samples fpr-19460.32 0 400000 w
+L samples fpr-19461.34 400000 400000 w
+G rascot2 m2c joystick
+T Royal Ascot II	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-20166.15 0 20000 4w
+L maincpu epr-20167.16 2 20000 4w
+L maincpu epr-20164.13 40000 20000 4w
+L maincpu epr-20165.14 40002 20000 4w
+L main_data mpr-20171.11 0 400000 4w
+L main_data mpr-20172.12 2 400000 4w
+L main_data mpr-20169.9 800000 400000 4w
+L main_data mpr-20170.10 800002 400000 4w
+L polygons mpr-20173.17 0 400000 4w
+L polygons mpr-20177.21 2 400000 4w
+L polygons mpr-20174.18 800000 400000 4w
+L polygons mpr-20178.22 800002 400000 4w
+L polygons mpr-20175.19 1000000 400000 4w
+L polygons mpr-20179.23 1000002 400000 4w
+L polygons mpr-20176.20 1800000 400000 4w
+L polygons mpr-20180.24 1800002 400000 4w
+L textures mpr-20183.27 0 400000 4w
+L textures mpr-20181.25 2 400000 4w
+L textures mpr-20184.28 800000 400000 4w
+L textures mpr-20182.26 800002 400000 4w
+L audiocpu epr-20168.31 0 20000 w
+L samples epr-20185.32 0 200000 w
+G rchase2 m2b gun gun2x gun1x gun2y gun1y
+T Rail Chase 2 (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 ff
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R iocpu 8000 00
+L maincpu epr-18045a.15 0 80000 4w
+L maincpu epr-18046a.16 2 80000 4w
+L maincpu epr-18074a.13 100000 80000 4w
+L maincpu epr-18075a.14 100002 80000 4w
+L main_data mpr-18037.11 0 200000 4w
+L main_data mpr-18038.12 2 200000 4w
+L main_data mpr-18039.9 400000 200000 4w
+L main_data mpr-18040.10 400002 200000 4w
+L main_data mpr-18041.7 800000 200000 4w
+L main_data mpr-18042.8 800002 200000 4w
+L main_data mpr-18043.5 c00000 200000 4w
+L main_data mpr-18044.6 c00002 200000 4w
+L polygons mpr-18031.17 0 200000 4w
+L polygons mpr-18032.21 2 200000 4w
+L polygons mpr-18033.18 400000 200000 4w
+L polygons mpr-18034.22 400002 200000 4w
+L textures mpr-18035.27 0 200000 4w
+L textures mpr-18036.25 2 200000 4w
+L audiocpu epr-18047.31 0 80000 w
+L samples mpr-18029.32 0 200000 w
+L samples mpr-18030.34 400000 200000 w
+L iocpu epr-17895.ic8 0 8000 p
+G rchase2a m2b gun gun2x gun1x gun2y gun1y
+T Rail Chase 2	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 ff
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R iocpu 8000 00
+L maincpu epr-18143.15 0 80000 4w
+L maincpu epr-18144.16 2 80000 4w
+L maincpu epr-18145.13 100000 80000 4w
+L maincpu epr-18146.14 100002 80000 4w
+L main_data mpr-18037.11 0 200000 4w
+L main_data mpr-18038.12 2 200000 4w
+L main_data mpr-18039.9 400000 200000 4w
+L main_data mpr-18040.10 400002 200000 4w
+L main_data mpr-18041.7 800000 200000 4w
+L main_data mpr-18042.8 800002 200000 4w
+L main_data mpr-18043.5 c00000 200000 4w
+L main_data mpr-18044.6 c00002 200000 4w
+L polygons mpr-18031.17 0 200000 4w
+L polygons mpr-18032.21 2 200000 4w
+L polygons mpr-18033.18 400000 200000 4w
+L polygons mpr-18034.22 400002 200000 4w
+L textures mpr-18035.27 0 200000 4w
+L textures mpr-18036.25 2 200000 4w
+L audiocpu epr-18047.31 0 80000 w
+L samples mpr-18029.32 0 200000 w
+L samples mpr-18030.34 400000 200000 w
+L iocpu epr-17895.ic8 0 8000 p
+G schamp m2b joystick
+T Sonic Championship (USA)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19141.15 0 80000 4w
+L maincpu epr-19142.16 2 80000 4w
+L main_data mpr-19007.11 0 400000 4w
+L main_data mpr-19008.12 2 400000 4w
+L main_data mpr-19005.9 800000 400000 4w
+L main_data mpr-19006.10 800002 400000 4w
+L main_data epr-19143.7 1000000 80000 4w
+L main_data epr-19144.8 1000002 80000 4w
+L copro_data mpr-19015.29 0 200000 4w
+L copro_data mpr-19016.30 2 200000 4w
+L polygons mpr-19009.17 0 400000 4w
+L polygons mpr-19012.21 2 400000 4w
+L polygons mpr-19010.18 800000 400000 4w
+L polygons mpr-19013.22 800002 400000 4w
+L textures mpr-19019.27 0 400000 4w
+L textures mpr-19017.25 2 400000 4w
+L textures mpr-19020.28 800000 400000 4w
+L textures mpr-19018.26 800002 400000 4w
+L audiocpu epr-19021.31 0 80000 w
+L samples mpr-19022.32 0 200000 w
+L samples mpr-19023.33 200000 200000 w
+L samples mpr-19024.34 400000 200000 w
+L samples mpr-19025.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G segawski m2c ski slide
+T Sega Water Ski (Japan, Revision A)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19963a.15 0 80000 4w
+L maincpu epr-19964a.16 2 80000 4w
+L main_data mpr-19980.11 0 400000 4w
+L main_data mpr-19981.12 2 400000 4w
+L main_data mpr-19982.9 800000 400000 4w
+L main_data mpr-19983.10 800002 400000 4w
+L main_data mpr-19984.7 1000000 400000 4w
+L main_data mpr-19985.8 1000002 400000 4w
+L main_data epr-19961.5 1800000 80000 4w
+L main_data epr-19962.6 1800002 80000 4w
+L copro_data mpr-19986.29 0 400000 4w
+L copro_data mpr-19987.30 2 400000 4w
+L polygons mpr-19972.17 0 400000 4w
+L polygons mpr-19973.21 2 400000 4w
+L polygons mpr-19974.18 800000 400000 4w
+L polygons mpr-19975.22 800002 400000 4w
+L polygons mpr-19976.19 1000000 400000 4w
+L polygons mpr-19977.23 1000002 400000 4w
+L polygons mpr-19978.20 1800000 400000 4w
+L polygons mpr-19979.24 1800002 400000 4w
+L textures mpr-19969.27 0 400000 4w
+L textures mpr-19968.25 2 400000 4w
+L textures mpr-19971.28 800000 400000 4w
+L textures mpr-19970.26 800002 400000 4w
+L audiocpu epr-19967.31 0 80000 w
+L samples mpr-19988.32 0 400000 w
+L samples mpr-19989.34 400000 400000 w
+C main_data 1800000 1900000 100000
+C main_data 1800000 1a00000 100000
+C main_data 1800000 1b00000 100000
+C main_data 1800000 1c00000 100000
+C main_data 1800000 1d00000 100000
+C main_data 1800000 1e00000 100000
+C main_data 1800000 1f00000 100000
+G sfight m2b joystick
+T Sonic the Fighters (Japan)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19001.15 0 80000 4w
+L maincpu epr-19002.16 2 80000 4w
+L main_data mpr-19007.11 0 400000 4w
+L main_data mpr-19008.12 2 400000 4w
+L main_data mpr-19005.9 800000 400000 4w
+L main_data mpr-19006.10 800002 400000 4w
+L main_data epr-19003.7 1000000 80000 4w
+L main_data epr-19004.8 1000002 80000 4w
+L copro_data mpr-19015.29 0 200000 4w
+L copro_data mpr-19016.30 2 200000 4w
+L polygons mpr-19009.17 0 400000 4w
+L polygons mpr-19012.21 2 400000 4w
+L polygons mpr-19010.18 800000 400000 4w
+L polygons mpr-19013.22 800002 400000 4w
+L textures mpr-19019.27 0 400000 4w
+L textures mpr-19017.25 2 400000 4w
+L textures mpr-19020.28 800000 400000 4w
+L textures mpr-19018.26 800002 400000 4w
+L audiocpu epr-19021.31 0 80000 w
+L samples mpr-19022.32 0 200000 w
+L samples mpr-19023.33 200000 200000 w
+L samples mpr-19024.34 400000 200000 w
+L samples mpr-19025.35 600000 200000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G sgt24h m2b racing steer accel brake
+T Super GT 24h	1996	Jaleco
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 400000 00
+R copro_data 800000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19155.15 0 80000 4w
+L maincpu epr-19156.16 2 80000 4w
+L main_data mpr-19146.11 0 400000 4w
+L main_data mpr-19147.12 2 400000 4w
+L main_data mpr-19148.9 800000 400000 4w
+L main_data mpr-19149.10 800002 400000 4w
+L polygons mpr-19150.17 0 400000 4w
+L polygons mpr-19151.21 2 400000 4w
+L textures mpr-19153.27 0 200000 4w
+L textures mpr-19152.25 2 200000 4w
+L cpu4 epr-18643a.7 0 20000 w
+L audiocpu epr-19157.31 0 80000 w
+L samples mpr-19154.32 0 400000 w
+G skisuprg m2c ski swing incline
+T Sega Ski Super G	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19489.15 0 80000 4w
+L maincpu epr-19490.16 2 80000 4w
+L maincpu epr-19551.13 100000 80000 4w
+L maincpu epr-19552.14 100002 80000 4w
+L main_data mpr-19494.11 0 400000 4w
+L main_data mpr-19495.12 2 400000 4w
+L main_data mpr-19492.9 800000 400000 4w
+L main_data mpr-19493.10 800002 400000 4w
+L copro_data mpr-19502.29 0 400000 4w
+L copro_data mpr-19503.30 2 400000 4w
+L polygons mpr-19496.17 0 400000 4w
+L polygons mpr-19497.21 2 400000 4w
+L polygons mpr-19498.18 800000 400000 4w
+L polygons mpr-19499.22 800002 400000 4w
+L textures mpr-19501.27 0 400000 4w
+L textures mpr-19500.25 2 400000 4w
+L audiocpu epr-19491.31 0 80000 w
+L samples mpr-19504.32 0 400000 w
+L samples mpr-19505.34 400000 400000 w
+G skytargt m2a flight sticky none stickx
+T Sky Target	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18406.12 0 80000 4w
+L maincpu epr-18407.13 2 80000 4w
+L main_data mpr-18415.10 0 400000 4w
+L main_data mpr-18416.11 2 400000 4w
+L main_data mpr-18417.8 800000 400000 4w
+L main_data mpr-18418.9 800002 400000 4w
+L main_data epr-18404.6 1000000 80000 4w
+L main_data epr-18405.7 1000002 80000 4w
+L copro_data mpr-18420.28 0 200000 4w
+L copro_data mpr-18419.29 2 200000 4w
+L polygons mpr-18413.16 0 400000 4w
+L polygons mpr-18409.20 2 400000 4w
+L polygons mpr-18414.17 800000 400000 4w
+L polygons mpr-18410.21 800002 400000 4w
+L textures mpr-18411.24 2 400000 4w
+L textures mpr-18412.25 0 400000 4w
+L audiocpu epr-18408.30 0 80000 w
+L samples mpr-18424.31 0 200000 w
+L samples mpr-18423.32 200000 200000 w
+L samples mpr-18422.36 400000 200000 w
+L samples mpr-18421.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+G srallyc m2a racing steer accel brake
+T Sega Rally Championship - Twin/DX (Revision C)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R drivecpu 10000 00
+R polygons 2000000 00
+R textures 1000000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17888c.12 0 80000 4w
+L maincpu epr-17889c.13 2 80000 4w
+L main_data mpr-17746.10 0 200000 4w
+L main_data mpr-17747.11 2 200000 4w
+L main_data mpr-17744.8 400000 200000 4w
+L main_data mpr-17745.9 400002 200000 4w
+L main_data mpr-17884.6 800000 200000 4w
+L main_data mpr-17885.7 800002 200000 4w
+L copro_data mpr-17754.28 0 200000 4w
+L copro_data mpr-17755.29 2 200000 4w
+L drivecpu epr-17891.ic12 0 10000 p
+L polygons mpr-17748.16 0 200000 4w
+L polygons mpr-17750.20 2 200000 4w
+L polygons mpr-17749.17 400000 200000 4w
+L polygons mpr-17751.21 400002 200000 4w
+L textures mpr-17753.25 0 200000 4w
+L textures mpr-17752.24 2 200000 4w
+L cpu4 epr-16726.bin 0 20000 p
+L audiocpu epr-17890a.30 0 40000 w
+L samples mpr-17756.31 0 200000 w
+L samples mpr-17757.32 200000 200000 w
+L samples mpr-17886.36 400000 200000 w
+L samples mpr-17887.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G srallycb m2a racing steer accel brake
+T Sega Rally Championship - Twin/DX (Revision B)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R drivecpu 10000 00
+R polygons 2000000 00
+R textures 1000000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17888b.12 0 80000 4w
+L maincpu epr-17889b.13 2 80000 4w
+L main_data mpr-17746.10 0 200000 4w
+L main_data mpr-17747.11 2 200000 4w
+L main_data mpr-17744.8 400000 200000 4w
+L main_data mpr-17745.9 400002 200000 4w
+L main_data mpr-17884.6 800000 200000 4w
+L main_data mpr-17885.7 800002 200000 4w
+L copro_data mpr-17754.28 0 200000 4w
+L copro_data mpr-17755.29 2 200000 4w
+L drivecpu epr-17891.ic12 0 10000 p
+L polygons mpr-17748.16 0 200000 4w
+L polygons mpr-17750.20 2 200000 4w
+L polygons mpr-17749.17 400000 200000 4w
+L polygons mpr-17751.21 400002 200000 4w
+L textures mpr-17753.25 0 200000 4w
+L textures mpr-17752.24 2 200000 4w
+L cpu4 epr-16726.bin 0 20000 p
+L audiocpu epr-17890a.30 0 40000 w
+L samples mpr-17756.31 0 200000 w
+L samples mpr-17757.32 200000 200000 w
+L samples mpr-17886.36 400000 200000 w
+L samples mpr-17887.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G srallycc m2a racing steer accel brake
+T Sega Rally Championship - Twin/DX (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R drivecpu 10000 00
+R polygons 2000000 00
+R textures 1000000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17888a.12 0 80000 4w
+L maincpu epr-17889a.13 2 80000 4w
+L main_data mpr-17746.10 0 200000 4w
+L main_data mpr-17747.11 2 200000 4w
+L main_data mpr-17744.8 400000 200000 4w
+L main_data mpr-17745.9 400002 200000 4w
+L main_data mpr-17884.6 800000 200000 4w
+L main_data mpr-17885.7 800002 200000 4w
+L copro_data mpr-17754.28 0 200000 4w
+L copro_data mpr-17755.29 2 200000 4w
+L drivecpu epr-17891.ic12 0 10000 p
+L polygons mpr-17748.16 0 200000 4w
+L polygons mpr-17750.20 2 200000 4w
+L polygons mpr-17749.17 400000 200000 4w
+L polygons mpr-17751.21 400002 200000 4w
+L textures mpr-17753.25 0 200000 4w
+L textures mpr-17752.24 2 200000 4w
+L cpu4 epr-16726.bin 0 20000 p
+L audiocpu epr-17890a.30 0 40000 w
+L samples mpr-17756.31 0 200000 w
+L samples mpr-17757.32 200000 200000 w
+L samples mpr-17886.36 400000 200000 w
+L samples mpr-17887.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G srallycdx m2a racing steer accel brake
+T Sega Rally Championship - DX (Revision A)	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R drivecpu 10000 00
+R polygons 2000000 00
+R textures 1000000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17760a.12 0 20000 4w
+L maincpu epr-17761a.13 2 20000 4w
+L main_data mpr-17746.10 0 200000 4w
+L main_data mpr-17747.11 2 200000 4w
+L main_data mpr-17744.8 400000 200000 4w
+L main_data mpr-17745.9 400002 200000 4w
+L main_data epr-17764a.6 800000 200000 4w
+L main_data epr-17765a.7 800002 200000 4w
+L copro_data mpr-17754.28 0 200000 4w
+L copro_data mpr-17755.29 2 200000 4w
+L drivecpu epr-17182.ic12 0 10000 p
+L polygons mpr-17748.16 0 200000 4w
+L polygons mpr-17750.20 2 200000 4w
+L polygons mpr-17749.17 400000 200000 4w
+L polygons mpr-17751.21 400002 200000 4w
+L textures mpr-17753.25 0 200000 4w
+L textures mpr-17752.24 2 200000 4w
+L cpu4 epr-16726.bin 0 20000 p
+L audiocpu epr-17763.30 0 40000 w
+L samples mpr-17756.31 0 200000 w
+L samples mpr-17757.32 200000 200000 w
+L samples mpr-17758.36 400000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G srallycdxa m2a racing steer accel brake
+T Sega Rally Championship - DX	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R drivecpu 10000 00
+R polygons 2000000 00
+R textures 1000000 00
+R cpu4 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17760.12 0 20000 4w
+L maincpu epr-17761.13 2 20000 4w
+L main_data mpr-17746.10 0 200000 4w
+L main_data mpr-17747.11 2 200000 4w
+L main_data mpr-17744.8 400000 200000 4w
+L main_data mpr-17745.9 400002 200000 4w
+L main_data epr-17764.6 800000 100000 4w
+L main_data epr-17765.7 800002 100000 4w
+L copro_data mpr-17754.28 0 200000 4w
+L copro_data mpr-17755.29 2 200000 4w
+L drivecpu epr-17182.ic12 0 10000 p
+L polygons mpr-17748.16 0 200000 4w
+L polygons mpr-17750.20 2 200000 4w
+L polygons mpr-17749.17 400000 200000 4w
+L polygons mpr-17751.21 400002 200000 4w
+L textures mpr-17753.25 0 200000 4w
+L textures mpr-17752.24 2 200000 4w
+L cpu4 epr-16726.bin 0 20000 p
+L audiocpu epr-17763.30 0 40000 w
+L samples mpr-17756.31 0 200000 w
+L samples mpr-17757.32 200000 200000 w
+L samples mpr-17758.36 400000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G stcc m2c racing steer accel brake
+T Sega Touring Car Championship (newer)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R dsbz80:mpegcpu 20000 00
+R cpu4 20000 00
+R samples 800000 00
+R dsbz80:mpeg 800000 00
+R drive 10000 00
+L maincpu epr-19570.15 0 80000 4w
+L maincpu epr-19571.16 2 80000 4w
+L main_data mpr-19257.11 0 400000 4w
+L main_data mpr-19258.12 2 400000 4w
+L main_data epr-19270.9 800000 80000 4w
+L main_data epr-19271.10 800002 80000 4w
+L copro_data mpr-19255.29 0 200000 4w
+L copro_data mpr-19256.30 2 200000 4w
+L polygons mpr-19251.17 0 400000 4w
+L polygons mpr-19252.21 2 400000 4w
+L polygons epr-19266.18 800000 80000 4w
+L polygons epr-19267.22 800002 80000 4w
+L textures mpr-19254.27 0 200000 4w
+L textures mpr-19253.25 2 200000 4w
+L textures epr-19269.28 800000 80000 4w
+L textures epr-19268.26 800002 80000 4w
+L audiocpu epr-19274.31 0 20000 w
+L dsbz80:mpegcpu epr-19275.2s 0 20000 p
+L cpu4 epr-18643a.7 0 20000 w
+L samples mpr-19259.32 0 400000 w
+L samples mpr-19261.34 400000 400000 w
+L dsbz80:mpeg mpr-19262.57s 0 200000 p
+L dsbz80:mpeg mpr-19263.58s 200000 200000 p
+L dsbz80:mpeg mpr-19264.59s 400000 200000 p
+L dsbz80:mpeg mpr-19265.60s 600000 200000 p
+L drive epr-18261.ic9 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+C polygons 800000 900000 100000
+C polygons 800000 a00000 200000
+C polygons 800000 c00000 400000
+C textures 0 400000 400000
+C textures 800000 900000 100000
+C textures 800000 a00000 100000
+C textures 800000 b00000 100000
+C textures 800000 c00000 100000
+C textures 800000 d00000 100000
+C textures 800000 e00000 100000
+C textures 800000 f00000 100000
+G stcca m2c racing steer accel brake
+T Sega Touring Car Championship (Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R dsbz80:mpegcpu 20000 00
+R cpu4 20000 00
+R samples 800000 00
+R dsbz80:mpeg 800000 00
+R drive 10000 00
+L maincpu epr-19272a.15 0 80000 4w
+L maincpu epr-19273a.16 2 80000 4w
+L main_data mpr-19257.11 0 400000 4w
+L main_data mpr-19258.12 2 400000 4w
+L main_data epr-19270.9 800000 80000 4w
+L main_data epr-19271.10 800002 80000 4w
+L copro_data mpr-19255.29 0 200000 4w
+L copro_data mpr-19256.30 2 200000 4w
+L polygons mpr-19251.17 0 400000 4w
+L polygons mpr-19252.21 2 400000 4w
+L polygons epr-19266.18 800000 80000 4w
+L polygons epr-19267.22 800002 80000 4w
+L textures mpr-19254.27 0 200000 4w
+L textures mpr-19253.25 2 200000 4w
+L textures epr-19269.28 800000 80000 4w
+L textures epr-19268.26 800002 80000 4w
+L audiocpu epr-19274.31 0 20000 w
+L dsbz80:mpegcpu epr-19275.2s 0 20000 p
+L cpu4 epr-18643a.7 0 20000 w
+L samples mpr-19259.32 0 400000 w
+L samples mpr-19261.34 400000 400000 w
+L dsbz80:mpeg mpr-19262.57s 0 200000 p
+L dsbz80:mpeg mpr-19263.58s 200000 200000 p
+L dsbz80:mpeg mpr-19264.59s 400000 200000 p
+L dsbz80:mpeg mpr-19265.60s 600000 200000 p
+L drive epr-18261.ic9 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+C polygons 800000 900000 100000
+C polygons 800000 a00000 200000
+C polygons 800000 c00000 400000
+C textures 0 400000 400000
+C textures 800000 900000 100000
+C textures 800000 a00000 100000
+C textures 800000 b00000 100000
+C textures 800000 c00000 100000
+C textures 800000 d00000 100000
+C textures 800000 e00000 100000
+C textures 800000 f00000 100000
+G stccb m2c racing steer accel brake
+T Sega Touring Car Championship (Revision B)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R dsbz80:mpegcpu 20000 00
+R cpu4 20000 00
+R samples 800000 00
+R dsbz80:mpeg 800000 00
+R drive 10000 00
+L maincpu epr-19272b.15 0 80000 4w
+L maincpu epr-19273b.16 2 80000 4w
+L main_data mpr-19257.11 0 400000 4w
+L main_data mpr-19258.12 2 400000 4w
+L main_data epr-19270.9 800000 80000 4w
+L main_data epr-19271.10 800002 80000 4w
+L copro_data mpr-19255.29 0 200000 4w
+L copro_data mpr-19256.30 2 200000 4w
+L polygons mpr-19251.17 0 400000 4w
+L polygons mpr-19252.21 2 400000 4w
+L polygons epr-19266.18 800000 80000 4w
+L polygons epr-19267.22 800002 80000 4w
+L textures mpr-19254.27 0 200000 4w
+L textures mpr-19253.25 2 200000 4w
+L textures epr-19269.28 800000 80000 4w
+L textures epr-19268.26 800002 80000 4w
+L audiocpu epr-19274.31 0 20000 w
+L dsbz80:mpegcpu epr-19275.2s 0 20000 p
+L cpu4 epr-18643a.7 0 20000 w
+L samples mpr-19259.32 0 400000 w
+L samples mpr-19261.34 400000 400000 w
+L dsbz80:mpeg mpr-19262.57s 0 200000 p
+L dsbz80:mpeg mpr-19263.58s 200000 200000 p
+L dsbz80:mpeg mpr-19264.59s 400000 200000 p
+L dsbz80:mpeg mpr-19265.60s 600000 200000 p
+L drive epr-18261.ic9 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+C polygons 800000 900000 100000
+C polygons 800000 a00000 200000
+C polygons 800000 c00000 400000
+C textures 0 400000 400000
+C textures 800000 900000 100000
+C textures 800000 a00000 100000
+C textures 800000 b00000 100000
+C textures 800000 c00000 100000
+C textures 800000 d00000 100000
+C textures 800000 e00000 100000
+C textures 800000 f00000 100000
+G stcco m2c racing steer accel brake
+T Sega Touring Car Championship	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R dsbz80:mpegcpu 20000 00
+R cpu4 20000 00
+R samples 800000 00
+R dsbz80:mpeg 800000 00
+R drive 10000 00
+L maincpu epr-19272.15 0 80000 4w
+L maincpu epr-19273.16 2 80000 4w
+L main_data mpr-19257.11 0 400000 4w
+L main_data mpr-19258.12 2 400000 4w
+L main_data epr-19270.9 800000 80000 4w
+L main_data epr-19271.10 800002 80000 4w
+L copro_data mpr-19255.29 0 200000 4w
+L copro_data mpr-19256.30 2 200000 4w
+L polygons mpr-19251.17 0 400000 4w
+L polygons mpr-19252.21 2 400000 4w
+L polygons epr-19266.18 800000 80000 4w
+L polygons epr-19267.22 800002 80000 4w
+L textures mpr-19254.27 0 200000 4w
+L textures mpr-19253.25 2 200000 4w
+L textures epr-19269.28 800000 80000 4w
+L textures epr-19268.26 800002 80000 4w
+L audiocpu epr-19274.31 0 20000 w
+L dsbz80:mpegcpu epr-19275.2s 0 20000 p
+L cpu4 epr-18643a.7 0 20000 w
+L samples mpr-19259.32 0 400000 w
+L samples mpr-19261.34 400000 400000 w
+L dsbz80:mpeg mpr-19262.57s 0 200000 p
+L dsbz80:mpeg mpr-19263.58s 200000 200000 p
+L dsbz80:mpeg mpr-19264.59s 400000 200000 p
+L dsbz80:mpeg mpr-19265.60s 600000 200000 p
+L drive epr-18261.ic9 0 10000 p
+C main_data 800000 900000 100000
+C main_data 800000 a00000 100000
+C main_data 800000 b00000 100000
+C main_data 800000 c00000 100000
+C main_data 800000 d00000 100000
+C main_data 800000 e00000 100000
+C main_data 800000 f00000 100000
+C polygons 800000 900000 100000
+C polygons 800000 a00000 200000
+C polygons 800000 c00000 400000
+C textures 0 400000 400000
+C textures 800000 900000 100000
+C textures 800000 a00000 100000
+C textures 800000 b00000 100000
+C textures 800000 c00000 100000
+C textures 800000 d00000 100000
+C textures 800000 e00000 100000
+C textures 800000 f00000 100000
+G swa m1 flight stickx sticky throttle none stick2x stick2y
+T Star Wars (Sega, US)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R dsbz80:mpegcpu 20000 00
+R dsbz80:mpeg 800000 00
+R polygons c00000 00
+R copro_data 200000 00
+R ioboard:iocpu 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16669.14 200000 80000 2b
+L maincpu epr-16670.15 200001 80000 2b
+L maincpu epr-16668.5 f80000 80000 p
+L maincpu epr-16668.5 0 80000 p
+L maincpu epr-16668.5 80000 80000 p
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-16470.7 0 20000 w
+L m1audio:sndcpu epr-16470.7 80000 20000 w
+L m1audio:pcm1 mpr-16486.32 0 200000 p
+L m1audio:pcm1 mpr-16487.33 200000 200000 p
+L m1audio:pcm2 mpr-16484.4 0 200000 p
+L m1audio:pcm2 mpr-16485.5 200000 200000 p
+L dsbz80:mpegcpu epr-16471.2 0 20000 p
+L dsbz80:mpeg mpr-16514.57 0 200000 p
+L dsbz80:mpeg mpr-16515.58 200000 200000 p
+L polygons mpr-16476.26 0 200000 4w
+L polygons mpr-16477.27 2 200000 4w
+L polygons mpr-16478.28 400000 200000 4w
+L polygons mpr-16479.29 400002 200000 4w
+L polygons mpr-16480.30 800000 200000 4w
+L polygons mpr-16481.31 800002 200000 4w
+L copro_data mpr-16472.39 0 80000 4b
+L copro_data mpr-16473.40 1 80000 4b
+L copro_data mpr-16474.41 2 80000 4b
+L copro_data mpr-16475.42 3 80000 4b
+L ioboard:iocpu epr-14869b.25 0 10000 p
+G swaj m1 flight stickx sticky throttle none stick2x stick2y
+T Star Wars (Sega, Japan)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R dsbz80:mpegcpu 20000 00
+R dsbz80:mpeg 400000 00
+R polygons c00000 00
+R copro_data 200000 00
+R ioboard:iocpu 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16468.14 200000 80000 2b
+L maincpu epr-16469.15 200001 80000 2b
+L maincpu epr-16467.5 f80000 80000 p
+L maincpu epr-16467.5 0 80000 p
+L maincpu epr-16467.5 80000 80000 p
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-16470.7 0 20000 w
+L m1audio:sndcpu epr-16470.7 80000 20000 w
+L m1audio:pcm1 mpr-16486.32 0 200000 p
+L m1audio:pcm1 mpr-16487.33 200000 200000 p
+L m1audio:pcm2 mpr-16484.4 0 200000 p
+L m1audio:pcm2 mpr-16485.5 200000 200000 p
+L dsbz80:mpegcpu epr-16471.2 0 20000 p
+L dsbz80:mpeg mpr-16514.57 0 200000 p
+L dsbz80:mpeg mpr-16515.58 200000 200000 p
+L polygons mpr-16476.26 0 200000 4w
+L polygons mpr-16477.27 2 200000 4w
+L polygons mpr-16478.28 400000 200000 4w
+L polygons mpr-16479.29 400002 200000 4w
+L polygons mpr-16480.30 800000 200000 4w
+L polygons mpr-16481.31 800002 200000 4w
+L copro_data mpr-16472.39 0 80000 4b
+L copro_data mpr-16473.40 1 80000 4b
+L copro_data mpr-16474.41 2 80000 4b
+L copro_data mpr-16475.42 3 80000 4b
+L ioboard:iocpu epr-14869b.25 0 10000 p
+G topskatr m2c skate curving slide
+T Top Skater (Export, Revision A)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 400000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R dsb2:mpegcpu 20000 00
+R dsb2:mpeg 1000000 00
+L maincpu epr-19755a.15 0 80000 4w
+L maincpu epr-19756a.16 2 80000 4w
+L main_data mpr-19735.11 0 400000 4w
+L main_data mpr-19736.12 2 400000 4w
+L main_data mpr-19737.9 800000 400000 4w
+L main_data mpr-19738.10 800002 400000 4w
+L copro_data mpr-19743.29 0 200000 4w
+L copro_data mpr-19744.30 2 200000 4w
+L polygons mpr-19741.17 0 200000 4w
+L polygons mpr-19742.21 2 200000 4w
+L textures mpr-19740.27 0 400000 4w
+L textures mpr-19739.25 2 400000 4w
+L audiocpu mpr-19759.31 0 80000 w
+L samples mpr-19745.32 0 400000 w
+L samples mpr-19746.34 400000 400000 w
+L dsb2:mpegcpu mpr-19760.2s 0 20000 w
+L dsb2:mpeg mpr-19747.18s 0 400000 p
+L dsb2:mpeg mpr-19748.20s 400000 400000 p
+L dsb2:mpeg mpr-19749.22s 800000 400000 p
+L dsb2:mpeg mpr-19750.24s c00000 400000 p
+G topskatrj m2c skate curving slide
+T Top Skater (Japan)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 400000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R dsb2:mpegcpu 20000 00
+R dsb2:mpeg 1000000 00
+L maincpu epr-19751.15 0 80000 4w
+L maincpu epr-19752.16 2 80000 4w
+L main_data mpr-19735.11 0 400000 4w
+L main_data mpr-19736.12 2 400000 4w
+L main_data mpr-19737.9 800000 400000 4w
+L main_data mpr-19738.10 800002 400000 4w
+L copro_data mpr-19743.29 0 200000 4w
+L copro_data mpr-19744.30 2 200000 4w
+L polygons mpr-19741.17 0 200000 4w
+L polygons mpr-19742.21 2 200000 4w
+L textures mpr-19740.27 0 400000 4w
+L textures mpr-19739.25 2 400000 4w
+L audiocpu mpr-19759.31 0 80000 w
+L samples mpr-19745.32 0 400000 w
+L samples mpr-19746.34 400000 400000 w
+L dsb2:mpegcpu mpr-19760.2s 0 20000 w
+L dsb2:mpeg mpr-19747.18s 0 400000 p
+L dsb2:mpeg mpr-19748.20s 400000 400000 p
+L dsb2:mpeg mpr-19749.22s 800000 400000 p
+L dsb2:mpeg mpr-19750.24s c00000 400000 p
+G topskatru m2c skate curving slide
+T Top Skater (USA, Revision A)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 400000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R dsb2:mpegcpu 20000 00
+R dsb2:mpeg 1000000 00
+L maincpu epr-19753a.15 0 80000 4w
+L maincpu epr-19754a.16 2 80000 4w
+L main_data mpr-19735.11 0 400000 4w
+L main_data mpr-19736.12 2 400000 4w
+L main_data mpr-19737.9 800000 400000 4w
+L main_data mpr-19738.10 800002 400000 4w
+L copro_data mpr-19743.29 0 200000 4w
+L copro_data mpr-19744.30 2 200000 4w
+L polygons mpr-19741.17 0 200000 4w
+L polygons mpr-19742.21 2 200000 4w
+L textures mpr-19740.27 0 400000 4w
+L textures mpr-19739.25 2 400000 4w
+L audiocpu mpr-19759.31 0 80000 w
+L samples mpr-19745.32 0 400000 w
+L samples mpr-19746.34 400000 400000 w
+L dsb2:mpegcpu mpr-19760.2s 0 20000 w
+L dsb2:mpeg mpr-19747.18s 0 400000 p
+L dsb2:mpeg mpr-19748.20s 400000 400000 p
+L dsb2:mpeg mpr-19749.22s 800000 400000 p
+L dsb2:mpeg mpr-19750.24s c00000 400000 p
+G topskatruo m2c skate curving slide
+T Top Skater (USA)	1997	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 400000 00
+R textures 800000 00
+R audiocpu 80000 00
+R samples 800000 00
+R dsb2:mpegcpu 20000 00
+R dsb2:mpeg 1000000 00
+L maincpu epr-19753.15 0 80000 4w
+L maincpu epr-19754.16 2 80000 4w
+L main_data mpr-19735.11 0 400000 4w
+L main_data mpr-19736.12 2 400000 4w
+L main_data mpr-19737.9 800000 400000 4w
+L main_data mpr-19738.10 800002 400000 4w
+L copro_data mpr-19743.29 0 200000 4w
+L copro_data mpr-19744.30 2 200000 4w
+L polygons mpr-19741.17 0 200000 4w
+L polygons mpr-19742.21 2 200000 4w
+L textures mpr-19740.27 0 400000 4w
+L textures mpr-19739.25 2 400000 4w
+L audiocpu mpr-19759.31 0 80000 w
+L samples mpr-19745.32 0 400000 w
+L samples mpr-19746.34 400000 400000 w
+L dsb2:mpegcpu mpr-19760.2s 0 20000 w
+L dsb2:mpeg mpr-19747.18s 0 400000 p
+L dsb2:mpeg mpr-19748.20s 400000 400000 p
+L dsb2:mpeg mpr-19749.22s 800000 400000 p
+L dsb2:mpeg mpr-19750.24s c00000 400000 p
+G vcop m2o gun gun1x gun1y gun2x gun2y
+T Virtua Cop (Revision B)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+L maincpu epr-17166b.12 0 20000 4w
+L maincpu epr-17167b.13 2 20000 4w
+L maincpu epr-17160a.14 40000 20000 4w
+L maincpu epr-17161a.15 40002 20000 4w
+L main_data mpr-17164.10 0 200000 4w
+L main_data mpr-17165.11 2 200000 4w
+L main_data mpr-17162.8 400000 200000 4w
+L main_data mpr-17163.9 400002 200000 4w
+L main_data epr-17168a.6 800000 80000 4w
+L main_data epr-17169a.7 800002 80000 4w
+L polygons mpr-17159.16 0 200000 4w
+L polygons mpr-17156.20 2 200000 4w
+L textures mpr-17158.25 0 200000 4w
+L textures mpr-17157.24 2 200000 4w
+L m1audio:sndcpu epr-17170.7 0 20000 w
+L m1audio:sndcpu epr-17171.8 20000 20000 w
+L m1audio:pcm1 mpr-17172.32 0 100000 p
+L m1audio:pcm1 mpr-17173.33 200000 100000 p
+L m1audio:pcm2 mpr-17174.4 0 200000 p
+L m1audio:pcm2 mpr-17175.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+G vcop2 m2a gun gun1x gun1y gun2x gun2y
+T Virtua Cop 2	1995	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 400000 00
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18524.12 0 80000 4w
+L maincpu epr-18525.13 2 80000 4w
+L maincpu epr-18518.14 100000 80000 4w
+L maincpu epr-18519.15 100002 80000 4w
+L main_data mpr-18516.10 0 200000 4w
+L main_data mpr-18517.11 2 200000 4w
+L main_data mpr-18514.8 400000 200000 4w
+L main_data mpr-18515.9 400002 200000 4w
+L main_data mpr-18522.6 800000 200000 4w
+L main_data mpr-18523.7 800002 200000 4w
+L main_data epr-18520.4 c00000 80000 4w
+L main_data epr-18521.5 c00002 80000 4w
+L polygons mpr-18513.16 0 200000 4w
+L polygons mpr-18510.20 2 200000 4w
+L textures mpr-18511.24 2 200000 4w
+L textures mpr-18512.25 0 200000 4w
+L audiocpu epr-18530.30 0 80000 w
+L samples mpr-18529.31 0 200000 w
+L samples mpr-18528.32 200000 200000 w
+L samples mpr-18527.36 400000 200000 w
+L samples mpr-18526.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+C main_data c00000 d00000 100000
+C main_data c00000 e00000 100000
+C main_data c00000 f00000 100000
+G vcopa m2o gun gun1x gun1y gun2x gun2y
+T Virtua Cop (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 00
+R textures 1000000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+L maincpu epr-17166a.12 0 20000 4w
+L maincpu epr-17167a.13 2 20000 4w
+L maincpu epr-17160a.14 40000 20000 4w
+L maincpu epr-17161a.15 40002 20000 4w
+L main_data mpr-17164.10 0 200000 4w
+L main_data mpr-17165.11 2 200000 4w
+L main_data mpr-17162.8 400000 200000 4w
+L main_data mpr-17163.9 400002 200000 4w
+L main_data epr-17168a.6 800000 80000 4w
+L main_data epr-17169a.7 800002 80000 4w
+L polygons mpr-17159.16 0 200000 4w
+L polygons mpr-17156.20 2 200000 4w
+L textures mpr-17158.25 0 200000 4w
+L textures mpr-17157.24 2 200000 4w
+L m1audio:sndcpu epr-17170.7 0 20000 w
+L m1audio:sndcpu epr-17171.8 20000 20000 w
+L m1audio:pcm1 mpr-17172.32 0 100000 p
+L m1audio:pcm1 mpr-17173.33 200000 100000 p
+L m1audio:pcm2 mpr-17174.4 0 200000 p
+L m1audio:pcm2 mpr-17175.5 200000 200000 p
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+G vf m1 joystick
+T Virtua Fighter	1993	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R ioboard:iocpu 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16082.14 200000 80000 2b
+L maincpu epr-16083.15 200001 80000 2b
+L maincpu epr-16080.4 fc0000 20000 p
+L maincpu epr-16081.5 fe0000 20000 p
+L maincpu mpr-16084.6 1000000 80000 2b
+L maincpu mpr-16085.7 1000001 80000 2b
+L maincpu mpr-16086.8 1100000 80000 2b
+L maincpu mpr-16087.9 1100001 80000 2b
+L maincpu mpr-16088.10 1200000 80000 2b
+L maincpu mpr-16089.11 1200001 80000 2b
+L maincpu mpr-16090.12 1300000 80000 2b
+L maincpu mpr-16091.13 1300001 80000 2b
+L tgp_copro 315-5724.bin 0 2000 p
+L m1audio:sndcpu epr-16120.7 0 20000 w
+L m1audio:sndcpu epr-16121.8 20000 20000 w
+L m1audio:sndcpu epr-16121.8 80000 20000 w
+L m1audio:pcm1 mpr-16122.32 0 200000 p
+L m1audio:pcm1 mpr-16123.33 200000 200000 p
+L m1audio:pcm2 mpr-16124.4 0 200000 p
+L m1audio:pcm2 mpr-16125.5 200000 200000 p
+L polygons mpr-16096.26 0 200000 4w
+L polygons mpr-16097.27 2 200000 4w
+L polygons mpr-16098.28 400000 200000 4w
+L polygons mpr-16099.29 400002 200000 4w
+L polygons mpr-16100.30 800000 200000 4w
+L polygons mpr-16101.31 800002 200000 4w
+L polygons mpr-16102.32 c00000 200000 4w
+L polygons mpr-16103.33 c00002 200000 4w
+L ioboard:iocpu epr-14869b.25 0 10000 p
+G vf2 m2a joystick
+T Virtua Fighter 2 (Version 2.1)	1994	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-18385.12 0 20000 4w
+L maincpu epr-18386.13 2 20000 4w
+L maincpu epr-18387.14 40000 20000 4w
+L maincpu epr-18388.15 40002 20000 4w
+L main_data mpr-17560.10 0 200000 4w
+L main_data mpr-17561.11 2 200000 4w
+L main_data mpr-17558.8 400000 200000 4w
+L main_data mpr-17559.9 400002 200000 4w
+L main_data mpr-17566.6 800000 200000 4w
+L main_data mpr-17567.7 800002 200000 4w
+L main_data mpr-17564.4 c00000 200000 4w
+L main_data mpr-17565.5 c00002 200000 4w
+L polygons mpr-17554.16 0 200000 4w
+L polygons mpr-17548.20 2 200000 4w
+L polygons mpr-17555.17 400000 200000 4w
+L polygons mpr-17549.21 400002 200000 4w
+L polygons mpr-17556.18 800000 200000 4w
+L polygons mpr-17550.22 800002 200000 4w
+L textures mpr-17553.25 0 200000 4w
+L textures mpr-17552.24 2 200000 4w
+L textures mpr-17547.27 800000 200000 4w
+L textures mpr-17546.26 800002 200000 4w
+L audiocpu epr-17574.30 0 80000 w
+L samples mpr-17573.31 0 200000 w
+L samples mpr-17572.32 200000 200000 w
+L samples mpr-17571.36 400000 200000 w
+L samples mpr-17570.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G vf2a m2a joystick
+T Virtua Fighter 2 (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17568a.12 0 20000 4w
+L maincpu epr-17569a.13 2 20000 4w
+L maincpu epr-17562a.14 40000 20000 4w
+L maincpu epr-17563a.15 40002 20000 4w
+L main_data mpr-17560.10 0 200000 4w
+L main_data mpr-17561.11 2 200000 4w
+L main_data mpr-17558.8 400000 200000 4w
+L main_data mpr-17559.9 400002 200000 4w
+L main_data mpr-17566.6 800000 200000 4w
+L main_data mpr-17567.7 800002 200000 4w
+L main_data mpr-17564.4 c00000 200000 4w
+L main_data mpr-17565.5 c00002 200000 4w
+L polygons mpr-17554.16 0 200000 4w
+L polygons mpr-17548.20 2 200000 4w
+L polygons mpr-17555.17 400000 200000 4w
+L polygons mpr-17549.21 400002 200000 4w
+L polygons mpr-17556.18 800000 200000 4w
+L polygons mpr-17550.22 800002 200000 4w
+L textures mpr-17553.25 0 200000 4w
+L textures mpr-17552.24 2 200000 4w
+L textures mpr-17547.27 800000 200000 4w
+L textures mpr-17546.26 800002 200000 4w
+L audiocpu epr-17574.30 0 80000 w
+L samples mpr-17573.31 0 200000 w
+L samples mpr-17572.32 200000 200000 w
+L samples mpr-17571.36 400000 200000 w
+L samples mpr-17570.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G vf2b m2a joystick
+T Virtua Fighter 2 (Revision B)	1994	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17568b.12 0 20000 4w
+L maincpu epr-17569b.13 2 20000 4w
+L maincpu epr-17562b.14 40000 20000 4w
+L maincpu epr-17563b.15 40002 20000 4w
+L main_data mpr-17560.10 0 200000 4w
+L main_data mpr-17561.11 2 200000 4w
+L main_data mpr-17558.8 400000 200000 4w
+L main_data mpr-17559.9 400002 200000 4w
+L main_data mpr-17566.6 800000 200000 4w
+L main_data mpr-17567.7 800002 200000 4w
+L main_data mpr-17564.4 c00000 200000 4w
+L main_data mpr-17565.5 c00002 200000 4w
+L polygons mpr-17554.16 0 200000 4w
+L polygons mpr-17548.20 2 200000 4w
+L polygons mpr-17555.17 400000 200000 4w
+L polygons mpr-17549.21 400002 200000 4w
+L polygons mpr-17556.18 800000 200000 4w
+L polygons mpr-17550.22 800002 200000 4w
+L textures mpr-17553.25 0 200000 4w
+L textures mpr-17552.24 2 200000 4w
+L textures mpr-17547.27 800000 200000 4w
+L textures mpr-17546.26 800002 200000 4w
+L audiocpu epr-17574.30 0 80000 w
+L samples mpr-17573.31 0 200000 w
+L samples mpr-17572.32 200000 200000 w
+L samples mpr-17571.36 400000 200000 w
+L samples mpr-17570.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G vf2o m2a joystick
+T Virtua Fighter 2	1994	Sega
+R maincpu 200000 00
+R main_data 2400000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 ff
+R audiocpu 80000 00
+R samples 800000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-17568.12 0 20000 4w
+L maincpu epr-17569.13 2 20000 4w
+L maincpu epr-17562.14 40000 20000 4w
+L maincpu epr-17563.15 40002 20000 4w
+L main_data mpr-17560.10 0 200000 4w
+L main_data mpr-17561.11 2 200000 4w
+L main_data mpr-17558.8 400000 200000 4w
+L main_data mpr-17559.9 400002 200000 4w
+L main_data mpr-17566.6 800000 200000 4w
+L main_data mpr-17567.7 800002 200000 4w
+L main_data mpr-17564.4 c00000 200000 4w
+L main_data mpr-17565.5 c00002 200000 4w
+L polygons mpr-17554.16 0 200000 4w
+L polygons mpr-17548.20 2 200000 4w
+L polygons mpr-17555.17 400000 200000 4w
+L polygons mpr-17549.21 400002 200000 4w
+L polygons mpr-17556.18 800000 200000 4w
+L polygons mpr-17550.22 800002 200000 4w
+L textures mpr-17553.25 0 200000 4w
+L textures mpr-17552.24 2 200000 4w
+L textures mpr-17547.27 800000 200000 4w
+L textures mpr-17546.26 800002 200000 4w
+L audiocpu epr-17574.30 0 80000 w
+L samples mpr-17573.31 0 200000 w
+L samples mpr-17572.32 200000 200000 w
+L samples mpr-17571.36 400000 200000 w
+L samples mpr-17570.37 600000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G vformula m1 racing steer accel brake
+T Virtua Formula	1993	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+R commboard 20000 00
+R ioboard:iocpu 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-15638.14 200000 80000 2b
+L maincpu epr-15639.15 200001 80000 2b
+L maincpu epr-15623.4 fc0000 20000 p
+L maincpu epr-15622.5 fe0000 20000 p
+L maincpu epr-15641.6 1000000 80000 2b
+L maincpu epr-15640.7 1000001 80000 2b
+L maincpu mpr-14884.8 1100000 80000 2b
+L maincpu mpr-14885.9 1100001 80000 2b
+L maincpu mpr-14886.10 1200000 80000 2b
+L maincpu mpr-14887.11 1200001 80000 2b
+L maincpu mpr-14888.12 1300000 80000 2b
+L maincpu mpr-14889.13 1300001 80000 2b
+L tgp_copro 315-5573.bin 0 2000 p
+L m1audio:sndcpu epr-14870a.7 0 20000 w
+L m1audio:pcm1 mpr-14873.32 0 200000 p
+L m1audio:pcm2 mpr-14876.4 0 200000 p
+L polygons mpr-14890.26 0 200000 4w
+L polygons mpr-14891.27 2 200000 4w
+L polygons mpr-14892.28 400000 200000 4w
+L polygons mpr-14893.29 400002 200000 4w
+L polygons mpr-14894.30 800000 200000 4w
+L polygons mpr-14895.31 800002 200000 4w
+L polygons mpr-14896.32 c00000 200000 4w
+L polygons mpr-14897.33 c00002 200000 4w
+L copro_data mpr-14898.39 0 80000 4b
+L copro_data mpr-14899.40 1 80000 4b
+L copro_data mpr-14900.41 2 80000 4b
+L copro_data mpr-14901.42 3 80000 4b
+L commboard epr-15624.17 0 20000 p
+L ioboard:iocpu epr-14869.25 0 10000 p
+G von m2b joystick
+T Cyber Troopers Virtual-On - Twin (Export)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 ff
+R textures 1000000 ff
+R cpu3 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18832.15 0 80000 4w
+L maincpu epr-18833.16 2 80000 4w
+L maincpu epr-18666.13 100000 80000 4w
+L maincpu epr-18667.14 100002 80000 4w
+L main_data mpr-18648.11 0 400000 4w
+L main_data mpr-18649.12 2 400000 4w
+L main_data mpr-18650.9 800000 400000 4w
+L main_data mpr-18651.10 800002 400000 4w
+L copro_data mpr-18662.29 0 200000 4w
+L copro_data mpr-18663.30 2 200000 4w
+L polygons mpr-18654.17 0 400000 4w
+L polygons mpr-18655.21 2 400000 4w
+L polygons mpr-18656.18 800000 400000 4w
+L polygons mpr-18657.22 800002 400000 4w
+L textures mpr-18660.27 0 200000 4w
+L textures mpr-18658.25 2 200000 4w
+L textures mpr-18661.28 800000 200000 4w
+L textures mpr-18659.26 800002 200000 4w
+L cpu3 epr-18643a.7 0 20000 w
+L audiocpu epr-18670.31 0 80000 w
+L samples mpr-18652.32 0 400000 w
+L samples mpr-18653.34 400000 400000 w
+G vonj m2b joystick
+T Cyber Troopers Virtual-On - Twin (Japan, Revision B)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 ff
+R textures 1000000 ff
+R cpu3 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18664b.15 0 80000 4w
+L maincpu epr-18665b.16 2 80000 4w
+L maincpu epr-18666.13 100000 80000 4w
+L maincpu epr-18667.14 100002 80000 4w
+L main_data mpr-18648.11 0 400000 4w
+L main_data mpr-18649.12 2 400000 4w
+L main_data mpr-18650.9 800000 400000 4w
+L main_data mpr-18651.10 800002 400000 4w
+L copro_data mpr-18662.29 0 200000 4w
+L copro_data mpr-18663.30 2 200000 4w
+L polygons mpr-18654.17 0 400000 4w
+L polygons mpr-18655.21 2 400000 4w
+L polygons mpr-18656.18 800000 400000 4w
+L polygons mpr-18657.22 800002 400000 4w
+L textures mpr-18660.27 0 200000 4w
+L textures mpr-18658.25 2 200000 4w
+L textures mpr-18661.28 800000 200000 4w
+L textures mpr-18659.26 800002 200000 4w
+L cpu3 epr-18643a.7 0 20000 w
+L audiocpu epr-18670.31 0 80000 w
+L samples mpr-18652.32 0 400000 w
+L samples mpr-18653.34 400000 400000 w
+G vonr m2b joystick
+T Cyber Troopers Virtual-On - Relay (Japan)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 ff
+R textures 1000000 ff
+R cpu3 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18671.15 0 80000 4w
+L maincpu epr-18672.16 2 80000 4w
+L maincpu epr-18666.13 100000 80000 4w
+L maincpu epr-18667.14 100002 80000 4w
+L main_data mpr-18648.11 0 400000 4w
+L main_data mpr-18649.12 2 400000 4w
+L main_data mpr-18650.9 800000 400000 4w
+L main_data mpr-18651.10 800002 400000 4w
+L copro_data mpr-18662.29 0 200000 4w
+L copro_data mpr-18663.30 2 200000 4w
+L polygons mpr-18654.17 0 400000 4w
+L polygons mpr-18655.21 2 400000 4w
+L polygons mpr-18656.18 800000 400000 4w
+L polygons mpr-18657.22 800002 400000 4w
+L textures mpr-18660.27 0 200000 4w
+L textures mpr-18658.25 2 200000 4w
+L textures mpr-18661.28 800000 200000 4w
+L textures mpr-18659.26 800002 200000 4w
+L cpu3 epr-18643a.7 0 20000 w
+L audiocpu epr-18670.31 0 80000 w
+L samples mpr-18652.32 0 400000 w
+L samples mpr-18653.34 400000 400000 w
+G vonu m2b joystick
+T Cyber Troopers Virtual-On - Twin (USA, Revision B)	1995	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 1000000 ff
+R textures 1000000 ff
+R cpu3 20000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-18828b.15 0 80000 4w
+L maincpu epr-18829b.16 2 80000 4w
+L maincpu epr-18666.13 100000 80000 4w
+L maincpu epr-18667.14 100002 80000 4w
+L main_data mpr-18648.11 0 400000 4w
+L main_data mpr-18649.12 2 400000 4w
+L main_data mpr-18650.9 800000 400000 4w
+L main_data mpr-18651.10 800002 400000 4w
+L copro_data mpr-18662.29 0 200000 4w
+L copro_data mpr-18663.30 2 200000 4w
+L polygons mpr-18654.17 0 400000 4w
+L polygons mpr-18655.21 2 400000 4w
+L polygons mpr-18656.18 800000 400000 4w
+L polygons mpr-18657.22 800002 400000 4w
+L textures mpr-18660.27 0 200000 4w
+L textures mpr-18658.25 2 200000 4w
+L textures mpr-18661.28 800000 200000 4w
+L textures mpr-18659.26 800002 200000 4w
+L cpu3 epr-18643a.7 0 20000 w
+L audiocpu epr-18670.31 0 80000 w
+L samples mpr-18652.32 0 400000 w
+L samples mpr-18653.34 400000 400000 w
+G vr m1 racing steer accel brake
+T Virtua Racing	1992	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+R ioboard:eeprom 80 00
+R ioboard:iocpu 10000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-14882.14 200000 80000 2b
+L maincpu epr-14883.15 200001 80000 2b
+L maincpu epr-14878a.4 fc0000 20000 p
+L maincpu epr-14879a.5 fe0000 20000 p
+L maincpu mpr-14880.6 1000000 80000 2b
+L maincpu mpr-14881.7 1000001 80000 2b
+L maincpu mpr-14884.8 1100000 80000 2b
+L maincpu mpr-14885.9 1100001 80000 2b
+L maincpu mpr-14886.10 1200000 80000 2b
+L maincpu mpr-14887.11 1200001 80000 2b
+L maincpu mpr-14888.12 1300000 80000 2b
+L maincpu mpr-14889.13 1300001 80000 2b
+L tgp_copro 315-5573.bin 0 2000 p
+L m1audio:sndcpu epr-14870a.7 0 20000 w
+L m1audio:pcm1 mpr-14873.32 0 200000 p
+L m1audio:pcm2 mpr-14876.4 0 200000 p
+L polygons mpr-14890.26 0 200000 4w
+L polygons mpr-14891.27 2 200000 4w
+L polygons mpr-14892.28 400000 200000 4w
+L polygons mpr-14893.29 400002 200000 4w
+L polygons mpr-14894.30 800000 200000 4w
+L polygons mpr-14895.31 800002 200000 4w
+L polygons mpr-14896.32 c00000 200000 4w
+L polygons mpr-14897.33 c00002 200000 4w
+L copro_data mpr-14898.39 0 80000 4b
+L copro_data mpr-14899.40 1 80000 4b
+L copro_data mpr-14900.41 2 80000 4b
+L copro_data mpr-14901.42 3 80000 4b
+L ioboard:eeprom 93c45.bin 0 80 p
+L ioboard:iocpu epr-14869.25 0 10000 p
+G vstriker m2b joystick
+T Virtua Striker (Revision A)	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 400000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 600000 00
+L maincpu epr-18068a.15 0 20000 4w
+L maincpu epr-18069a.16 2 20000 4w
+L maincpu epr-18066a.13 40000 20000 4w
+L maincpu epr-18067a.14 40002 20000 4w
+L main_data mpr-18055.11 0 200000 4w
+L main_data mpr-18056.12 2 200000 4w
+L main_data mpr-18053.9 400000 200000 4w
+L main_data mpr-18054.10 400002 200000 4w
+L main_data epr-18070a.7 800000 80000 4w
+L main_data epr-18071a.8 800002 80000 4w
+L polygons mpr-18057.17 0 200000 4w
+L polygons mpr-18059.21 2 200000 4w
+L polygons mpr-18058.18 400000 200000 4w
+L polygons mpr-18060.22 400002 200000 4w
+L textures mpr-18062.27 0 200000 4w
+L textures mpr-18061.25 2 200000 4w
+L audiocpu epr-18072.31 0 20000 w
+L samples mpr-18063.32 0 200000 w
+L samples mpr-18064.33 200000 200000 w
+L samples mpr-18065.34 400000 200000 w
+G vstrikero m2b joystick
+T Virtua Striker	1994	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 400000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 600000 00
+L maincpu epr-18068.15 0 20000 4w
+L maincpu epr-18069.16 2 20000 4w
+L maincpu epr-18066.13 40000 20000 4w
+L maincpu epr-18067.14 40002 20000 4w
+L main_data mpr-18055.11 0 200000 4w
+L main_data mpr-18056.12 2 200000 4w
+L main_data mpr-18053.9 400000 200000 4w
+L main_data mpr-18054.10 400002 200000 4w
+L main_data epr-18070.7 800000 80000 4w
+L main_data epr-18071.8 800002 80000 4w
+L polygons mpr-18057.17 0 200000 4w
+L polygons mpr-18059.21 2 200000 4w
+L polygons mpr-18058.18 400000 200000 4w
+L polygons mpr-18060.22 400002 200000 4w
+L textures mpr-18062.27 0 200000 4w
+L textures mpr-18061.25 2 200000 4w
+L audiocpu epr-18072.31 0 20000 w
+L samples mpr-18063.32 0 200000 w
+L samples mpr-18064.33 200000 200000 w
+L samples mpr-18065.34 400000 200000 w
+G waverunr m2c jetski steer roll throttle pitch
+T Wave Runner (Japan, Revision A)	1996	Sega
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 2000000 00
+R textures 1000000 00
+R audiocpu 80000 00
+R samples 800000 00
+L maincpu epr-19282a.15 0 80000 4w
+L maincpu epr-19283a.16 2 80000 4w
+L main_data mpr-19291.11 0 400000 4w
+L main_data mpr-19292.12 2 400000 4w
+L main_data mpr-19293.9 800000 400000 4w
+L main_data mpr-19294.10 800002 400000 4w
+L main_data epr-19278.7 1000000 80000 4w
+L main_data epr-19279.8 1000002 80000 4w
+L copro_data epr-19280.29 0 80000 4w
+L copro_data epr-19281.30 2 80000 4w
+L polygons mpr-19287.17 0 400000 4w
+L polygons mpr-19288.21 2 400000 4w
+L polygons mpr-19289.18 800000 400000 4w
+L polygons mpr-19290.22 800002 400000 4w
+L polygons epr-19304.19 1000000 80000 4w
+L polygons epr-19305.23 1000002 80000 4w
+L textures mpr-19286.27 0 400000 4w
+L textures mpr-19285.25 2 400000 4w
+L textures epr-19303.28 800000 80000 4w
+L textures epr-19302.26 800002 80000 4w
+L audiocpu epr-19284.31 0 40000 w
+L samples mpr-19295.32 0 400000 w
+L samples mpr-19296.34 400000 400000 w
+C main_data 1000000 1100000 100000
+C main_data 1000000 1200000 100000
+C main_data 1000000 1300000 100000
+C main_data 1000000 1400000 100000
+C main_data 1000000 1500000 100000
+C main_data 1000000 1600000 100000
+C main_data 1000000 1700000 100000
+C main_data 1000000 1800000 100000
+C main_data 1000000 1900000 100000
+C main_data 1000000 1a00000 100000
+C main_data 1000000 1b00000 100000
+C main_data 1000000 1c00000 100000
+C main_data 1000000 1d00000 100000
+C main_data 1000000 1e00000 100000
+C main_data 1000000 1f00000 100000
+C polygons 1000000 1100000 100000
+C polygons 1000000 1200000 100000
+C polygons 1000000 1300000 100000
+C polygons 1000000 1400000 100000
+C polygons 1000000 1500000 100000
+C polygons 1000000 1600000 100000
+C polygons 1000000 1700000 100000
+C polygons 1000000 1800000 100000
+C polygons 1000000 1900000 100000
+C polygons 1000000 1a00000 100000
+C polygons 1000000 1b00000 100000
+C polygons 1000000 1c00000 100000
+C polygons 1000000 1d00000 100000
+C polygons 1000000 1e00000 100000
+C textures 800000 900000 100000
+C textures 800000 a00000 100000
+C textures 800000 b00000 100000
+C textures 800000 c00000 100000
+C textures 800000 d00000 100000
+C textures 800000 e00000 100000
+C textures 800000 f00000 100000
+G wingwar m1 flight stickx sticky throttle
+T Wing War (World)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16729.14 200000 80000 2b
+L maincpu epr-16730.15 200001 80000 2b
+L maincpu epr-16953.4 fc0000 20000 p
+L maincpu epr-16953.4 0 20000 p
+L maincpu epr-16952.5 fe0000 20000 p
+L maincpu epr-16952.5 20000 20000 p
+L maincpu mpr-16738.6 1000000 80000 2b
+L maincpu mpr-16737.7 1000001 80000 2b
+L maincpu mpr-16736.8 1100000 80000 2b
+L maincpu mpr-16735.9 1100001 80000 2b
+L maincpu mpr-16734.10 1200000 80000 2b
+L maincpu mpr-16733.11 1200001 80000 2b
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-17126.7 0 20000 w
+L m1audio:sndcpu epr-16752.8 20000 20000 w
+L m1audio:sndcpu epr-16752.8 80000 20000 w
+L m1audio:pcm1 mpr-16753.32 0 200000 p
+L m1audio:pcm1 mpr-16754.33 200000 200000 p
+L m1audio:pcm2 mpr-16755.4 0 200000 p
+L m1audio:pcm2 mpr-16756.5 200000 200000 p
+L polygons mpr-16743.26 0 200000 4w
+L polygons mpr-16744.27 2 200000 4w
+L polygons mpr-16745.28 400000 200000 4w
+L polygons mpr-16746.29 400002 200000 4w
+L polygons mpr-16747.30 800000 200000 4w
+L polygons mpr-16748.31 800002 200000 4w
+L polygons mpr-16749.32 c00000 200000 4w
+L polygons mpr-16750.33 c00002 200000 4w
+L copro_data mpr-16741.39 0 80000 4b
+L copro_data mpr-16742.40 1 80000 4b
+L copro_data mpr-16739.41 2 80000 4b
+L copro_data mpr-16740.42 3 80000 4b
+G wingwar360 m1 flight stickx sticky throttle
+T Wing War R360 (US)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+R controlboard 400000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16729.14 200000 80000 2b
+L maincpu epr-16730.15 200001 80000 2b
+L maincpu epr-17052.4 fc0000 20000 p
+L maincpu epr-17052.4 0 20000 p
+L maincpu epr-17053.5 fe0000 20000 p
+L maincpu epr-17053.5 20000 20000 p
+L maincpu epr-17056.6 1000000 80000 2b
+L maincpu epr-17057.7 1000001 80000 2b
+L maincpu mpr-16736.8 1100000 80000 2b
+L maincpu mpr-16735.9 1100001 80000 2b
+L maincpu mpr-16734.10 1200000 80000 2b
+L maincpu mpr-16733.11 1200001 80000 2b
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-17126.7 0 20000 w
+L m1audio:sndcpu epr-16752.8 20000 20000 w
+L m1audio:sndcpu epr-16752.8 80000 20000 w
+L m1audio:pcm1 mpr-16753.32 0 200000 p
+L m1audio:pcm1 mpr-16754.33 200000 200000 p
+L m1audio:pcm2 mpr-16755.4 0 200000 p
+L m1audio:pcm2 mpr-16756.5 200000 200000 p
+L polygons mpr-16743.26 0 200000 4w
+L polygons mpr-16744.27 2 200000 4w
+L polygons mpr-16745.28 400000 200000 4w
+L polygons mpr-16746.29 400002 200000 4w
+L polygons mpr-16747.30 800000 200000 4w
+L polygons mpr-16748.31 800002 200000 4w
+L polygons mpr-16749.32 c00000 200000 4w
+L polygons mpr-16750.33 c00002 200000 4w
+L copro_data mpr-16741.39 0 80000 4b
+L copro_data mpr-16742.40 1 80000 4b
+L copro_data mpr-16739.41 2 80000 4b
+L copro_data mpr-16740.42 3 80000 4b
+L controlboard epr-18851.ic22 0 20000 p
+L controlboard epr-18850.ic67 20000 8000 p
+G wingwarj m1 flight stickx sticky throttle
+T Wing War (Japan)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16729.14 200000 80000 2b
+L maincpu epr-16730.15 200001 80000 2b
+L maincpu epr-16728.4 fc0000 20000 p
+L maincpu epr-16728.4 0 20000 p
+L maincpu epr-16727.5 fe0000 20000 p
+L maincpu epr-16727.5 20000 20000 p
+L maincpu mpr-16738.6 1000000 80000 2b
+L maincpu mpr-16737.7 1000001 80000 2b
+L maincpu mpr-16736.8 1100000 80000 2b
+L maincpu mpr-16735.9 1100001 80000 2b
+L maincpu mpr-16734.10 1200000 80000 2b
+L maincpu mpr-16733.11 1200001 80000 2b
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-16751.7 0 20000 w
+L m1audio:sndcpu epr-16752.8 20000 20000 w
+L m1audio:sndcpu epr-16752.8 80000 20000 w
+L m1audio:pcm1 mpr-16753.32 0 200000 p
+L m1audio:pcm1 mpr-16754.33 200000 200000 p
+L m1audio:pcm2 mpr-16755.4 0 200000 p
+L m1audio:pcm2 mpr-16756.5 200000 200000 p
+L polygons mpr-16743.26 0 200000 4w
+L polygons mpr-16744.27 2 200000 4w
+L polygons mpr-16745.28 400000 200000 4w
+L polygons mpr-16746.29 400002 200000 4w
+L polygons mpr-16747.30 800000 200000 4w
+L polygons mpr-16748.31 800002 200000 4w
+L polygons mpr-16749.32 c00000 200000 4w
+L polygons mpr-16750.33 c00002 200000 4w
+L copro_data mpr-16741.39 0 80000 4b
+L copro_data mpr-16742.40 1 80000 4b
+L copro_data mpr-16739.41 2 80000 4b
+L copro_data mpr-16740.42 3 80000 4b
+G wingwaru m1 flight stickx sticky throttle
+T Wing War (US)	1994	Sega
+R copro_tables 40000 00
+R other_data 80000 00
+R other_other_data 20000 00
+R 315_5571 2000 00
+R 315_5572 2000 00
+R maincpu 2000000 ff
+R tgp_copro 2000 00
+R m1audio:sndcpu c0000 00
+R m1audio:pcm1 400000 00
+R m1audio:pcm2 400000 00
+R polygons 1000000 00
+R copro_data 200000 00
+L copro_tables opr14742.bin 0 20000 4w
+L copro_tables opr14743.bin 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L other_other_data opr14748.bin 0 20000 p
+L 315_5571 315-5571.bin 0 2000 p
+L 315_5572 315-5572.bin 0 2000 p
+L maincpu epr-16729.14 200000 80000 2b
+L maincpu epr-16730.15 200001 80000 2b
+L maincpu epr-16951.4 fc0000 20000 p
+L maincpu epr-16951.4 0 20000 p
+L maincpu epr-16950.5 fe0000 20000 p
+L maincpu epr-16950.5 20000 20000 p
+L maincpu mpr-16738.6 1000000 80000 2b
+L maincpu mpr-16737.7 1000001 80000 2b
+L maincpu mpr-16736.8 1100000 80000 2b
+L maincpu mpr-16735.9 1100001 80000 2b
+L maincpu mpr-16734.10 1200000 80000 2b
+L maincpu mpr-16733.11 1200001 80000 2b
+L tgp_copro 315-5711.bin 0 2000 p
+L m1audio:sndcpu epr-16751.7 0 20000 w
+L m1audio:sndcpu epr-16752.8 20000 20000 w
+L m1audio:sndcpu epr-16752.8 80000 20000 w
+L m1audio:pcm1 mpr-16753.32 0 200000 p
+L m1audio:pcm1 mpr-16754.33 200000 200000 p
+L m1audio:pcm2 mpr-16755.4 0 200000 p
+L m1audio:pcm2 mpr-16756.5 200000 200000 p
+L polygons mpr-16743.26 0 200000 4w
+L polygons mpr-16744.27 2 200000 4w
+L polygons mpr-16745.28 400000 200000 4w
+L polygons mpr-16746.29 400002 200000 4w
+L polygons mpr-16747.30 800000 200000 4w
+L polygons mpr-16748.31 800002 200000 4w
+L polygons mpr-16749.32 c00000 200000 4w
+L polygons mpr-16750.33 c00002 200000 4w
+L copro_data mpr-16741.39 0 80000 4b
+L copro_data mpr-16742.40 1 80000 4b
+L copro_data mpr-16739.41 2 80000 4b
+L copro_data mpr-16740.42 3 80000 4b
+G zerogun m2b joystick
+T Zero Gunner (Export, Model 2B)	1997	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 400000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 400000 00
+L maincpu epr-20439.15 0 80000 4w
+L maincpu epr-20440.16 2 80000 4w
+L main_data mpr-20296.11 0 400000 4w
+L main_data mpr-20297.12 2 400000 4w
+L main_data mpr-20294.9 800000 400000 4w
+L main_data mpr-20295.10 800002 400000 4w
+L polygons mpr-20298.17 0 400000 4w
+L polygons mpr-20299.21 2 400000 4w
+L textures mpr-20301.27 0 200000 4w
+L textures mpr-20300.25 2 200000 4w
+L audiocpu epr-20302.31 0 80000 w
+L samples mpr-20303.32 0 200000 w
+L samples mpr-20304.33 200000 200000 w
+G zeroguna m2a joystick
+T Zero Gunner (Export, Model 2A)	1997	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 400000 00
+R audiocpu 80000 00
+R samples 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20437.12 0 80000 4w
+L maincpu epr-20438.13 2 80000 4w
+L main_data mpr-20296.10 0 400000 4w
+L main_data mpr-20297.11 2 400000 4w
+L main_data mpr-20294.8 800000 400000 4w
+L main_data mpr-20295.9 800002 400000 4w
+L polygons mpr-20298.16 0 400000 4w
+L polygons mpr-20299.20 2 400000 4w
+L textures mpr-20301.25 0 200000 4w
+L textures mpr-20300.24 2 200000 4w
+L audiocpu epr-20302.30 0 80000 w
+L samples mpr-20303.31 0 200000 w
+L samples mpr-20304.32 200000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G zerogunaj m2a joystick
+T Zero Gunner (Japan, Model 2A)	1997	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R copro_data 800000 00
+R polygons 800000 00
+R textures 400000 00
+R audiocpu 80000 00
+R samples 400000 00
+R copro_tgp_tables 40000 00
+R other_data 80000 00
+R video_unk 200000 00
+L maincpu epr-20288.12 0 80000 4w
+L maincpu epr-20289.13 2 80000 4w
+L main_data mpr-20296.10 0 400000 4w
+L main_data mpr-20297.11 2 400000 4w
+L main_data mpr-20294.8 800000 400000 4w
+L main_data mpr-20295.9 800002 400000 4w
+L polygons mpr-20298.16 0 400000 4w
+L polygons mpr-20299.20 2 400000 4w
+L textures mpr-20301.25 0 200000 4w
+L textures mpr-20300.24 2 200000 4w
+L audiocpu epr-20302.30 0 80000 w
+L samples mpr-20303.31 0 200000 w
+L samples mpr-20304.32 200000 200000 w
+L copro_tgp_tables opr-14742a.45 0 20000 4w
+L copro_tgp_tables opr-14743a.46 2 20000 4w
+L other_data opr-14744.58 0 20000 4w
+L other_data opr-14745.59 2 20000 4w
+L other_data opr-14746.62 40000 20000 4w
+L other_data opr-14747.63 40002 20000 4w
+L video_unk mpr-16310.15 0 80000 4b
+L video_unk mpr-16311.16 1 80000 4b
+L video_unk mpr-16312.14 2 80000 4b
+G zerogunj m2b joystick
+T Zero Gunner (Japan, Model 2B)	1997	Psikyo
+R maincpu 200000 00
+R main_data 2000000 00
+R polygons 800000 00
+R textures 400000 00
+R copro_data 800000 00
+R audiocpu 80000 00
+R samples 400000 00
+L maincpu epr-20290.15 0 80000 4w
+L maincpu epr-20291.16 2 80000 4w
+L main_data mpr-20296.11 0 400000 4w
+L main_data mpr-20297.12 2 400000 4w
+L main_data mpr-20294.9 800000 400000 4w
+L main_data mpr-20295.10 800002 400000 4w
+L polygons mpr-20298.17 0 400000 4w
+L polygons mpr-20299.21 2 400000 4w
+L textures mpr-20301.27 0 200000 4w
+L textures mpr-20300.25 2 200000 4w
+L audiocpu epr-20302.31 0 80000 w
+L samples mpr-20303.32 0 200000 w
+L samples mpr-20304.33 200000 200000 w

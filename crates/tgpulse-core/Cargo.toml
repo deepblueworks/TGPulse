@@ -1,0 +1,26 @@
+[package]
+name = "tgpulse-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Sega Model 1 and Model 2 hardware emulation, independent of any front end."
+
+[lib]
+name = "tgpulse_core"
+path = "src/lib.rs"
+
+[dependencies]
+i960 = { workspace = true }
+v60 = { workspace = true }
+mb86233 = { workspace = true }
+mb86235 = { workspace = true }
+sharc = { workspace = true }
+
+bincode = { workspace = true }
+bytemuck = { workspace = true }
+log = { workspace = true }
+m68000 = { workspace = true }
+serde = { workspace = true }
+serde-big-array = { workspace = true }
+zip = { workspace = true }
+z80 = "1"

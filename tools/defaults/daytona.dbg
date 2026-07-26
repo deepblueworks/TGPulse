@@ -1,0 +1,90 @@
+# Daytona USA
+#
+# GAME SYSTEM / COUNTRY: JPN to USA, which is what puts the game into
+# English. RED moves the cursor, YELLOW changes a value, START selects.
+#
+# Drives the game's own test menu, because that is the only supported way to
+# change a setting these boards keep in battery-backed RAM. Regenerate with:
+#
+#     tools/make-defaults.sh daytona
+run 700
+testmenu 60
+run 150
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xEF
+run 5
+input in0 0xFF
+run 15
+run 30
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0x7F
+run 5
+input in0 0xFF
+run 15
+input in0 0x7F
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xDF
+run 5
+input in0 0xFF
+run 15
+input in0 0xEF
+run 5
+input in0 0xFF
+run 15
+run 30
+input in1 0xFE
+run 5
+input in1 0xFF
+run 15
+input in1 0xFE
+run 5
+input in1 0xFF
+run 15
+input in0 0xEF
+run 5
+input in0 0xFF
+run 15
+# Leaving the menus properly is what makes some of these games commit
+# the change to backup RAM.
+run 400
+nvram defaults

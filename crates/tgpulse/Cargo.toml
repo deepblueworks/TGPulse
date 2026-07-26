@@ -1,0 +1,56 @@
+[package]
+name = "tgpulse"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Front end for the TGPulse Sega Model 1/2 emulator."
+
+# Android starts a shared object rather than a process, so the same front end
+# is built both ways: a binary everywhere, and additionally a cdylib whose
+# `android_main` the activity calls.
+[lib]
+name = "tgpulse"
+path = "src/lib.rs"
+crate-type = ["lib", "cdylib"]
+
+[[bin]]
+name = "tgpulse"
+path = "src/main.rs"
+
+[dependencies]
+tgpulse-core = { workspace = true }
+
+bytemuck = { workspace = true }
+cpal = { workspace = true }
+env_logger = { workspace = true }
+# Gamepads: evdev on Linux, XInput on Windows, and a stub elsewhere -- Android
+# delivers controller input through the activity instead.
+gilrs = { workspace = true }
+imgui = { workspace = true }
+log = { workspace = true }
+pollster = { workspace = true }
+wgpu = { workspace = true }
+winit = { workspace = true }
+png = "0.17"
+
+[target.'cfg(target_os = "android")'.dependencies]
+android_logger = "0.13"
+winit = { workspace = true, features = ["android-native-activity"] }
+
+# Packaged by `cargo apk`; see docs/BUILDING.md.
+[package.metadata.android]
+package = "org.tgpulse.emulator"
+build_targets = ["aarch64-linux-android", "armv7-linux-androideabi"]
+runtime_libs = "."
+
+[package.metadata.android.sdk]
+min_sdk_version = 26
+target_sdk_version = 33
+
+[package.metadata.android.application]
+label = "TGPulse"
+# The emulated image is 4:3 and the controls are on-screen, so the activity is
+# landscape and keeps the display awake.
+[package.metadata.android.application.activity]
+orientation = "landscape"
+config_changes = "orientation|keyboardHidden|screenSize"

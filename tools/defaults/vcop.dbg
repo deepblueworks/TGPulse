@@ -1,0 +1,116 @@
+# Virtua Cop
+#
+# GAME SYSTEM / COUNTRY: JPN to USA.
+# The service button moves the cursor; the test button selects a row and
+# cycles the value on it.
+#
+# Changing COUNTRY makes the game re-initialise its text for the new region,
+# and inputs are dropped while that happens -- the waits after each value
+# change are longer for that reason. The cursor also skips the HUMAN TYPE and
+# RELOAD TYPE rows, so EXIT is four moves below COUNTRY, not six.
+#
+# Drives the game's own test menu, because that is the only supported way to
+# change a setting these boards keep in battery-backed RAM. Regenerate with:
+#
+#     tools/make-defaults.sh vcop
+run 700
+testmenu 60
+run 150
+# BOOKKEEPING, then GAME SYSTEM.
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xFB
+run 5
+input in0 0xFF
+run 40
+# The cursor enters the page on EXIT: ADVERTISE SOUND, then COUNTRY.
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+input in0 0xF7
+run 5
+input in0 0xFF
+run 15
+# JPN to EXP, then EXP to USA.
+input in0 0xFB
+run 5
+input in0 0xFF
+run 120
+input in0 0xFB
+run 5
+input in0 0xFF
+run 120
+# CABINET, DIFFICULTY, LIFE, EXIT.
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+# Back to the main menu, which returns with the cursor on GAME SYSTEM.
+input in0 0xFB
+run 5
+input in0 0xFF
+run 120
+# COIN ASSIGNMENT through BACKUP RAM CLEAR, then EXIT.
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+input in0 0xF7
+run 5
+input in0 0xFF
+run 60
+# Leaving the menus properly is what makes the game commit the change to
+# backup RAM.
+input in0 0xFB
+run 5
+input in0 0xFF
+run 120
+run 400
+nvram defaults
