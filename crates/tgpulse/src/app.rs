@@ -644,7 +644,7 @@ impl App {
             machine: Machine::Model2(sys),
             set,
             ..
-        }) = self.session.as_ref()
+        }) = self.session.as_mut()
         else {
             return;
         };
@@ -909,7 +909,7 @@ impl App {
                     .push_debug_output(["error cmd=open reason=no romset loaded".to_string()]);
                 return;
             }
-            match Debugger::open(&self.config.rom_path) {
+            match Debugger::open_with_config(&self.config.rom_path, self.config.clone()) {
                 Ok(d) => self.debugger = Some(d),
                 Err(e) => {
                     self.gui

@@ -208,6 +208,15 @@ pub struct Config {
     /// upside down in the hand. Android only: a desktop window is never
     /// rotated, so the value is carried but ignored there.
     pub reverse_landscape: bool,
+
+    /// Run the Model 2 geometry coprocessor on its own thread.
+    ///
+    /// The DSP is a separate chip talking to the i960 through FIFO
+    /// mailboxes, so it parallelizes cleanly (PCSX2's MTVU is the same
+    /// shape). Off keeps the original single-threaded 64/43-cycle lockstep,
+    /// which is the determinism reference for A/B testing. Model 1 is
+    /// unaffected either way.
+    pub multithreaded: bool,
 }
 
 impl Default for Config {
@@ -230,6 +239,7 @@ impl Default for Config {
             widescreen: false,
             widescreen_stretch_2d: true,
             reverse_landscape: false,
+            multithreaded: true,
         }
     }
 }

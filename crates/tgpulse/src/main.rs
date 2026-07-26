@@ -42,7 +42,7 @@ fn main() {
             print!("{}", cli::list_roms(&args.config));
             Ok(())
         }
-        cli::Command::Debug { rom, script } => run_debugger(&rom, script),
+        cli::Command::Debug { rom, script } => run_debugger(&rom, script, args.config),
         cli::Command::Run { rom } => app::run(args.config, rom),
     };
 
@@ -53,8 +53,12 @@ fn main() {
 }
 
 /// The scriptable debugger, driven from a script, a `-c` string or stdin.
-fn run_debugger(rom: &std::path::Path, script: cli::Script) -> Result<(), String> {
-    let mut debugger = Debugger::open(&rom.to_string_lossy())?;
+fn run_debugger(
+    rom: &std::path::Path,
+    script: cli::Script,
+    config: tgpulse_core::config::Config,
+) -> Result<(), String> {
+    let mut debugger = Debugger::open_with_config(&rom.to_string_lossy(), config)?;
     println!("ready game={} rom={}", debugger.game, rom.display());
 
     fn run(debugger: &mut Debugger, line: &str) -> bool {

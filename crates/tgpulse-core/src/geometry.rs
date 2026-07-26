@@ -862,13 +862,14 @@ fn word(buf: &[u32], p: usize) -> Option<u32> {
 /// command framing used by the renderer; keeping it independent makes corrupt
 /// TGP output distinguishable from rasterization bugs.
 pub fn inspect_display_list(sys: &Model2System) -> DisplayListStats {
-    let buf = &sys.buffer_ram;
+    // An owned copy: the coprocessor worker shares the live buffer.
+    let buf = sys.buffer_ram.to_vec();
     let mut out = DisplayListStats::default();
     let mut p = ((sys.geo_read_start_address & 0x1ffff) >> 2) as usize;
     let mut mode = 0u32;
 
     for _ in 0..0x8000 {
-        let Some(opcode) = word(buf, p) else {
+        let Some(opcode) = word(&buf, p) else {
             out.malformed = true;
             break;
         };
@@ -908,7 +909,7 @@ pub fn inspect_display_list(sys: &Model2System) -> DisplayListStats {
                     false
                 } else {
                     loop {
-                        let Some(attr) = word(buf, p) else {
+                        let Some(attr) = word(&buf, p) else {
                             break false;
                         };
                         p += 1;
@@ -948,7 +949,7 @@ pub fn inspect_display_list(sys: &Model2System) -> DisplayListStats {
                 }
             }
             0x07 | 0x17 => {
-                if let Some(v) = word(buf, p) {
+                if let Some(v) = word(&buf, p) {
                     mode = v;
                     p += 1;
                     true

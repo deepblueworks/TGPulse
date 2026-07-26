@@ -164,15 +164,23 @@ pub struct Model2System {
     /// are never promoted to the active core, so carrying them across quanta
     /// (rather than building a fresh one each time) changes nothing.
     parked_main: Option<Box<I960Cpu>>,
-    parked_tgp: Option<Box<Mb86233>>,
+    pub(crate) parked_tgp: Option<Box<Mb86233>>,
     pub(crate) parked_sharc: Option<Box<sharc::Sharc>>,
     pub(crate) parked_tgpx4: Option<Box<mb86235::Mb86235>>,
+
+    /// The coprocessor worker thread, when `Config::multithreaded` is set.
+    /// Owns the board's DSP core and the authoritative FIFOs; the fields
+    /// below keep their single-threaded meaning and are resynced from the
+    /// worker for savestates and the debugger.
+    pub copro_mt: Option<crate::copro::CoproWorker>,
 
     // --- ROM regions (u32 words, indexed by byte_offset >> 2) ---
     pub maincpu_rom: Vec<u32>,
     pub main_data: Vec<u32>,
-    pub copro_data: Vec<u32>,
-    pub copro_tables: Vec<u32>,
+    /// Coprocessor data/table ROMs. Immutable after load, so the coprocessor
+    /// worker thread reads them through a shared `Arc` instead of a lock.
+    pub copro_data: std::sync::Arc<Vec<u32>>,
+    pub copro_tables: std::sync::Arc<Vec<u32>>,
     pub polygon_rom: Vec<u32>,
     pub texture_rom: Vec<u16>,
     pub geometry: GeometryEngine,
@@ -183,7 +191,10 @@ pub struct Model2System {
     /// 0x00500000-0x005fffff, 1MB work RAM.
     pub work_ram: Vec<u32>,
     /// 0x00900000-0x0091ffff (mirror 0x60000), 128KB geometry buffer.
-    pub buffer_ram: Vec<u32>,
+    /// Dual-ported between the i960 and the coprocessor on the real board,
+    /// hence the word-atomic storage: with the coprocessor on its own
+    /// thread both ports are live at once.
+    pub buffer_ram: crate::copro::SharedBuffer,
 
     // --- Video ---
     /// segas24_tile: tile_r/tile_w at 0x01000000, 64KB of tilemap entries.
@@ -395,11 +406,12 @@ impl Model2System {
             parked_tgp: Some(Box::new(Mb86233::new())),
             parked_sharc: Some(Box::new(sharc::Sharc::new())),
             parked_tgpx4: Some(Box::new(mb86235::Mb86235::new())),
+            copro_mt: None,
 
             maincpu_rom: to_words(&roms.maincpu),
             main_data: to_words(&roms.main_data),
-            copro_data: to_words(&roms.copro_data),
-            copro_tables: to_words(&roms.copro_tables),
+            copro_data: std::sync::Arc::new(to_words(&roms.copro_data)),
+            copro_tables: std::sync::Arc::new(to_words(&roms.copro_tables)),
             polygon_rom: to_words(&roms.polygons),
             texture_rom: roms
                 .textures
@@ -413,7 +425,7 @@ impl Model2System {
             // The reference initializes the geometry buffer to the hardware's benign
             // end-code pattern, not zero. This matters before the first full
             // display list has overwritten both halves.
-            buffer_ram: vec![0x0780_0f0f; 0x20000 / 4],
+            buffer_ram: crate::copro::SharedBuffer::new(0x0780_0f0f, 0x20000 / 4),
 
             tile_ram: vec![0; 0x10000 / 4],
             char_ram: vec![0; 0x80000 / 4],
@@ -533,6 +545,11 @@ impl Model2System {
         cpu.reset(&mut system);
         system.main_cpu = cpu;
 
+        if system.config.multithreaded {
+            log::info!(target: "copro", "geometry coprocessor on worker thread");
+            system.start_copro_worker();
+        }
+
         system
     }
 
@@ -564,7 +581,17 @@ impl Model2System {
                 log::info!(target: "copro", "Start microcode upload");
                 self.copro_cnt = 0;
                 self.copro_halted = true;
-                if self.is_tgpx4() {
+                if let Some(mt) = &self.copro_mt {
+                    mt.set_halted(true);
+                    if self.is_tgpx4() {
+                        mt.control(crate::copro::ControlOp::Tgpx4Upload {
+                            index: self.copro_cnt,
+                            value: val,
+                        });
+                    } else if self.is_sharc() {
+                        mt.control(crate::copro::ControlOp::SharcReset);
+                    }
+                } else if self.is_tgpx4() {
                     let cnt = self.copro_cnt;
                     self.tgpx4.upload_program_half(cnt, val);
                 } else if self.is_sharc() {
@@ -573,21 +600,36 @@ impl Model2System {
             } else if self.is_tgpx4() {
                 log::info!(target: "copro", "Boot TGPx4, {} words uploaded", self.copro_cnt);
                 self.copro_halted = false;
-                self.tgpx4.reset();
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::Tgpx4Reset);
+                    mt.set_halted(false);
+                } else {
+                    self.tgpx4.reset();
+                }
             } else if self.is_sharc() {
                 log::info!(target: "copro", "Boot SHARC, {} words uploaded", self.copro_cnt);
                 self.copro_halted = false;
-                // The SHARC begins executing the just-uploaded program at the
-                // start of internal RAM.
-                self.sharc.pc = 0x20004;
-                self.sharc.daddr = 0x20004;
-                self.sharc.faddr = 0x20005;
-                self.sharc.nfaddr = 0x20006;
-                self.sharc.idle = false;
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::SharcBoot);
+                    mt.set_halted(false);
+                } else {
+                    // The SHARC begins executing the just-uploaded program at the
+                    // start of internal RAM.
+                    self.sharc.pc = 0x20004;
+                    self.sharc.daddr = 0x20004;
+                    self.sharc.faddr = 0x20005;
+                    self.sharc.nfaddr = 0x20006;
+                    self.sharc.idle = false;
+                }
             } else {
                 log::info!(target: "copro", "Boot TGP, {} dwords uploaded", self.copro_cnt);
                 self.copro_halted = false;
-                self.tgp_cpu.reset();
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::TgpReset);
+                    mt.set_halted(false);
+                } else {
+                    self.tgp_cpu.reset();
+                }
             }
         }
         self.copro_ctl = val;
@@ -614,21 +656,37 @@ impl Model2System {
         if self.copro_ctl & 0x8000_0000 != 0 {
             if self.is_tgpx4() {
                 let cnt = self.copro_cnt;
-                self.tgpx4.upload_program_half(cnt, val);
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::Tgpx4Upload {
+                        index: cnt,
+                        value: val,
+                    });
+                } else {
+                    self.tgpx4.upload_program_half(cnt, val);
+                }
             } else if self.is_sharc() {
                 // The SHARC boots from the host: each 16-bit word is fed to its
                 // DMA controller, which packs three into one 48-bit program
                 // word.
                 let cnt = self.copro_cnt;
-                let mut sharc = std::mem::replace(
-                    &mut self.sharc,
-                    self.parked_sharc.take().expect("sharc placeholder"),
-                );
-                sharc.external_dma_write(self, cnt, val & 0xffff);
-                self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::SharcDma {
+                        index: cnt,
+                        value: val,
+                    });
+                } else {
+                    let mut sharc = std::mem::replace(
+                        &mut self.sharc,
+                        self.parked_sharc.take().expect("sharc placeholder"),
+                    );
+                    sharc.external_dma_write(self, cnt, val & 0xffff);
+                    self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                }
             } else {
                 let idx = self.copro_cnt as usize;
-                if idx < self.tgp_program_ram.len() {
+                if let Some(mt) = &self.copro_mt {
+                    mt.write_tgp_program(self.copro_cnt, val);
+                } else if idx < self.tgp_program_ram.len() {
                     self.tgp_program_ram[idx] = val;
                 }
             }
@@ -639,18 +697,53 @@ impl Model2System {
             // our instruction-interleaved scheduler that is exactly one word:
             // accept the ninth word, then run_slice stops the i960 until the
             // TGP has consumed the overflow entry.
-            self.copro_fifo_in.push_back(val);
+            self.copro_fifo_in_push(val);
         }
     }
 
     /// Appends one word to the display list and advances the write pointer.
     pub fn push_geo_data(&mut self, val: u32) {
         self.geo_pushes += 1;
-        let idx = (self.geo_write_start_address >> 2) as usize;
-        if idx < self.buffer_ram.len() {
-            self.buffer_ram[idx] = val;
+        let idx = self.geo_write_start_address >> 2;
+        if (idx as usize) < self.buffer_ram.len() {
+            self.buffer_ram.write(idx, val);
         }
         self.geo_write_start_address = self.geo_write_start_address.wrapping_add(4);
+    }
+
+    // --- Coprocessor FIFO access ---
+    //
+    // With the coprocessor on its worker thread the authoritative FIFOs live
+    // in the shared block; the system's own `copro_fifo_*` are only the
+    // single-threaded path's copies (and the savestate staging area).
+
+    pub(crate) fn copro_fifo_in_push(&mut self, val: u32) {
+        match &self.copro_mt {
+            Some(mt) => mt.push_input(val),
+            None => self.copro_fifo_in.push_back(val),
+        }
+    }
+
+    pub(crate) fn copro_fifo_out_pop(&mut self) -> Option<u32> {
+        match &self.copro_mt {
+            Some(mt) => mt.pop_output(),
+            None => self.copro_fifo_out.pop_front(),
+        }
+    }
+
+    pub(crate) fn copro_fifo_out_is_empty(&self) -> bool {
+        match &self.copro_mt {
+            Some(mt) => mt.output_empty(),
+            None => self.copro_fifo_out.is_empty(),
+        }
+    }
+
+    /// Input FIFO depth, for `run_slice`'s producer-overflow check.
+    fn copro_fifo_in_len(&self) -> usize {
+        match &self.copro_mt {
+            Some(mt) => mt.input_len(),
+            None => self.copro_fifo_in.len(),
+        }
     }
 
     /// Mirrors the reference: fan the 12 interrupt request bits out onto
@@ -735,6 +828,12 @@ impl Model2System {
         // 2.56us.
         const MAIN_QUANTUM: i32 = 64;
         const TGP_QUANTUM: i32 = 43;
+        // With the coprocessor on its worker thread the DSP block below is
+        // skipped entirely: the worker free-runs in batches and the FIFOs
+        // alone pace the two sides. The i960's own stall rules -- skipped
+        // while the input FIFO overflows, quantum cut short by an empty
+        // output read -- are unchanged.
+        let mt = self.copro_mt.is_some();
         let mut remaining = cycles;
         while remaining > 0 {
             let step = remaining.min(MAIN_QUANTUM);
@@ -742,7 +841,7 @@ impl Model2System {
             // An overflow word has already been accepted. The producer is
             // halted after that instruction and resumes when the consumer
             // brings the queue back to its configured depth.
-            if self.copro_fifo_in.len() <= COPRO_FIFO_DEPTH {
+            if self.copro_fifo_in_len() <= COPRO_FIFO_DEPTH {
                 let parked = self.parked_main.take().expect("i960 placeholder");
                 let mut main_cpu = std::mem::replace(&mut self.main_cpu, parked);
                 self.quantum_cycles = step;
@@ -758,7 +857,7 @@ impl Model2System {
             }
 
             let output_overflowed = self.copro_fifo_out.len() > COPRO_FIFO_DEPTH;
-            if !self.copro_halted && !output_overflowed {
+            if !mt && !self.copro_halted && !output_overflowed {
                 let cop_step = if step == MAIN_QUANTUM {
                     TGP_QUANTUM
                 } else {
@@ -1278,8 +1377,12 @@ impl Model2System {
         // the source of the intermittent exploded/inverted scenes.
         if self.video_ctl & 1 == 0 || self.frame_num & 1 == 0 {
             let mut geometry = std::mem::take(&mut self.geometry);
+            // The parser walks a plain slice; snapshot the dual-port buffer
+            // so the coprocessor worker can keep writing the next list while
+            // this one is parsed.
+            let buffer = self.buffer_ram.to_vec();
             geometry.parse(
-                &self.buffer_ram,
+                &buffer,
                 &self.polygon_rom,
                 &self.texture_rom,
                 self.geo_read_start_address,

@@ -12,8 +12,11 @@
 use crate::system::Model2System;
 
 /// Bumped whenever the snapshot layout changes, so an old file is rejected
-/// rather than silently misread into the machine.
-pub const FORMAT_VERSION: u32 = 1;
+/// rather than silently misread into the machine. Version 2: the geometry
+/// buffer's live type became `SharedBuffer` for the coprocessor worker
+/// thread (its wire format is unchanged, but the version makes that
+/// coupling explicit).
+pub const FORMAT_VERSION: u32 = 2;
 
 /// Declares the snapshot struct and the copy in/out, from one field list, so
 /// the two directions can never drift apart.
@@ -27,19 +30,27 @@ macro_rules! snapshot_fields {
         }
 
         impl Model2System {
-            /// Captures the mutable machine state.
-            pub fn snapshot(&self) -> Snapshot {
-                Snapshot {
+            /// Captures the mutable machine state. With the coprocessor on
+            /// its worker thread the worker is first parked between batches
+            /// and its state synced back into the system fields (Supermodel's
+            /// stop-the-world method: the in-flight FIFO contents are part of
+            /// the serialized state).
+            pub fn snapshot(&mut self) -> Snapshot {
+                self.copro_pause_sync_from_worker();
+                let s = Snapshot {
                     version: FORMAT_VERSION,
                     game: self.snapshot_game.clone(),
                     $($field: self.$field.clone(),)*
-                }
+                };
+                self.copro_resume();
+                s
             }
 
             /// Puts a snapshot back. The caller has already checked that it
             /// belongs to this game.
             pub fn restore(&mut self, s: &Snapshot) {
                 $(self.$field = s.$field.clone();)*
+                self.copro_sync_to_worker();
             }
         }
     };
@@ -55,7 +66,7 @@ snapshot_fields! {
     // --- memories the machine writes ---
     ram_low: Vec<u32>,
     work_ram: Vec<u32>,
-    buffer_ram: Vec<u32>,
+    buffer_ram: crate::copro::SharedBuffer,
     tile_ram: Vec<u32>,
     char_ram: Vec<u32>,
     palette_ram: Vec<u32>,
@@ -140,7 +151,7 @@ pub fn path_for(game: &str, slot: u32) -> std::path::PathBuf {
 }
 
 pub fn save_to_file(
-    sys: &Model2System,
+    sys: &mut Model2System,
     game: &str,
     slot: u32,
 ) -> Result<std::path::PathBuf, String> {

@@ -110,9 +110,9 @@ impl Bus for Model2System {
             0x0080_4000..=0x0080_7FFF => 0xFFFF_FFFF,
 
             // --- Coprocessor FIFO ---
-            0x0088_4000..=0x0088_7FFF => match self.copro_fifo_out.pop_front() {
+            0x0088_4000..=0x0088_7FFF => match self.copro_fifo_out_pop() {
                 Some(v) => {
-                    log::trace!(target: "fifo", "i960 pop  {v:08X} (out {})", self.copro_fifo_out.len());
+                    log::trace!(target: "fifo", "i960 pop  {v:08X}");
                     v
                 }
                 None => {
@@ -123,13 +123,13 @@ impl Bus for Model2System {
             },
 
             // --- Buffer RAM (mirror 0x60000) ---
-            0x0090_0000..=0x0097_FFFF => ram_r(&self.buffer_ram, addr & 0x1_FFFF),
+            0x0090_0000..=0x0097_FFFF => self.buffer_ram.read_word(addr & 0x1_FFFF),
 
             // --- TGP / video registers ---
             0x0098_0000..=0x0098_0003 => self.copro_ctl,
             // fifo_control_r: 1 when the output FIFO is *empty*, 0 otherwise.
             0x0098_0004..=0x0098_0007 => {
-                if self.copro_fifo_out.is_empty() {
+                if self.copro_fifo_out_is_empty() {
                     1
                 } else {
                     0
@@ -304,7 +304,7 @@ impl Bus for Model2System {
                 // shifts by 4, not 2.
                 let d = (val & 0x800F_FFFF) | (((addr >> 4) & 0xFF) << 23);
                 log::trace!(target: "fifo", "i960 func {:08X} (addr {:08X})", d, addr);
-                self.copro_fifo_in.push_back(d);
+                self.copro_fifo_in_push(d);
             }
             0x0088_4000..=0x0088_7FFF => {
                 log::trace!(target: "fifo", "i960 push {val:08X}");
@@ -314,14 +314,18 @@ impl Bus for Model2System {
             // the coprocessor's DMA through here.
             0x008C_0000..=0x008C_0FFF if self.is_sharc() => {
                 let offset = (addr - 0x008C_0000) >> 2;
-                let parked = self.parked_sharc.take().expect("sharc placeholder");
-                let mut sharc = std::mem::replace(&mut self.sharc, parked);
-                sharc.external_iop_write(self, offset, val);
-                self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::SharcIop { offset, value: val });
+                } else {
+                    let parked = self.parked_sharc.take().expect("sharc placeholder");
+                    let mut sharc = std::mem::replace(&mut self.sharc, parked);
+                    sharc.external_iop_write(self, offset, val);
+                    self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                }
             }
 
             // --- Buffer RAM (mirror 0x60000) ---
-            0x0090_0000..=0x0097_FFFF => ram_w(&mut self.buffer_ram, addr & 0x1_FFFF, val),
+            0x0090_0000..=0x0097_FFFF => self.buffer_ram.write_word(addr & 0x1_FFFF, val),
 
             // --- TGP / video registers ---
             0x0098_0000..=0x0098_0003 => self.copro_ctl_w(val),
@@ -633,10 +637,14 @@ impl Model2System {
             // the coprocessor's DMA through here.
             0x008C_0000..=0x008C_0FFF if self.is_sharc() => {
                 let offset = (addr - 0x008C_0000) >> 2;
-                let parked = self.parked_sharc.take().expect("sharc placeholder");
-                let mut sharc = std::mem::replace(&mut self.sharc, parked);
-                sharc.external_iop_write(self, offset, val);
-                self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                if let Some(mt) = &self.copro_mt {
+                    mt.control(crate::copro::ControlOp::SharcIop { offset, value: val });
+                } else {
+                    let parked = self.parked_sharc.take().expect("sharc placeholder");
+                    let mut sharc = std::mem::replace(&mut self.sharc, parked);
+                    sharc.external_iop_write(self, offset, val);
+                    self.parked_sharc = Some(std::mem::replace(&mut self.sharc, sharc));
+                }
             }
             // The UART's data register hands a byte to the sound board, and
             // reading it takes the board's reply away. A read-modify-write of
@@ -1051,72 +1059,22 @@ impl Mb86233Bus for Model2System {
 }
 
 impl Model2System {
-    fn copro_table(&self, index: usize) -> u32 {
-        self.copro_tables.get(index).copied().unwrap_or(0)
-    }
-
+    // The math-function units: thin wrappers over the shared implementations
+    // in `crate::copro`, which the worker thread's bus also uses.
     fn copro_sincos_r(&self, offset: u32) -> u32 {
-        let ang = self.copro_sincos_base.wrapping_add(offset * 0x4000);
-        let mut index = (ang & 0x3fff) as usize;
-        if ang & 0x4000 != 0 {
-            index = (0x4000usize - index).min(0x3fff);
-        }
-        let mut result = self.copro_table(index);
-        if ang & 0x8000 != 0 {
-            result ^= 0x8000_0000;
-        }
-        result
+        crate::copro::copro_sincos_r(&self.copro_tables, self.copro_sincos_base, offset)
     }
 
     fn copro_inv_r(&self, offset: u32) -> u32 {
-        let index = (((self.copro_inv_base >> 9) & 0x3ffe) | (offset & 1)) as usize;
-        let mut result = self.copro_table(index | 0x8000);
-        let base_exp = ((self.copro_inv_base >> 23) & 0xff) as u8;
-        let exp = ((result >> 23) as u8).wrapping_add(0x7f_u8.wrapping_sub(base_exp));
-        result = (result & 0x007f_ffff) | ((exp as u32) << 23);
-        if self.copro_inv_base & 0x8000_0000 != 0 && offset != 0 {
-            result |= 0x8000_0000;
-        }
-        result
+        crate::copro::copro_inv_r(&self.copro_tables, self.copro_inv_base, offset)
     }
 
     fn copro_isqrt_r(&self, offset: u32) -> u32 {
-        let index = (0x2000 ^ (((self.copro_isqrt_base >> 10) & 0x3ffe) | (offset & 1))) as usize;
-        let mut result = self.copro_table(index | 0xc000);
-        let base_exp = ((self.copro_isqrt_base >> 24) & 0x7f) as u8;
-        let exp = ((result >> 23) as u8).wrapping_add(0x3f_u8.wrapping_sub(base_exp));
-        result = (result & 0x807f_ffff) | ((exp as u32) << 23);
-        if offset & 1 == 0 {
-            result &= 0x7fff_ffff;
-        }
-        result
+        crate::copro::copro_isqrt_r(&self.copro_tables, self.copro_isqrt_base, offset)
     }
 
     fn copro_atan_r(&self) -> u32 {
-        let ie = 0x88_u8.wrapping_sub((self.copro_atan_base[3] >> 23) as u8);
-        let s0 = self.copro_atan_base[0] & 0x8000_0000 != 0;
-        let s1 = self.copro_atan_base[1] & 0x8000_0000 != 0;
-        let s2 = (self.copro_atan_base[0] & 0x7fff_ffff) <= (self.copro_atan_base[1] & 0x7fff_ffff);
-        let im = self.copro_atan_base[3] & 0x7f_ffff;
-        let mut index = if ie <= 0x17 {
-            ((im | 0x80_0000) >> ie) as usize
-        } else {
-            0
-        };
-        if index == 0x4000 {
-            index = 0x3fff;
-        }
-        let mut result = self.copro_table(index | 0x4000);
-        if s0 ^ s1 ^ s2 {
-            result >>= 16;
-        }
-        if s2 {
-            result = result.wrapping_add(0x4000);
-        }
-        if (s0 && !s2) || (s1 && s2) {
-            result = result.wrapping_add(0x8000);
-        }
-        result & 0xffff
+        crate::copro::copro_atan_r(&self.copro_tables, self.copro_atan_base)
     }
 
     /// The TGP's external data window: the bank register supplies the high
@@ -1129,7 +1087,7 @@ impl Model2System {
             return self.copro_data[masked as usize];
         }
         if adr & 0x40_0000 != 0 {
-            return self.buffer_ram[(adr & 0x7FFF) as usize];
+            return self.buffer_ram.read(adr & 0x7FFF);
         }
         0
     }
@@ -1139,7 +1097,7 @@ impl Model2System {
     fn copro_memory_w(&mut self, offset: u32, data: u32) {
         let adr = (self.copro_bank_reg & 0xFF_0000) | offset;
         if adr & 0x40_0000 != 0 {
-            self.buffer_ram[(adr & 0x7FFF) as usize] = data;
+            self.buffer_ram.write(adr & 0x7FFF, data);
         }
     }
 }
@@ -1165,11 +1123,7 @@ impl sharc::SharcBus for Model2System {
         self.sharc_read_addrs[bucket] += 1;
         match addr {
             0x0400000..=0x0bfffff => self.copro_fifo_in.pop_front().unwrap_or(0),
-            0x1400000..=0x1bfffff => self
-                .buffer_ram
-                .get((addr & 0x7fff) as usize)
-                .copied()
-                .unwrap_or(0),
+            0x1400000..=0x1bfffff => self.buffer_ram.read(addr & 0x7fff),
             0x1c00000..=0x1dfffff => self
                 .copro_data
                 .get((addr & 0x1f_ffff) as usize)
@@ -1193,11 +1147,7 @@ impl sharc::SharcBus for Model2System {
         }
         match addr {
             0x0c00000..=0x13fffff => self.copro_fifo_out.push_back(data),
-            0x1400000..=0x1bfffff => {
-                if let Some(slot) = self.buffer_ram.get_mut((addr & 0x7fff) as usize) {
-                    *slot = data;
-                }
-            }
+            0x1400000..=0x1bfffff => self.buffer_ram.write(addr & 0x7fff, data),
             _ => {}
         }
     }
@@ -1232,11 +1182,7 @@ impl mb86235::Mb86235Bus for Model2System {
             self.tgpx4_rsample[(self.tgpx4_rbucket[2] as usize - 1) & 7] = addr;
         }
         match addr {
-            0x0040_0000..=0x007F_FFFF => self
-                .buffer_ram
-                .get((addr & 0x7fff) as usize)
-                .copied()
-                .unwrap_or(0),
+            0x0040_0000..=0x007F_FFFF => self.buffer_ram.read(addr & 0x7fff),
             0x0080_0000..=0x009F_FFFF => self
                 .copro_data
                 .get(((addr - 0x0080_0000) & 0x1f_ffff) as usize)
@@ -1249,9 +1195,7 @@ impl mb86235::Mb86235Bus for Model2System {
     fn data_write(&mut self, addr: u32, data: u32) {
         self.tgpx4_ext_w += 1;
         if let 0x0040_0000..=0x007F_FFFF = addr {
-            if let Some(slot) = self.buffer_ram.get_mut((addr & 0x7fff) as usize) {
-                *slot = data;
-            }
+            self.buffer_ram.write(addr & 0x7fff, data);
         }
     }
 

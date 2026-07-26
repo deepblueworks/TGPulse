@@ -6,6 +6,7 @@
 //! reading back the framebuffer; the `tgpulse` crate is one such front end.
 
 pub mod config;
+pub mod copro;
 pub mod debugger;
 pub mod eeprom93c46;
 pub mod geometry;

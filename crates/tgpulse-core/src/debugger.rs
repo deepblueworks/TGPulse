@@ -147,6 +147,16 @@ impl Debugger {
         }
     }
 
+    /// Pulls the worker thread's coprocessor state back into the system
+    /// fields, so the read-only commands see the live DSP. A no-op on the
+    /// single-threaded path.
+    fn sync_copro(&mut self) {
+        if let Machine::Model2(sys) = &mut self.machine {
+            sys.copro_pause_sync_from_worker();
+            sys.copro_resume();
+        }
+    }
+
     fn read_u32(&mut self, addr: u32) -> u32 {
         match &mut self.machine {
             Machine::Model1(sys) => sys.read_u32(addr),
@@ -230,9 +240,15 @@ impl Debugger {
     /// Loads a romset and prepares a session over it, for whichever board the
     /// set belongs to.
     pub fn open(rom_path: &str) -> Result<Self, String> {
+        Self::open_with_config(rom_path, Config::default())
+    }
+
+    /// `open` with a caller-supplied configuration (the front end passes its
+    /// own through, so `--copro-mt off` reaches the machine here too).
+    pub fn open_with_config(rom_path: &str, config: Config) -> Result<Self, String> {
         let cfg = Config {
             rom_path: rom_path.to_string(),
-            ..Default::default()
+            ..config
         };
         let names = loader::archive_names(&cfg.rom_path).unwrap_or_default();
         let def = crate::roms_db::identify(&names);
@@ -387,9 +403,14 @@ impl Debugger {
                 }
             }
 
-            "state" => out!(self, "{}", self.state_line()),
+            "state" => {
+                self.sync_copro();
+                out!(self, "{}", self.state_line())
+            }
 
-            "regs" => match &mut self.machine {
+            "regs" => {
+                self.sync_copro();
+                match &mut self.machine {
                 Machine::Model1(sys) => match arg(0).unwrap_or("main") {
                     "main" | "v60" => {
                         let c = &sys.main_cpu;
@@ -456,7 +477,8 @@ impl Debugger {
                     "tgp" => out!(self, "regs cpu=tgp pc={:04X}", sys.tgp_cpu.pc),
                     other => out!(self, "error cmd=regs reason=unknown-cpu value={other}"),
                 },
-            },
+                }
+            }
 
             "mem" => {
                 let Some(base) = arg(0).and_then(num) else {
@@ -582,6 +604,7 @@ impl Debugger {
             }
 
             "fifo" => {
+                self.sync_copro();
                 let (fifo_in, fifo_out, copro_halted, main_stall, copro_stall) = (
                     self.sys().copro_fifo_in.len(),
                     self.sys().copro_fifo_out.len(),
