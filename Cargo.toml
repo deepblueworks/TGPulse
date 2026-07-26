@@ -50,3 +50,5 @@ debug = 1
 [profile.release]
 lto = "thin"
 codegen-units = 1
+# Line tables for profiling; no runtime cost.
+debug = 1
