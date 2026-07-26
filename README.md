@@ -95,9 +95,6 @@ Striker's versus play run as a single machine.
 - **More games.** New sets tend to expose real bugs: Virtua Fighter 2's hair
   was an i960 burst-read bug, Wave Runner's failure to boot a missing EEPROM.
 - **Multiplayer.** Link two instances over a socket, as MAME's `m2comm` does.
-- **Android.** Builds as a shared object with activity glue; renderer and
-  interface rebuild on resume. Never built against an NDK or run on a device,
-  and no touch controls.
 - **Model 1 save states.** Snapshots cover Model 2 only; Model 1 games save
   NVRAM but not machine state.
 - **Encrypted sets.** The 315-5881 implementation is in the tree but unused, so
