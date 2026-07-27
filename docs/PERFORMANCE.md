@@ -232,6 +232,21 @@ accesses), block chaining, and lowering stall-retry-friendly forms (DSP time
 parked on an empty input FIFO retries through the interpreter today, which
 caps the win on FIFO-bound scenes like hotd's boot).
 
+### Status: the MB86233 stays interpreted (feat/gottagofast)
+
+The MB86233 TGP (Model 1, and the original Model 2 board) is the one
+coprocessor without a dynarec, deliberately:
+
+- Profiling puts it at ~3% of frame time on daytona, and Model 1 is the
+  cheapest board overall (docs/PROFILING.md). The wins left here are
+  small.
+- Unlike the SHARC and MB86235, no reference DRC exists anywhere (MAME has
+  only an interpreter), so the lowering would be unreferenced work against
+  the least rewarding target.
+
+If a future profile says otherwise, the SHARC/MB86235 JIT pattern carries
+over; the gating and bus-sharing machinery is already generic.
+
 ## References
 
 - Cranelift: https://github.com/bytecodealliance/wasmtime/tree/main/cranelift
