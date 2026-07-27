@@ -9,6 +9,12 @@ description = "Sega Model 1 and Model 2 hardware emulation, independent of any f
 name = "tgpulse_core"
 path = "src/lib.rs"
 
+[features]
+# i960 dynarec. Default on; `--no-default-features` builds the machine with
+# the interpreter-only i960 core.
+default = ["i960-jit"]
+i960-jit = ["i960/jit"]
+
 [dependencies]
 i960 = { workspace = true }
 v60 = { workspace = true }

@@ -21,7 +21,7 @@ pub const FSUB_INTEGER_OVERFLOW: u32 = 2;
 pub const FSUB_ZERO_DIVIDE: u32 = 3;
 
 // Internal state for burst transfers
-#[derive(Clone, Copy, Default, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Copy, Default, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct StallState {
     pub t1: u32,
     pub t2: usize,
@@ -103,6 +103,30 @@ pub struct I960Cpu {
 
     // Burst Stall State
     pub stall_state: StallState,
+
+    /// Runtime-only handle to the dynarec's compiled-block cache, type-erased
+    /// because the cache is monomorphized over the bus type. JIT code is an
+    /// execution detail, never architectural state: it is skipped on
+    /// serialization, and cloning a CPU (savestates, dual-run checks) starts
+    /// the copy with a cold cache.
+    #[serde(skip)]
+    pub jit: JitSlot,
+}
+
+/// Type-erased box for the compiled-block cache; see `I960Cpu::jit`.
+#[derive(Default)]
+pub struct JitSlot(pub Option<Box<dyn std::any::Any + Send>>);
+
+impl Clone for JitSlot {
+    fn clone(&self) -> Self {
+        JitSlot(None)
+    }
+}
+
+impl std::fmt::Debug for JitSlot {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("JitSlot(..)")
+    }
 }
 
 impl Default for I960Cpu {
@@ -155,6 +179,7 @@ impl I960Cpu {
             bp_hit: None,
             trace_frozen: false,
             stall_state: StallState::default(),
+            jit: JitSlot::default(),
         }
     }
 }

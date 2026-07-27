@@ -1,3 +1,5 @@
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -113,7 +115,7 @@ fn test_callx() {
     sys.load_program(0x200, &program_func);
 
     cpu.ip = 0x100;
-    cpu.execute_run(&mut sys, 50);
+    common::run(&mut cpu, &mut sys, 50);
 
     // Verify
     assert_eq!(
@@ -170,7 +172,7 @@ fn test_calls() {
     cpu.r[1] = 0x4000;
     cpu.ip = 0x100;
 
-    cpu.execute_run(&mut sys, 50);
+    common::run(&mut cpu, &mut sys, 50);
 
     assert_eq!(
         cpu.r[16], 0x1B,
@@ -203,7 +205,7 @@ fn test_rem_mod() {
     cpu.r[4] = 23;
     cpu.r[5] = 0;
 
-    cpu.execute_run(&mut sys, 10);
+    common::run(&mut cpu, &mut sys, 10);
 
     println!("  [DEBUG] modi: 23 % 10 = {} (Expected 3)", cpu.r[5]);
 

@@ -1,6 +1,8 @@
 pub mod core;
 pub mod defs;
 pub mod int_controller;
+#[cfg(feature = "jit")]
+pub mod jit;
 pub mod opcodes;
 pub mod utils; // <--- Add this line
 

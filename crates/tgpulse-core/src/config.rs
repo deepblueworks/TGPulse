@@ -217,6 +217,16 @@ pub struct Config {
     /// which is the determinism reference for A/B testing. Model 1 is
     /// unaffected either way.
     pub multithreaded: bool,
+
+    /// Execute the i960 with the Cranelift dynarec instead of the
+    /// interpreter.
+    ///
+    /// The JIT compiles basic blocks and falls back to the interpreter's
+    /// per-instruction path for anything it does not lower, so behaviour is
+    /// meant to be identical; off is the reference for A/B testing and the
+    /// escape hatch if a game ever misbehaves. Model 1 is unaffected (the
+    /// V60 is always interpreted).
+    pub i960_jit: bool,
 }
 
 impl Default for Config {
@@ -240,6 +250,7 @@ impl Default for Config {
             widescreen_stretch_2d: true,
             reverse_landscape: false,
             multithreaded: true,
+            i960_jit: true,
         }
     }
 }

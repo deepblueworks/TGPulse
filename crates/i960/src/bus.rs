@@ -30,6 +30,16 @@ pub trait Bus {
         true
     }
 
+    /// Invalidation epoch for the dynarec's compiled-block cache, per 4 KiB
+    /// page (`addr >> 12`). The board bumps a page's epoch on every write to
+    /// RAM the i960 can execute from; a cached block records the epochs of
+    /// the pages it spans and is recompiled when one moves. Buses without a
+    /// dynarec (or without self-modifying code) leave this at zero, which
+    /// means "never invalidates".
+    fn code_epoch(&self, _page: u32) -> u64 {
+        0
+    }
+
     fn read_u16(&mut self, addr: u32) -> u16 {
         let low = self.read_byte(addr) as u16;
         let high = self.read_byte(addr.wrapping_add(1)) as u16;

@@ -1,6 +1,8 @@
 // src/main.rs
 #![allow(unused)]
 
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -81,7 +83,7 @@ fn register_test() {
     std::io::stdout().flush().unwrap();
 
     loop {
-        cpu.execute_run(&mut sys, 100);
+        common::run(&mut cpu, &mut sys, 100);
 
         // Break if stuck at infinite loop (0x10C)
         if cpu.ip == 0x10C {

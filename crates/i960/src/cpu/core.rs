@@ -103,33 +103,80 @@ impl I960Cpu {
             }
 
             let elapsed = (start_icount - self.icount) as u32;
+            self.tick_timers(bus, elapsed);
+        }
+    }
 
-            // Timer Logic
-            for t in 0..2 {
-                if (self.tmr[t] & 2) != 0 {
-                    if self.tcr[t] > elapsed {
-                        self.tcr[t] -= elapsed;
-                    } else {
-                        let remainder = elapsed - self.tcr[t];
-                        self.tmr[t] |= 1;
-                        if (self.tmr[t] & 8) == 0 {
-                            self.request_irq_vector(bus, 248 + t as i32);
-                            self.tmr[t] |= 0x10;
-                        }
-                        if (self.tmr[t] & 4) != 0 {
-                            if self.trr[t] > remainder {
-                                self.tcr[t] = self.trr[t] - remainder;
-                            } else {
-                                self.tcr[t] = 0;
-                            }
+    /// Ticks the two internal timer units down by the cycles an instruction
+    /// consumed, firing their interrupt (vector 248/249) on expiry. Runs once
+    /// per instruction in the interpreter; the dynarec calls it from compiled
+    /// code whenever a timer is enabled so expiry latency is unchanged.
+    pub fn tick_timers<B: Bus>(&mut self, bus: &mut B, elapsed: u32) {
+        for t in 0..2 {
+            if (self.tmr[t] & 2) != 0 {
+                if self.tcr[t] > elapsed {
+                    self.tcr[t] -= elapsed;
+                } else {
+                    let remainder = elapsed - self.tcr[t];
+                    self.tmr[t] |= 1;
+                    if (self.tmr[t] & 8) == 0 {
+                        self.request_irq_vector(bus, 248 + t as i32);
+                        self.tmr[t] |= 0x10;
+                    }
+                    if (self.tmr[t] & 4) != 0 {
+                        if self.trr[t] > remainder {
+                            self.tcr[t] = self.trr[t] - remainder;
                         } else {
-                            self.tmr[t] &= !2;
                             self.tcr[t] = 0;
                         }
+                    } else {
+                        self.tmr[t] &= !2;
+                        self.tcr[t] = 0;
                     }
                 }
             }
         }
+    }
+
+    /// Executes exactly one instruction at `addr` with the interpreter's
+    /// per-instruction semantics, minus the parts the dynarec's outer loop
+    /// already covers (IRQ line sampling, breakpoints, the trace ring and the
+    /// LIVE_ICOUNT publish). This is the fallback path for every opcode the
+    /// dynarec does not lower, which is why "unimplemented in the JIT" can
+    /// never mean "behaves differently".
+    ///
+    /// Returns 1 when the instruction stalled (external wait: the IP is
+    /// rewound and the quantum ends, exactly like the interpreter's `break`),
+    /// 0 otherwise.
+    pub fn jit_step<B: Bus>(&mut self, bus: &mut B, addr: u32) -> i32 {
+        self.pip = addr;
+        self.ip = addr.wrapping_add(4);
+        self.stalled = false;
+        let opcode = bus.read_u32(addr);
+        let start_icount = self.icount;
+
+        if self.stall_state.burst_mode {
+            self.execute_burst_stall_op(bus, opcode);
+        } else {
+            self.dispatch_op(bus, opcode);
+        }
+
+        if self.stalled | bus.take_stall() {
+            self.ip = self.pip;
+            return 1;
+        }
+
+        let elapsed = (start_icount - self.icount) as u32;
+        self.tick_timers(bus, elapsed);
+        0
+    }
+
+    /// Interpreter-only stand-in used by builds with the `jit` feature off, so
+    /// callers never need to know which execution engine the crate was
+    /// compiled with. The real dynarec lives in `cpu::jit`.
+    #[cfg(not(feature = "jit"))]
+    pub fn execute_run_jit<B: Bus>(&mut self, bus: &mut B, cycles: i32) {
+        self.execute_run(bus, cycles)
     }
 
     pub fn burst_stall_save(

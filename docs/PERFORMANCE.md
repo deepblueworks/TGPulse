@@ -89,6 +89,30 @@ Expected gain: 1.5-2.5x in DSP-heavy scenes on an 8-core phone.
    the lowering reference.
 5. The 68k stays interpreted.
 
+### Status: step 3 landed (feat/gottagofast)
+
+The i960 has a Cranelift block dynarec (`crates/i960/src/cpu/jit.rs`,
+feature `jit`, default on; runtime switch `Config::i960_jit` /
+`--i960-jit on|off`). Basic blocks are compiled and cached by entry IP; the
+integer/logic/move, compare, branch, single-word load/store and `lda`/`bal`
+subset is lowered natively, everything else (FPU, call/ret, burst transfers,
+div/rem, system ops) calls the interpreter's per-instruction path verbatim,
+so nothing behaves differently -- only faster or identically. All bus
+accesses call back into Rust (MMIO side effects); cycle accounting,
+`LIVE_ICOUNT`, stall rewind and fault behaviour match the interpreter, with
+IRQ sampling and internal-timer ticks at basic-block granularity. Code
+writes invalidate per 4 KiB page (`Bus::code_epoch`). Breakpoints and the
+trace ring force the interpreter while active. The test suite runs through
+the JIT by default (`I960_JIT=0` for the interpreter, `I960_DUALRUN=1` for a
+lockstep interpreter/JIT differential).
+
+First-pass results for `run 600` headless (vs interpreter): vf2 ~12%
+faster, vstriker ~2%, daytona parity. Further gains need block chaining
+(today every block exit re-enters the dispatcher) and lowering call/ret --
+call-heavy code still pays the fallback. Compile latency is tuned with
+`opt_level=none`; block-compile cost is ~2% of frame time at boot and
+negligible steady-state.
+
 ## References
 
 - Cranelift: https://github.com/bytecodealliance/wasmtime/tree/main/cranelift

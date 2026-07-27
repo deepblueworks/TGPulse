@@ -1,3 +1,5 @@
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::defs::{FAULT_ARITHMETIC, FSUB_ZERO_DIVIDE};
 use i960::cpu::I960Cpu;
@@ -118,7 +120,7 @@ fn test_divide_by_zero() {
     cpu.r[4] = 100; // Dividend
 
     println!("[Run] Executing Divide Instruction...");
-    cpu.execute_run(&mut sys, 20);
+    common::run(&mut cpu, &mut sys, 20);
 
     // 6. Verify Result
     println!(

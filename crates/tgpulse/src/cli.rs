@@ -95,6 +95,7 @@ fn parse_from(args: Vec<String>, mut config: Config) -> Result<Args, String> {
             }
             "--rumble" => config.rumble = on_off(arg, &next(&mut i)?)?,
             "--copro-mt" => config.multithreaded = on_off(arg, &next(&mut i)?)?,
+            "--i960-jit" => config.i960_jit = on_off(arg, &next(&mut i)?)?,
             "--smooth-shadows" => config.smooth_shadows = on_off(arg, &next(&mut i)?)?,
             "--widescreen" => config.widescreen = on_off(arg, &next(&mut i)?)?,
             "--widescreen-stretch-2d" => {
@@ -244,6 +245,9 @@ Machine:
   --copro-mt on|off     Run the Model 2 geometry coprocessor on its own
                         thread (default on). Off keeps the original
                         single-threaded lockstep.
+  --i960-jit on|off     Execute the i960 with the Cranelift dynarec
+                        (default on). Off is the interpreter reference
+                        for A/B testing.
 
 Debugger:
   -c \"cmd; cmd\"         Run these commands, then exit

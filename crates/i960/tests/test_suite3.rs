@@ -1,3 +1,5 @@
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -84,7 +86,7 @@ fn test_bit_ops() {
     cpu.ip = 0x100;
     cpu.r[3] = 0x00000080;
 
-    cpu.execute_run(&mut sys, 10);
+    common::run(&mut cpu, &mut sys, 10);
 
     println!("  [DEBUG] scanbit(0x80) result: {}", cpu.r[4]);
     assert_eq!(cpu.r[4], 7, "scanbit failed: Expected 7, got {}", cpu.r[4]);
@@ -108,7 +110,7 @@ fn test_atomic_ops() {
     cpu.r[3] = 0x200; // Address
     cpu.r[4] = 10; // Increment
 
-    cpu.execute_run(&mut sys, 20);
+    common::run(&mut cpu, &mut sys, 20);
 
     let mem_val = sys.read_u32(0x200);
     println!("  [DEBUG] Memory[0x200]: {} (Expected 60)", mem_val);
@@ -152,7 +154,7 @@ fn test_burst_moves() {
     cpu.r[9] = 0x400; // Dest Address
     sys.write_u32(0x300, 0xCAFEBABE); // Value in memory
 
-    cpu.execute_run(&mut sys, 20);
+    common::run(&mut cpu, &mut sys, 20);
 
     // Verify movl
     println!(

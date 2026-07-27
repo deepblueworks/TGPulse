@@ -76,6 +76,13 @@ impl Bus for Model2System {
         )
     }
 
+    fn code_epoch(&self, page: u32) -> u64 {
+        self.code_epochs
+            .get(page as usize)
+            .copied()
+            .unwrap_or(0)
+    }
+
     fn read_u32(&mut self, addr: u32) -> u32 {
         // The i960 permits unaligned ordinal loads. The region maps below
         // are word-backed and therefore only handle aligned accesses; build
@@ -290,9 +297,15 @@ impl Bus for Model2System {
             // --- ROM (nopw) ---
             0x0000_0000..=0x001F_FFFF | 0x0022_0000..=0x0023_FFFF => {}
 
-            0x0020_0000..=0x0021_FFFF => ram_w(&mut self.ram_low, addr - 0x0020_0000, val),
+            0x0020_0000..=0x0021_FFFF => {
+                ram_w(&mut self.ram_low, addr - 0x0020_0000, val);
+                self.bump_code_epoch(addr);
+            }
 
-            0x0050_0000..=0x005F_FFFF => ram_w(&mut self.work_ram, addr - 0x0050_0000, val),
+            0x0050_0000..=0x005F_FFFF => {
+                ram_w(&mut self.work_ram, addr - 0x0050_0000, val);
+                self.bump_code_epoch(addr);
+            }
 
             // --- Geometrizer ---
             0x0080_0000..=0x0080_3FFF => self.geo_w(addr & 0x3FFF, val),
@@ -600,6 +613,16 @@ impl Bus for Model2System {
 }
 
 impl Model2System {
+    /// Bumps the dynarec invalidation epoch for the page holding `addr`.
+    /// Called on every write to RAM the i960 can execute from; compiled
+    /// blocks spanning that page are recompiled on their next lookup.
+    fn bump_code_epoch(&mut self, addr: u32) {
+        let page = (addr >> 12) as usize;
+        if page < self.code_epochs.len() {
+            self.code_epochs[page] += 1;
+        }
+    }
+
     /// Handles a byte or short write to a register that must not be reached
     /// through a read-modify-write. Returns true when it dealt with the write.
     ///

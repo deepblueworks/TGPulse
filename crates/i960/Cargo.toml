@@ -4,6 +4,17 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 
+[features]
+# The Cranelift dynarec. Default on; build with --no-default-features for an
+# interpreter-only core (the JIT is an execution detail, never state).
+default = ["jit"]
+jit = ["dep:cranelift-jit", "dep:cranelift-codegen", "dep:cranelift-frontend", "dep:cranelift-module", "dep:cranelift-native"]
+
 [dependencies]
 log = { workspace = true }
 serde = { workspace = true }
+cranelift-jit = { workspace = true, optional = true }
+cranelift-codegen = { workspace = true, optional = true }
+cranelift-frontend = { workspace = true, optional = true }
+cranelift-module = { workspace = true, optional = true }
+cranelift-native = { workspace = true, optional = true }

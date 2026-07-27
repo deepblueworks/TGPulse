@@ -1,3 +1,5 @@
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -117,7 +119,7 @@ fn test_interrupt_vectoring() {
     sys.load_program(ISR_PTR, &isr_prog);
 
     println!("[Run] Executing Main Loop (10 cycles)...");
-    cpu.execute_run(&mut sys, 10);
+    common::run(&mut cpu, &mut sys, 10);
 
     assert_eq!(cpu.ip, MAIN_PTR, "CPU should be looping at Main");
     assert_eq!(cpu.r[16], 0, "r16 should be 0 before ISR");
@@ -126,7 +128,7 @@ fn test_interrupt_vectoring() {
     cpu.set_irq_line(0, true);
 
     println!("[Run] Executing Post-Trigger (50 cycles)...");
-    cpu.execute_run(&mut sys, 50);
+    common::run(&mut cpu, &mut sys, 50);
 
     println!("[Verify] Checking State...");
     println!(

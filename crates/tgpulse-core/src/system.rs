@@ -190,6 +190,15 @@ pub struct Model2System {
     pub ram_low: Vec<u32>,
     /// 0x00500000-0x005fffff, 1MB work RAM.
     pub work_ram: Vec<u32>,
+    /// Write epochs for the RAM the i960 can execute from, indexed by 4 KiB
+    /// page (`addr >> 12`), covering ram_low and work RAM (pages 0x200-0x5FF;
+    /// all lower pages are ROM, whose writes are dropped). The dynarec's
+    /// compiled blocks record the epochs of the pages they span; a write
+    /// under a compiled block bumps its page and forces recompilation, which
+    /// is how uploaded and self-modifying code stays correct. A flat array
+    /// because the check runs on every block dispatch. Runtime-only, never
+    /// serialized.
+    pub code_epochs: [u64; 0x600],
     /// 0x00900000-0x0091ffff (mirror 0x60000), 128KB geometry buffer.
     /// Dual-ported between the i960 and the coprocessor on the real board,
     /// hence the word-atomic storage: with the coprocessor on its own
@@ -422,6 +431,7 @@ impl Model2System {
 
             ram_low: vec![0; 0x20000 / 4],
             work_ram: vec![0; 0x100000 / 4],
+            code_epochs: [0; 0x600],
             // The reference initializes the geometry buffer to the hardware's benign
             // end-code pattern, not zero. This matters before the first full
             // display list has overwritten both halves.
@@ -845,7 +855,14 @@ impl Model2System {
                 let parked = self.parked_main.take().expect("i960 placeholder");
                 let mut main_cpu = std::mem::replace(&mut self.main_cpu, parked);
                 self.quantum_cycles = step;
-                main_cpu.execute_run(self, step);
+                // The dynarec is the default execution engine; the
+                // interpreter stays as the runtime fallback (`--i960-jit
+                // off`) and as the JIT's own per-instruction fallback.
+                if self.config.i960_jit {
+                    main_cpu.execute_run_jit(self, step);
+                } else {
+                    main_cpu.execute_run(self, step);
+                }
                 self.machine_cycles = self.machine_cycles.wrapping_add(step as u64);
                 self.parked_main = Some(std::mem::replace(&mut self.main_cpu, main_cpu));
                 // MMIO writes made by execute_run mutate the board while the

@@ -1,3 +1,5 @@
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -92,7 +94,7 @@ fn test_memory_store_load() {
     sys.load_program(0x00, &program);
     cpu.r[3] = 0xCAFEBABE;
     cpu.ip = 0x00;
-    cpu.execute_run(&mut sys, 10);
+    common::run(&mut cpu, &mut sys, 10);
 
     let val = sys.read_u32(0x100);
     assert_eq!(
@@ -118,7 +120,7 @@ fn test_alu_add() {
 
     sys.load_program(0x00, &program);
     cpu.ip = 0x00;
-    cpu.execute_run(&mut sys, 20);
+    common::run(&mut cpu, &mut sys, 20);
 
     let result = sys.read_u32(0x200);
     assert_eq!(
@@ -148,7 +150,7 @@ fn test_branch_logic() {
 
     sys.load_program(0x00, &program);
     cpu.ip = 0x00;
-    cpu.execute_run(&mut sys, 50);
+    common::run(&mut cpu, &mut sys, 50);
 
     let val = sys.read_u32(0x200);
     assert_eq!(
@@ -190,7 +192,7 @@ fn test_complex_addressing() {
     cpu.r[5] = 0x200; // Base
     cpu.r[6] = 0x10; // Index
 
-    cpu.execute_run(&mut sys, 10);
+    common::run(&mut cpu, &mut sys, 10);
 
     assert_eq!(
         cpu.r[4], 0x88776655,
@@ -220,7 +222,7 @@ fn test_fpu_math() {
     cpu.r[3] = f32::to_bits(4.0);
     cpu.r[6] = f32::to_bits(0.0);
 
-    cpu.execute_run(&mut sys, 1000);
+    common::run(&mut cpu, &mut sys, 1000);
 
     let res_sqrt = f32::from_bits(cpu.r[4]);
     let res_sin = f32::from_bits(cpu.r[5]);
@@ -265,7 +267,7 @@ fn test_register_windows() {
 
     println!("  [DEBUG] Initial SP: {:08X}", cpu.r[1]);
 
-    cpu.execute_run(&mut sys, 200);
+    common::run(&mut cpu, &mut sys, 200);
 
     let val = sys.read_u32(0x300);
     println!("  [DEBUG] Retrieved r4 after return: {}", val);

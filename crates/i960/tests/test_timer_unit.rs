@@ -1,5 +1,7 @@
 // examples/test_timer_unit.rs
 
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -58,7 +60,7 @@ fn test_timer_oneshot() {
     // 2. Run CPU for 30 cycles (Timer should still be running)
     // We execute a simple loop or NOPs. Here we just rely on execute_run consuming cycles.
     // Opcode 0x00 is invalid but consumes 1 cycle in our safety fallback.
-    cpu.execute_run(&mut sys, 30);
+    common::run(&mut cpu, &mut sys, 30);
 
     // Verify: TCR should be approx 20 (50 - 30)
     let current_tcr = cpu.tcr[0];
@@ -70,7 +72,7 @@ fn test_timer_oneshot() {
     println!("  -> Decrement OK (Value: {})", current_tcr);
 
     // 3. Run CPU for 30 more cycles (Timer should expire)
-    cpu.execute_run(&mut sys, 30);
+    common::run(&mut cpu, &mut sys, 30);
 
     // Verify:
     // - TCR should be 0 (or reloaded if periodic, but this is one-shot)
@@ -106,7 +108,7 @@ fn test_timer_periodic() {
 
     // 2. Run for 25 cycles (Should wrap around)
     // 20 - 25 = -5 => Reloads 20, subtracts remaining 5 => 15.
-    cpu.execute_run(&mut sys, 25);
+    common::run(&mut cpu, &mut sys, 25);
 
     // Verify:
     // - Enable bit should STILL be set

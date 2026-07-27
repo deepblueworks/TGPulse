@@ -1,5 +1,7 @@
 // examples/test_quad.rs
 
+mod common;
+
 use i960::bus::Bus;
 use i960::cpu::I960Cpu;
 
@@ -124,7 +126,7 @@ fn test_quad() {
     // 3. Run CPU
     // Quad instructions take multiple cycles. Running 50 cycles is plenty.
     println!("Executing Program...");
-    cpu.execute_run(&mut sys, 50);
+    common::run(&mut cpu, &mut sys, 50);
 
     // 4. Verify Load Logic (ldq)
     // Did r4, r5, r6, r7 get loaded correctly?
