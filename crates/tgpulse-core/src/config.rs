@@ -227,6 +227,10 @@ pub struct Config {
     /// escape hatch if a game ever misbehaves. Model 1 is unaffected (the
     /// V60 is always interpreted).
     pub i960_jit: bool,
+    /// Executes the Model 2A/2B SHARC geometry DSP with the Cranelift
+    /// dynarec (the interpreter is the per-instruction fallback inside it).
+    /// Off is the pure-interpreter reference for A/B testing.
+    pub sharc_jit: bool,
 }
 
 impl Default for Config {
@@ -251,6 +255,7 @@ impl Default for Config {
             reverse_landscape: false,
             multithreaded: true,
             i960_jit: true,
+            sharc_jit: true,
         }
     }
 }

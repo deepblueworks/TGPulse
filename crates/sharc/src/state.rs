@@ -123,6 +123,36 @@ pub struct Sharc {
     pub insns: u64,
     pub ext_reads: u64,
     pub ext_writes: u64,
+
+    /// Runtime switch for the Cranelift dynarec (`jit` feature). Runtime-only:
+    /// skipped on serialization and defaulting to on, so a savestate loaded
+    /// into either engine configuration behaves the same.
+    #[serde(skip, default = "default_true")]
+    pub jit_enabled: bool,
+    /// Type-erased handle to the compiled-block cache. JIT code is an
+    /// execution detail, never architectural state: skipped on serialization,
+    /// and a clone (savestates) starts with a cold cache.
+    #[serde(skip)]
+    pub jit: JitSlot,
+    /// Per-page code epochs for self-modifying/uploaded code invalidation,
+    /// one per 0x2000-word page of the internal PM range 0x20000-0x3ffff.
+    /// Bumped by every internal `pm_write32`/`pm_write48`.
+    #[serde(skip)]
+    pub code_epochs: [u64; 16],
+}
+
+/// Type-erased box for the dynarec's block cache; see `Sharc::jit`.
+#[derive(Default)]
+pub struct JitSlot(pub Option<Box<dyn std::any::Any + Send>>);
+
+impl Clone for JitSlot {
+    fn clone(&self) -> Self {
+        JitSlot(None)
+    }
+}
+
+fn default_true() -> bool {
+    true
 }
 
 impl Default for Sharc {
@@ -191,6 +221,9 @@ impl Sharc {
             insns: 0,
             ext_reads: 0,
             ext_writes: 0,
+            jit_enabled: true,
+            jit: JitSlot::default(),
+            code_epochs: [0; 16],
         }
     }
 
@@ -233,6 +266,10 @@ impl Sharc {
         self.iop_data = 0;
         self.extdma_shift = 0;
         self.idle = false;
+        // PM was cleared directly; invalidate any compiled blocks.
+        for e in self.code_epochs.iter_mut() {
+            *e = e.wrapping_add(1);
+        }
     }
 }
 

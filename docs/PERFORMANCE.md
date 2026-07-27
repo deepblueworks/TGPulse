@@ -113,6 +113,68 @@ call-heavy code still pays the fallback. Compile latency is tuned with
 `opt_level=none`; block-compile cost is ~2% of frame time at boot and
 negligible steady-state.
 
+### Status: step 4 landed for the SHARC (feat/gottagofast)
+
+The ADSP-21062 has a Cranelift block dynarec (`crates/sharc/src/jit.rs`,
+feature `jit` on the sharc crate, default on; runtime switch
+`Config::sharc_jit` / `--sharc-jit on|off`, mirrored at savestate restore).
+Blocks are cached by fetch address and entered only when the fetch pipeline
+is sequential (`faddr == daddr+1 && nfaddr == daddr+2`); the two delay-slot
+instructions behind a delayed branch go through the interpreter's `step`,
+after which the pipeline is sequential again. All guest state lives in the
+`Sharc` struct in memory and is consistent at every block exit (the pipeline
+registers are compile-time constants inside a block, stored before helper
+calls and at exits), so the coprocessor worker's savestate pause/sync sees
+exactly the interpreter's state. Blocks end at control flow (jumps, calls,
+RTS/RTI, IDLE), at non-internal fetch addresses, and at a 32-instruction
+cap; interrupts are sampled between blocks.
+
+The bus is type-erased through a vtable rather than by monomorphizing the
+cache over `B: SharcBus`, because the worker thread's `BatchBus<'_>` borrows
+and is not `'static`; both bus implementations (worker and single-threaded
+lockstep) share the one cache. Uploaded/self-modifying microcode invalidates
+via per-0x2000-word-page code epochs bumped by every internal PM write
+(`Sharc::code_epochs`, runtime-only like the cache).
+
+Lowered natively: `NOP` and compute-slot-less `Compute` (free), plus the
+parts the interpreter pays per instruction that a block hoists to compile
+time -- fetch, decode, the pipeline advance, and the FIFO-flag refresh
+(emitted only before instructions that can observe FLAG0/1 through a
+condition or an ASTAT read). Everything with architectural effect calls the
+interpreter's own `dispatch` verbatim through a trampoline, and the hardware
+`DO UNTIL` close is an inline guard that falls into `handle_loop` -- the
+bottom-of-loop instruction still executes on the redirecting iteration, with
+the redirected PC, exactly as the interpreter does. Lowering decisions
+follow MAME's BSD-3 SHARC DRC front-end's basic-block contract
+(`src/devices/cpu/sharc/sharcdrc.cpp`): end at control flow, fall back to C
+for the rest.
+
+Cycle accounting charges at block exits, so `icount` overshoots by up to 31
+instructions per batch (the interpreter stops mid-block); the overshoot
+burns `DO UNTIL FOREVER` park iterations and is architecturally invisible --
+verified bit-identical: single-threaded lockstep (`--copro-mt off`) produces
+identical screenshots and identical SHARC register/ASTAT/pipeline state
+after `run 600` on vstriker, JIT vs interpreter (only the retired-instruction
+counter moves). The sharc test suite runs through the JIT by default, and a
+lockstep differential test (`jit_matches_interpreter`, single-instruction
+blocks via `BLOCK_CAP`) diffs the full architected state against the
+interpreter over a hardware-loop program.
+
+Validation: `cargo test --workspace` green; `run 600` boots vf2, srallyc,
+vstriker, schamp with the JIT on and off; `run 3600` vstriker soak;
+savestate round trip on vf2 with the JIT on, and interpreter-saved states
+load into a JIT machine (layout unchanged, FORMAT_VERSION 2). Timing
+(`run 600`, median of 3, same session): vstriker 1.58s -> 1.40s (~12%);
+vf2 parity (2A, SHARC idle).
+
+Remaining work: native lowering of the hot compute/parallel-move classes
+(the trampoline dominates block time), block chaining, and a runtime
+dual-run harness like `I960_DUALRUN` (the in-crate differential covers the
+loop machinery today). The MB86235 should follow the same path -- the
+vtable/bus-erasure pattern and the epoch invalidation carry over unchanged --
+but note its bus is already `'static`, so monomorphizing the cache like the
+i960 does is also an option there.
+
 ## References
 
 - Cranelift: https://github.com/bytecodealliance/wasmtime/tree/main/cranelift

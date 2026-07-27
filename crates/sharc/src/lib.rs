@@ -1,8 +1,7 @@
 //! ADSP-21062 "SHARC" DSP core, as used as the geometry coprocessor on the
 //! Sega Model 2B video board (Virtua Striker, Fighting Vipers, Virtua-On,...).
 //!
-//! This is the interpreter path only
-//! (no recompiler). The core executes the 48-bit SHARC microcode the game's
+//! The core executes the 48-bit SHARC microcode the game's
 //! i960 uploads by DMA, reading commands and vertices from the input FIFO and
 //! writing transformed geometry to the output FIFO, exactly where the Model 2
 //! MB86234 TGP does on the 2A/original boards.
@@ -15,9 +14,14 @@
 //!   * program memory (48-bit) and data memory (32-bit) with internal SRAM
 //!
 //! The instruction set itself is filled in incrementally; see `ops.rs`.
+//! `jit` is a Cranelift block dynarec over the same state, gated at runtime
+//! by `Sharc::jit_enabled`; with it off (or the feature disabled) the core is
+//! exactly the interpreter.
 
 mod compute;
 mod consts;
+#[cfg(feature = "jit")]
+pub mod jit;
 mod memory;
 pub mod ops;
 mod regs;
@@ -87,5 +91,57 @@ mod tests {
         let mut bus = NullBus;
         c.execute(&mut bus, 4);
         assert_eq!(c.r[2], 12, "R2 should be R0+R1");
+    }
+
+    // ALU compute encoding helper (op 0x02 class, cond, compute field).
+    fn alu(op: u64, rn: u64, rx: u64, ry: u64) -> u64 {
+        let compute = (op << 12) | (rn << 8) | (rx << 4) | ry;
+        (0x02u64 << 39) | (0x1fu64 << 33) | compute
+    }
+
+    /// Runs the same program through the interpreter and the JIT (with
+    /// single-instruction blocks, so both retire exactly `cycles`
+    /// instructions) and diffs the architected state. Covers a hardware
+    /// `DO UNTIL` loop closing mid-stream -- the JIT's loop guard and
+    /// redirect path.
+    #[test]
+    #[cfg(feature = "jit")]
+    fn jit_matches_interpreter() {
+        let build = |c: &mut Sharc| {
+            c.reset();
+            c.r[0] = 5;
+            c.r[1] = 7;
+            let at = |c: &mut Sharc, addr: usize, w: u64| c.pm[addr - 0x20000] = w;
+            // 0x20005: LCNTR=5, DO 0x20007 UNTIL LCE (offset = bottom - pc).
+            let do_until: u64 = (0x18u64 << 39) | (5 << 24) | 2;
+            at(c, 0x20005, do_until);
+            at(c, 0x20006, alu(0x01, 2, 0, 1)); // r2 = r0 + r1
+            at(c, 0x20007, alu(0x01, 0, 0, 1)); // r0 = r0 + r1 (loop bottom)
+            at(c, 0x20008, alu(0x01, 3, 2, 0)); // r3 = r2 + r0
+            at(c, 0x20009, alu(0x01, 4, 3, 1)); // r4 = r3 + r1
+        };
+
+        let mut bus = NullBus;
+        let mut interp = Sharc::new();
+        build(&mut interp);
+        interp.jit_enabled = false;
+        interp.execute(&mut bus, 40);
+
+        let mut jitted = Sharc::new();
+        build(&mut jitted);
+        crate::jit::BLOCK_CAP.store(1, std::sync::atomic::Ordering::Relaxed);
+        jitted.execute(&mut bus, 40);
+        crate::jit::BLOCK_CAP.store(0, std::sync::atomic::Ordering::Relaxed);
+
+        assert_eq!(interp.r, jitted.r, "register file");
+        assert_eq!(interp.pc, jitted.pc, "pc");
+        assert_eq!(interp.daddr, jitted.daddr, "daddr");
+        assert_eq!(interp.faddr, jitted.faddr, "faddr");
+        assert_eq!(interp.nfaddr, jitted.nfaddr, "nfaddr");
+        assert_eq!(interp.astat, jitted.astat, "astat");
+        assert_eq!(interp.icount, jitted.icount, "icount");
+        assert_eq!(interp.insns, jitted.insns, "insns");
+        assert_eq!(interp.lstkp, jitted.lstkp, "lstkp");
+        assert_eq!(interp.curlcntr, jitted.curlcntr, "curlcntr");
     }
 }

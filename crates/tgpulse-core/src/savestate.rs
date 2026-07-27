@@ -50,6 +50,9 @@ macro_rules! snapshot_fields {
             /// belongs to this game.
             pub fn restore(&mut self, s: &Snapshot) {
                 $(self.$field = s.$field.clone();)*
+                // Runtime-only engine switches are not serialized; re-apply
+                // the live configuration.
+                self.sharc.jit_enabled = self.config.sharc_jit;
                 self.copro_sync_to_worker();
             }
         }

@@ -20,7 +20,7 @@ impl Sharc {
     /// silently sends every store above 0x28000 out to the external bus, which
     /// is where Virtua Striker's geometry results were disappearing to.
     #[inline]
-    fn internal(addr: u32) -> Option<usize> {
+    pub(crate) fn internal(addr: u32) -> Option<usize> {
         if !(INTERNAL_BASE..INTERNAL_END).contains(&addr) {
             return None;
         }
@@ -43,7 +43,10 @@ impl Sharc {
     /// Writes a 48-bit program-memory word.
     pub fn pm_write48<B: SharcBus>(&mut self, bus: &mut B, addr: u32, data: u64) {
         match Self::internal(addr) {
-            Some(i) => self.pm[i] = data & 0xffff_ffff_ffff,
+            Some(i) => {
+                self.pm[i] = data & 0xffff_ffff_ffff;
+                self.bump_code_epoch(addr);
+            }
             None => bus.pm_ext_write(addr, data),
         }
     }
@@ -59,9 +62,19 @@ impl Sharc {
     /// Writes a 32-bit program-memory word into the upper 32 of the slot.
     pub fn pm_write32<B: SharcBus>(&mut self, bus: &mut B, addr: u32, data: u32) {
         match Self::internal(addr) {
-            Some(i) => self.pm[i] = (self.pm[i] & 0xffff) | ((data as u64) << 16),
+            Some(i) => {
+                self.pm[i] = (self.pm[i] & 0xffff) | ((data as u64) << 16);
+                self.bump_code_epoch(addr);
+            }
             None => bus.pm_ext_write(addr, (data as u64) << 16),
         }
+    }
+
+    /// Invalidates compiled blocks covering the page an internal PM write
+    /// landed on (uploaded or self-modifying microcode).
+    fn bump_code_epoch(&mut self, addr: u32) {
+        let page = ((addr - INTERNAL_BASE) >> 13) as usize & 0xf;
+        self.code_epochs[page] = self.code_epochs[page].wrapping_add(1);
     }
 
     /// Reads a 32-bit data-memory word.
