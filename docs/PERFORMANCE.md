@@ -128,11 +128,19 @@ rasterizer, which parses `buffer_ram` at vblank whenever the frame ends.
 Holding the coprocessor lock across that snapshot does not help -- the list is
 not torn, it is unfinished.
 
-**SHARC and MB86235 dynarecs (reverted).** Worth nothing in the configuration
-they shipped in (1.35s vs 1.36s; 1.69s vs 1.68s), because those DSPs are not on
-the critical path -- the i960 is. The SHARC one was a 36% regression in
-lockstep. ~1,800 lines of code generation carrying real risk for no measured
-gain.
+**SHARC dynarec (reverted).** Not a correctness problem -- it is bit-exact --
+but measured in isolation in lockstep, which is what ships, it is a **39.6%
+regression**: 4106ms against 2941ms on vstriker. Almost certainly block-dispatch
+overhead paid every 43-cycle quantum. It is simply slower than the interpreter
+it replaces.
+
+**MB86235 dynarec (reverted, then restored).** Worth recording as a second
+instance of the same mistake this document is about. It was removed for
+"moving nothing: 1.69s vs 1.68s" -- numbers from the threaded configuration,
+which was itself reverted two commits later, so the justification described a
+machine that no longer existed. Measured properly in lockstep with the i960 JIT
+off in both arms, it is **+1.7%** on hotd (3571ms against 3632ms) and bit-exact.
+Small, but real, on the slowest of the four games. Restored.
 
 **Process failures, which are the reusable part:**
 
@@ -151,8 +159,10 @@ gain.
 
 ## 5. Where the branch stands now
 
-Only the i960 dynarec survives. Measured interleaved, best of 3, against the
-`Android` branch:
+The i960 and MB86235 dynarecs survive; the coprocessor threading and the SHARC
+dynarec are gone. The table below isolates the i960 dynarec (the MB86235 one is
+a separate +1.7% on hotd, bit-exact, and independent of it). Measured
+interleaved, best of 3, against the `Android` branch:
 
 | game | Android | interpreter | + i960 JIT | net |
 | --- | --- | --- | --- | --- |
@@ -175,6 +185,14 @@ revert is clean. Two problems remain, and they are steps 1 and 2 below:
   against the coprocessor FIFOs, so the JIT's block-granularity quantum
   accounting lands stalls in different places. Retired cycles differ by ~0.15%
   on vstriker, the same effect seen from the other side.
+
+  Partially bisected, for whoever picks it up: on hotd the two engines agree
+  through frame 50 and have diverged by frame 100, and **at frame 100 the
+  retired cycle counts are still identical** (43,460,000 both). So the first
+  divergence is not cycle-count drift; the drift visible at frame 600 is a
+  consequence, not the cause. That narrows the search to where a block
+  boundary changes observable *order* rather than timing -- interrupt sampling
+  points, or a stall rewind landing on a different instruction.
 
 Net: on this desktop the branch is worth +5 to +8% on two boards and -2 to -9%
 on the other two, at the cost of an accuracy divergence on half the tested
@@ -256,7 +274,7 @@ audio-rate-coupled.
   rule 2).
 - The retired-cycle instrumentation, the only reason any of this was
   measurable.
-- The lockstep differential pattern from the reverted DSP dynarecs: build the
+- The lockstep differential pattern the DSP dynarecs brought with them: build the
   differential with the dynarec, not after it. Its weakness is now known too --
   an instruction-level differential does not catch a whole-machine timing
   divergence, which is what step 1 exists to fix.
