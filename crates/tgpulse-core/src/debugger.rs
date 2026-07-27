@@ -147,16 +147,6 @@ impl Debugger {
         }
     }
 
-    /// Pulls the worker thread's coprocessor state back into the system
-    /// fields, so the read-only commands see the live DSP. A no-op on the
-    /// single-threaded path.
-    fn sync_copro(&mut self) {
-        if let Machine::Model2(sys) = &mut self.machine {
-            sys.copro_pause_sync_from_worker();
-            sys.copro_resume();
-        }
-    }
-
     fn read_u32(&mut self, addr: u32) -> u32 {
         match &mut self.machine {
             Machine::Model1(sys) => sys.read_u32(addr),
@@ -244,8 +234,12 @@ impl Debugger {
         Self::open_with_config(rom_path, Config::default())
     }
 
-    /// `open` with a caller-supplied configuration (the front end passes its
-    /// own through, so `--copro-mt off` reaches the machine here too).
+    /// `open` with a caller-supplied configuration, so the command line's
+    /// engine switches (`--i960-jit off`) reach the machine in a headless
+    /// run. Without this the debugger silently builds a default machine and
+    /// every such flag is ignored -- which makes an A/B comparison compare
+    /// nothing, so it is load-bearing for the benchmarking in
+    /// docs/PERFORMANCE.md rather than a convenience.
     pub fn open_with_config(rom_path: &str, config: Config) -> Result<Self, String> {
         let cfg = Config {
             rom_path: rom_path.to_string(),
@@ -404,14 +398,9 @@ impl Debugger {
                 }
             }
 
-            "state" => {
-                self.sync_copro();
-                out!(self, "{}", self.state_line())
-            }
+            "state" => out!(self, "{}", self.state_line()),
 
-            "regs" => {
-                self.sync_copro();
-                match &mut self.machine {
+            "regs" => match &mut self.machine {
                 Machine::Model1(sys) => match arg(0).unwrap_or("main") {
                     "main" | "v60" => {
                         let c = &sys.main_cpu;
@@ -478,8 +467,7 @@ impl Debugger {
                     "tgp" => out!(self, "regs cpu=tgp pc={:04X}", sys.tgp_cpu.pc),
                     other => out!(self, "error cmd=regs reason=unknown-cpu value={other}"),
                 },
-                }
-            }
+            },
 
             "mem" => {
                 let Some(base) = arg(0).and_then(num) else {
@@ -605,7 +593,6 @@ impl Debugger {
             }
 
             "fifo" => {
-                self.sync_copro();
                 let (fifo_in, fifo_out, copro_halted, main_stall, copro_stall) = (
                     self.sys().copro_fifo_in.len(),
                     self.sys().copro_fifo_out.len(),
