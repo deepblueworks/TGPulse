@@ -218,6 +218,10 @@ pub struct Config {
     /// escape hatch if a game ever misbehaves. Model 1 is unaffected (the
     /// V60 is always interpreted).
     pub i960_jit: bool,
+    /// Executes the Model 2C MB86235 (TGPx4) geometry DSP with the Cranelift
+    /// dynarec (the interpreter is the per-instruction fallback inside it).
+    /// Off is the pure-interpreter reference for A/B testing.
+    pub mb86235_jit: bool,
 }
 
 impl Default for Config {
@@ -241,6 +245,7 @@ impl Default for Config {
             widescreen_stretch_2d: true,
             reverse_landscape: false,
             i960_jit: true,
+            mb86235_jit: true,
         }
     }
 }

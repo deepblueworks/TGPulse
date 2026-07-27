@@ -83,6 +83,42 @@ pub struct Mb86235 {
     /// the porting gaps visible while the microcode is brought up.
     pub unimpl: [u64; 8],
     pub insns: u64,
+
+    /// Runtime switch for the Cranelift dynarec (`jit` feature). Runtime-only:
+    /// skipped on serialization and defaulting to on, so a savestate loaded
+    /// into either engine configuration behaves the same.
+    #[serde(skip, default = "default_true")]
+    pub jit_enabled: bool,
+    /// Type-erased handle to the dynarec's block cache. JIT code is an
+    /// execution detail, never architectural state: skipped on serialization,
+    /// and a clone (savestates) starts with a cold cache.
+    #[serde(skip)]
+    pub jit: JitSlot,
+    /// Per-page code epochs for uploaded microcode invalidation, one per
+    /// 256-word page of the 4096-word program RAM. Bumped by every
+    /// `upload_program_half`.
+    #[serde(skip)]
+    pub code_epochs: [u64; 16],
+}
+
+/// Type-erased box for the dynarec's block cache; see `Mb86235::jit`.
+#[derive(Default)]
+pub struct JitSlot(pub Option<Box<dyn std::any::Any + Send>>);
+
+impl Clone for JitSlot {
+    fn clone(&self) -> Self {
+        JitSlot(None)
+    }
+}
+
+impl std::fmt::Debug for JitSlot {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("JitSlot(..)")
+    }
+}
+
+fn default_true() -> bool {
+    true
 }
 
 impl Default for Mb86235 {
@@ -125,6 +161,9 @@ impl Mb86235 {
             icount: 0,
             unimpl: [0; 8],
             insns: 0,
+            jit_enabled: true,
+            jit: JitSlot::default(),
+            code_epochs: [0; 16],
         }
     }
 
@@ -155,5 +194,8 @@ impl Mb86235 {
         } else {
             *word = (*word & 0xffff_ffff_0000_0000) | data as u64;
         }
+        // Invalidate compiled blocks covering the page the write landed on.
+        let page = (slot >> 8) & 0xf;
+        self.code_epochs[page] = self.code_epochs[page].wrapping_add(1);
     }
 }

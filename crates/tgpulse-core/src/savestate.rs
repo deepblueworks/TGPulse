@@ -40,6 +40,9 @@ macro_rules! snapshot_fields {
             /// belongs to this game.
             pub fn restore(&mut self, s: &Snapshot) {
                 $(self.$field = s.$field.clone();)*
+                // Runtime-only engine switches are not serialized; re-apply
+                // the live configuration.
+                self.tgpx4.jit_enabled = self.config.mb86235_jit;
             }
         }
     };

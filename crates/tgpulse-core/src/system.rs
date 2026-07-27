@@ -543,6 +543,8 @@ impl Model2System {
         cpu.reset(&mut system);
         system.main_cpu = cpu;
 
+        system.tgpx4.jit_enabled = system.config.mb86235_jit;
+
         system
     }
 
