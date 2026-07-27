@@ -106,13 +106,6 @@ const TABLE: &[(u16, u16, Op)] = &[
     (0xff80, 0x0080, Op::Idle),
 ];
 
-
-/// The instruction class of a 48-bit opcode word (the JIT decodes at compile
-/// time through the same table the interpreter consults per instruction).
-pub(crate) fn decode(opcode: u64) -> Op {
-    DISPATCH[((opcode >> 39) & 0x1ff) as usize]
-}
-
 static DISPATCH: LazyLock<[Op; 512]> = LazyLock::new(|| {
     let mut t = [Op::Unimplemented; 512];
     for (i, slot) in t.iter_mut().enumerate() {
@@ -192,59 +185,46 @@ fn op_jump_ci(op: u64) -> bool {
 impl Sharc {
     /// Runs the core for approximately `cycles` instructions.
     pub fn execute<B: SharcBus>(&mut self, bus: &mut B, cycles: i32) {
-        #[cfg(feature = "jit")]
-        if self.jit_enabled {
-            crate::jit::execute(self, bus, cycles);
-            return;
-        }
         self.icount = cycles;
         while self.icount > 0 && !self.idle {
-            self.step(bus);
+            // An interrupt vectors out of whatever the microcode is doing --
+            // including its own `DO... UNTIL FOREVER` idle park, which is the
+            // only way the Model 2B geometry loop ever resumes.
+            if self.irq_pending != 0 {
+                self.check_interrupts();
+            }
+            // Refresh the FIFO status flags the microcode polls (FLAG0 = input
+            // FIFO empty, FLAG1 = output FIFO full).
+            self.flag[0] = bus.fifo_in_empty() as u32;
+            self.flag[1] = bus.fifo_out_full() as u32;
+
+            self.pc = self.daddr;
+            self.daddr = self.faddr;
+            self.faddr = self.nfaddr;
+            self.nfaddr = self.nfaddr.wrapping_add(1);
+
+            // Fetch *before* closing a hardware loop: the instruction sitting
+            // at the loop's bottom address still executes on the iteration that
+            // branches back, so the fetch has to happen at the pre-branch PC.
+            //
+            let opcode = self.pm_read48(bus, self.pc);
+            self.opcode = opcode;
+
+            if self.stky & crate::consts::LSEM == 0 && self.pc == self.laddr_addr {
+                self.handle_loop();
+            }
+            let op = DISPATCH[((opcode >> 39) & 0x1ff) as usize];
+            self.dispatch(bus, op);
+
+            self.insns = self.insns.wrapping_add(1);
+            self.icount -= 1;
         }
-    }
-
-    /// One interpreter loop iteration: interrupt check, FIFO-flag refresh,
-    /// pipeline advance, fetch, hardware-loop close, dispatch. Also the JIT's
-    /// per-instruction path for pipeline states a compiled block cannot cover
-    /// (the two instructions behind a delayed branch).
-    pub fn step<B: SharcBus>(&mut self, bus: &mut B) {
-        // An interrupt vectors out of whatever the microcode is doing --
-        // including its own `DO... UNTIL FOREVER` idle park, which is the
-        // only way the Model 2B geometry loop ever resumes.
-        if self.irq_pending != 0 {
-            self.check_interrupts();
-        }
-        // Refresh the FIFO status flags the microcode polls (FLAG0 = input
-        // FIFO empty, FLAG1 = output FIFO full).
-        self.flag[0] = bus.fifo_in_empty() as u32;
-        self.flag[1] = bus.fifo_out_full() as u32;
-
-        self.pc = self.daddr;
-        self.daddr = self.faddr;
-        self.faddr = self.nfaddr;
-        self.nfaddr = self.nfaddr.wrapping_add(1);
-
-        // Fetch *before* closing a hardware loop: the instruction sitting
-        // at the loop's bottom address still executes on the iteration that
-        // branches back, so the fetch has to happen at the pre-branch PC.
-        //
-        let opcode = self.pm_read48(bus, self.pc);
-        self.opcode = opcode;
-
-        if self.stky & crate::consts::LSEM == 0 && self.pc == self.laddr_addr {
-            self.handle_loop();
-        }
-        let op = decode(opcode);
-        self.dispatch(bus, op);
-
-        self.insns = self.insns.wrapping_add(1);
-        self.icount -= 1;
     }
 
     /// Closes a hardware loop when the PC reaches its bottom address. Either
     /// the loop terminates (pop both stacks and fall through) or it repeats
     /// (jump back to the top, which is the PC stack's top entry).
-    pub(crate) fn handle_loop(&mut self) {
+    fn handle_loop(&mut self) {
         match self.laddr_loop_type {
             0 => {
                 // arithmetic condition based
@@ -307,7 +287,7 @@ impl Sharc {
         }
     }
 
-    pub(crate) fn dispatch<B: SharcBus>(&mut self, bus: &mut B, op: Op) {
+    fn dispatch<B: SharcBus>(&mut self, bus: &mut B, op: Op) {
         let opcode = self.opcode;
         match op {
             Op::Nop => {}
@@ -787,7 +767,7 @@ impl Sharc {
     /// Vectors to the highest-priority pending, unmasked interrupt.
     /// Ported from the reference: the vector table is four words
     /// per source at the base of internal program memory.
-    pub(crate) fn check_interrupts(&mut self) {
+    fn check_interrupts(&mut self) {
         if self.imask & self.irq_pending == 0
             || self.mode1 & crate::consts::MODE1_IRPTEN == 0
             || self.interrupt_active
