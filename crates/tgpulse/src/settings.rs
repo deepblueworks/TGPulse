@@ -30,6 +30,7 @@ pub struct Settings {
     pub volume: u32,
     pub rumble: bool,
     pub cabinet: Cabinet,
+    pub reverse_landscape: bool,
 }
 
 impl Default for Settings {
@@ -48,6 +49,7 @@ impl Settings {
             volume: config.volume,
             rumble: config.rumble,
             cabinet: config.cabinet,
+            reverse_landscape: config.reverse_landscape,
         }
     }
 
@@ -59,6 +61,7 @@ impl Settings {
         config.volume = self.volume;
         config.rumble = self.rumble;
         config.cabinet = self.cabinet;
+        config.reverse_landscape = self.reverse_landscape;
     }
 
     pub fn path() -> PathBuf {
@@ -126,6 +129,10 @@ impl Settings {
                     }
                 },
                 "rumble" => settings.rumble = boolean(value).unwrap_or(settings.rumble),
+                "reverse_landscape" => {
+                    settings.reverse_landscape =
+                        boolean(value).unwrap_or(settings.reverse_landscape)
+                }
                 "cabinet" => match value.parse::<Cabinet>() {
                     Ok(c) => settings.cabinet = c,
                     Err(_) => {
@@ -163,7 +170,8 @@ impl Settings {
              smooth_shadows = {}\n\
              volume = {}\n\
              rumble = {}\n\
-             cabinet = {}\n",
+             cabinet = {}\n\
+             reverse_landscape = {}\n",
             self.ssaa,
             on_off(self.widescreen),
             on_off(self.widescreen_stretch_2d),
@@ -171,6 +179,7 @@ impl Settings {
             self.volume,
             on_off(self.rumble),
             cabinet,
+            on_off(self.reverse_landscape),
         );
         std::fs::write(path, out).map_err(|e| e.to_string())
     }

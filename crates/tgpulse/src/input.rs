@@ -140,6 +140,40 @@ pub struct InputState {
     analog_roles: [AnalogRole; 8],
     /// What the player has bound each control to.
     bindings: Bindings,
+    /// What the on-screen controls are asking for, as amounts in 0..1. These
+    /// sit alongside the bound sources rather than inside them: a thumb is not
+    /// a key or a pad button, and the player never bound it to anything.
+    touch: Vec<(Control, f32)>,
+    /// A pad the platform reports for itself.
+    external: ExternalPad,
+}
+
+/// A gamepad the platform hands over directly.
+///
+/// gilrs has no Android backend, so on a handset a controller arrives as
+/// activity key events instead of through the library. Those are translated
+/// into the same `gilrs::Button` and `gilrs::Axis` values a desktop pad
+/// produces, which means the bindings -- including anything the player has
+/// rebound -- resolve identically on both.
+#[derive(Default)]
+struct ExternalPad {
+    buttons: HashSet<gilrs::Button>,
+    left_x: f32,
+    left_y: f32,
+    /// Set once anything has been heard from the pad. Without it an absent
+    /// controller would look like one resting perfectly at centre, and the
+    /// analog paths would believe it.
+    present: bool,
+}
+
+impl ExternalPad {
+    fn axis(&self, axis: gilrs::Axis) -> f32 {
+        match axis {
+            gilrs::Axis::LeftStickX => self.left_x,
+            gilrs::Axis::LeftStickY => self.left_y,
+            _ => 0.0,
+        }
+    }
 }
 
 pub use tgpulse_core::roms_db::{AnalogRole, Scheme as ControlScheme};
@@ -280,7 +314,35 @@ impl InputState {
             scheme: ControlScheme::Racing,
             analog_roles: [AnalogRole::None; 8],
             bindings: Bindings::default(),
+            touch: Vec::new(),
+            external: ExternalPad::default(),
         }
+    }
+
+    /// Publishes what the on-screen controls are asking for. Called once a
+    /// frame with the overlay's current state.
+    pub fn set_touch(&mut self, amounts: &[(Control, f32)]) {
+        self.touch.clear();
+        self.touch.extend_from_slice(amounts);
+    }
+
+    /// A button on a pad the platform reports rather than gilrs. Only Android
+    /// has such a pad; elsewhere gilrs sees every controller itself.
+    #[cfg_attr(not(target_os = "android"), allow(dead_code))]
+    pub fn set_pad_button(&mut self, button: gilrs::Button, pressed: bool) {
+        self.external.present = true;
+        if pressed {
+            self.external.buttons.insert(button);
+        } else {
+            self.external.buttons.remove(&button);
+        }
+    }
+
+    /// The left stick of such a pad, each axis in -1..1 and positive up.
+    pub fn set_pad_stick(&mut self, x: f32, y: f32) {
+        self.external.present = true;
+        self.external.left_x = x.clamp(-1.0, 1.0);
+        self.external.left_y = y.clamp(-1.0, 1.0);
     }
 
     /// Which physical axis each of the eight ADC channels carries, taken from
@@ -313,15 +375,13 @@ impl InputState {
         // The right stick nudges the aim from centre, for players without a
         // mouse. It is read directly rather than through a binding: it is a
         // pointing device, not a control that can be pressed.
-        if let Some(pad) = self.pad() {
-            let rx = pad.value(gilrs::Axis::RightStickX);
-            let ry = pad.value(gilrs::Axis::RightStickY);
-            if rx.abs() > STICK_DEADZONE || ry.abs() > STICK_DEADZONE {
-                aim = (
-                    (0.5 + rx * 0.5).clamp(0.0, 1.0),
-                    (0.5 - ry * 0.5).clamp(0.0, 1.0),
-                );
-            }
+        let rx = self.axis_value(gilrs::Axis::RightStickX);
+        let ry = self.axis_value(gilrs::Axis::RightStickY);
+        if rx.abs() > STICK_DEADZONE || ry.abs() > STICK_DEADZONE {
+            aim = (
+                (0.5 + rx * 0.5).clamp(0.0, 1.0),
+                (0.5 - ry * 0.5).clamp(0.0, 1.0),
+            );
         }
         aim
     }
@@ -433,20 +493,47 @@ impl InputState {
     /// pressed once it is past the deadzone, which is what makes the analog
     /// controls usable as digital ones.
     pub fn on(&self, control: Control) -> bool {
-        self.bindings
-            .sources(control)
-            .iter()
-            .any(|source| self.source_active(*source))
+        self.amount(control) > 0.0
     }
 
     /// How far `control` is pressed, 0..1. Digital sources read as fully on,
     /// so a keyboard drives the same code path a trigger does.
     pub fn amount(&self, control: Control) -> f32 {
-        self.bindings
+        let bound = self
+            .bindings
             .sources(control)
             .iter()
             .map(|source| self.source_amount(*source))
-            .fold(0.0, f32::max)
+            .fold(0.0, f32::max);
+        bound.max(self.touch_amount(control))
+    }
+
+    fn touch_amount(&self, control: Control) -> f32 {
+        self.touch
+            .iter()
+            .find(|(c, _)| *c == control)
+            .map_or(0.0, |(_, amount)| *amount)
+    }
+
+    /// Whether something with real travel is driving the axes.
+    ///
+    /// A keyboard is not: its controls are on or off, so the schemes ramp them
+    /// toward the ends of the range instead of reading them as positions. A
+    /// stick, a trigger or a thumb on the screen has a position of its own and
+    /// is read directly.
+    fn has_analog(&self) -> bool {
+        self.pad().is_some() || self.external.present || !self.touch.is_empty()
+    }
+
+    /// The travel of one pad axis, from whichever device is reporting it.
+    fn axis_value(&self, axis: gilrs::Axis) -> f32 {
+        let hardware = self.pad().map_or(0.0, |pad| pad.value(axis));
+        let external = self.external.axis(axis);
+        if external.abs() > hardware.abs() {
+            external
+        } else {
+            hardware
+        }
     }
 
     /// The signed travel of a pair of opposed controls, -1..1. Keys give the
@@ -455,18 +542,15 @@ impl InputState {
         self.amount(positive) - self.amount(negative)
     }
 
-    fn source_active(&self, source: Source) -> bool {
-        self.source_amount(source) > 0.0
-    }
-
     fn source_amount(&self, source: Source) -> f32 {
         match source {
             Source::Key(k) => f32::from(u8::from(self.held(k))),
-            Source::Pad(b) => self
-                .pad()
-                .map_or(0.0, |pad| f32::from(u8::from(pad.is_pressed(b)))),
+            Source::Pad(b) => {
+                let hardware = self.pad().is_some_and(|pad| pad.is_pressed(b));
+                f32::from(u8::from(hardware || self.external.buttons.contains(&b)))
+            }
             Source::PadAxis(a, sign) => {
-                let value = self.pad().map_or(0.0, |pad| pad.value(a));
+                let value = self.axis_value(a);
                 // Triggers rest at zero and only travel positive; sticks rest
                 // centred and travel both ways. The deadzone differs to match.
                 let value = match sign {
@@ -553,7 +637,7 @@ impl InputState {
         let (mut pad_accel, mut pad_brake) = (0.0f32, 0.0f32);
         let (mut want_up, mut want_down) = (false, false);
 
-        if self.pad().is_some() {
+        if self.has_analog() {
             // The wheel takes the signed travel of the two steer controls,
             // rescaled past the deadzone so it starts moving from rest rather
             // than jumping. The pedals are one-sided, so their travel is the
@@ -746,7 +830,7 @@ impl InputState {
         let (mut aim_x, mut aim_y, mut throttle) = (0.0f32, 0.0f32, 0.0f32);
         let (mut fire1, mut fire2, mut fire3) = (false, false, false);
 
-        if self.pad().is_some() {
+        if self.has_analog() {
             aim_x = self.axis(Control::Left, Control::Right);
             aim_y = self.axis(Control::Down, Control::Up);
             // The throttle runs both ways: forward on its own control, reverse
@@ -841,7 +925,7 @@ impl InputState {
 
         let (mut handle, mut throttle) = (0.0f32, 0.0f32);
 
-        if self.pad().is_some() {
+        if self.has_analog() {
             handle = self.axis(Control::LeanLeft, Control::LeanRight);
             throttle = self.amount(Control::Throttle);
         }
@@ -909,13 +993,11 @@ impl InputState {
         let mut reload = self.mouse_reload;
 
         // The right stick nudges the aim from centre for pad-only players.
-        if let Some(pad) = self.pad() {
-            let rx = pad.value(gilrs::Axis::RightStickX);
-            let ry = pad.value(gilrs::Axis::RightStickY);
-            if rx.abs() > STICK_DEADZONE || ry.abs() > STICK_DEADZONE {
-                nx = 0.5 + rx * 0.5;
-                ny = 0.5 - ry * 0.5;
-            }
+        let rx = self.axis_value(gilrs::Axis::RightStickX);
+        let ry = self.axis_value(gilrs::Axis::RightStickY);
+        if rx.abs() > STICK_DEADZONE || ry.abs() > STICK_DEADZONE {
+            nx = 0.5 + rx * 0.5;
+            ny = 0.5 - ry * 0.5;
         }
 
         fire |= self.on(Control::Fire);
@@ -976,7 +1058,7 @@ impl InputState {
         let (mut lean_x, mut lean_y) = (0.0f32, 0.0f32);
         let (mut left, mut right) = (0.0f32, 0.0f32);
 
-        if self.pad().is_some() {
+        if self.has_analog() {
             lean_x = self.axis(Control::LeanLeft, Control::LeanRight);
             lean_y = self.axis(Control::Down, Control::Up);
             // The foot pedals, one per side.
@@ -1104,6 +1186,82 @@ mod tests {
                 assert_ne!(out.in0 & bit, 0, "{scheme:?} leaves {control:?} stuck on");
             }
         }
+    }
+
+    /// The on-screen controls have to reach every scheme, for the same reason
+    /// the bindings do: a scheme that reads a key or a pad directly ignores the
+    /// screen, and on a handset the screen is all there is.
+    #[test]
+    fn every_scheme_reads_the_on_screen_controls() {
+        for scheme in SCHEMES {
+            for (control, bit) in FURNITURE {
+                let mut input = state(scheme);
+                let mut out = Inputs::default();
+
+                input.set_touch(&[(control, 1.0)]);
+                input.poll(&mut out);
+                assert_eq!(
+                    out.in0 & bit,
+                    0,
+                    "{scheme:?} ignores {control:?} pressed on the screen",
+                );
+
+                input.set_touch(&[]);
+                input.poll(&mut out);
+                assert_ne!(out.in0 & bit, 0, "{scheme:?} leaves {control:?} stuck on");
+            }
+        }
+    }
+
+    /// A thumb has travel, so it drives the wheel to a position. Reading it as
+    /// a key would slam the wheel to full lock the moment it moved at all.
+    #[test]
+    fn a_partly_turned_wheel_lands_between_the_stops() {
+        let mut input = state(ControlScheme::Racing);
+        let mut out = Inputs::default();
+        input.set_touch(&[(Control::SteerRight, 0.5)]);
+        input.poll(&mut out);
+        assert!(
+            out.steer > STEER_CENTRE as u8 && out.steer < ANALOG_MAX as u8,
+            "half a turn read as {:#04x}",
+            out.steer,
+        );
+    }
+
+    /// A key has no travel, so it must keep ramping instead. This is the case
+    /// the analog path is not allowed to swallow.
+    #[test]
+    fn a_key_still_ramps_the_wheel() {
+        let mut input = state(ControlScheme::Racing);
+        let mut bindings = Bindings::default();
+        bindings.bind(Control::Left, vec![Source::Key(KeyCode::F12)]);
+        input.set_bindings(bindings);
+
+        let mut out = Inputs::default();
+        input.on_key(KeyCode::F12, true);
+        input.poll(&mut out);
+        assert_eq!(
+            out.steer,
+            (STEER_CENTRE - STEER_KEYDELTA) as u8,
+            "one frame of a held key should move the wheel one step",
+        );
+    }
+
+    /// A pad the platform reports itself -- which is how Android delivers one
+    /// -- resolves through the same bindings a gilrs pad does.
+    #[test]
+    fn a_platform_pad_reaches_the_machine() {
+        let mut input = state(ControlScheme::Joystick);
+        let mut out = Inputs::default();
+
+        // Button 1 ships bound to the West face button.
+        input.set_pad_button(gilrs::Button::West, true);
+        input.poll(&mut out);
+        assert_eq!(out.in1 & IN1_JOY_BTN1, 0, "a platform pad button is ignored");
+
+        input.set_pad_button(gilrs::Button::West, false);
+        input.poll(&mut out);
+        assert_ne!(out.in1 & IN1_JOY_BTN1, 0, "it stayed pressed");
     }
 
     /// Start has to work the same way. Its bit differs on Wave Runner, whose

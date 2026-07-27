@@ -35,6 +35,8 @@ png = "0.17"
 
 [target.'cfg(target_os = "android")'.dependencies]
 android_logger = "0.13"
+# Talks to `android.os.Environment` for the All files access grant.
+jni = "0.21"
 winit = { workspace = true, features = ["android-native-activity"] }
 
 # Packaged by `cargo apk`; see docs/BUILDING.md.
@@ -46,6 +48,12 @@ runtime_libs = "."
 [package.metadata.android.sdk]
 min_sdk_version = 26
 target_sdk_version = 33
+
+# The ROM library lives in a folder the player can reach with any file
+# manager; on Android 11+ that takes the All files access grant. Ignored on
+# older releases, where the private directory is used instead.
+[[package.metadata.android.uses_permission]]
+name = "android.permission.MANAGE_EXTERNAL_STORAGE"
 
 [package.metadata.android.application]
 label = "TGPulse"

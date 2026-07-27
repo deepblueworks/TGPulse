@@ -1,0 +1,17 @@
+# Build output.
+/target
+
+# The NDK's C++ runtime, copied in per ABI so `cargo apk` can package it --
+# see docs/BUILDING.md. It belongs to whichever NDK built the library, so it
+# is reproduced at build time rather than committed.
+/crates/tgpulse/arm64-v8a
+/crates/tgpulse/armeabi-v7a
+
+# Settings and bindings, written by the interface at run time. They are the
+# player's, not the project's -- shipping a copy would override theirs.
+/config
+
+# Romsets, and the battery-backed RAM and save states written beside them.
+/roms
+/states
+*.nv.sav

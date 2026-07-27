@@ -1,6 +1,7 @@
 # <img src="assets/logo.png" alt="TGPulse Emulator" width="420">
 
 Emulator for Sega's Model 1 and Model 2 arcade boards, written in Rust.
+Currently with Linux, Windows and Android builds (Android branch).
 
 Every processor is emulated at instruction level: the NEC V60 and MB86233 "TGP"
 on the Model 1; the Intel i960, the TGP, the ADSP-21062 SHARC and the MB86235
@@ -98,7 +99,6 @@ Striker's versus play run as a single machine.
 - **Model 1 save states.** Snapshots cover Model 2 only; Model 1 games save NVRAM but not machine state.
 - **Encrypted sets.** The 315-5881 implementation is in the tree but unused, so Dynamite Cop, Zero Gunner and the rest do not run.
 - **`model1io2`.** Not emulated, so Wing War and Sega NetMerc are left out of the database's I/O firmware wiring.
-- **Virtua Racing region.** Read from EEPROM, boots English; test menu changes do not persist because the game never writes the chip back. Needs a firmware trace to establish whether hardware does the same.
 
 ## Layout
 

@@ -11,6 +11,9 @@ mod gui;
 mod input;
 mod platform;
 mod settings;
+#[cfg(target_os = "android")]
+mod storage;
+mod touch;
 
 use std::io::{BufRead, Write};
 

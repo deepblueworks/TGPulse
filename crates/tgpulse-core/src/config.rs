@@ -200,6 +200,14 @@ pub struct Config {
     /// centered in the frame (only the 3D widens). Only meaningful with
     /// --widescreen on.
     pub widescreen_stretch_2d: bool,
+
+    /// Rotate the display 180 degrees from the usual landscape.
+    ///
+    /// A controller cradle (GameSir and the like) can hold the phone with its
+    /// charging port on the other side, which leaves the ordinary landscape
+    /// upside down in the hand. Android only: a desktop window is never
+    /// rotated, so the value is carried but ignored there.
+    pub reverse_landscape: bool,
 }
 
 impl Default for Config {
@@ -221,6 +229,7 @@ impl Default for Config {
             volume: 100,
             widescreen: false,
             widescreen_stretch_2d: true,
+            reverse_landscape: false,
         }
     }
 }
