@@ -93,18 +93,12 @@ Striker's versus play run as a single machine.
 
 ## Roadmap
 
-- **More games.** New sets tend to expose real bugs: Virtua Fighter 2's hair
-  was an i960 burst-read bug, Wave Runner's failure to boot a missing EEPROM.
+- **More games.** New sets tend to expose real bugs: Virtua Fighter 2's hair was an i960 burst-read bug, Wave Runner's failure to boot a missing EEPROM.
+- **Performance improvements.**  Could be achieved by moving the coprocessors to their own threads and a JIT/dynarec. Currently it can be slow on low powered devices.
 - **Multiplayer.** Link two instances over a socket, as MAME's `m2comm` does.
-- **Model 1 save states.** Snapshots cover Model 2 only; Model 1 games save
-  NVRAM but not machine state.
-- **Encrypted sets.** The 315-5881 implementation is in the tree but unused, so
-  Dynamite Cop, Zero Gunner and the rest do not run.
-- **`model1io2`.** Not emulated, so Wing War and Sega NetMerc are left out of
-  the database's I/O firmware wiring.
-- **Virtua Racing region.** Read from EEPROM, boots English; test menu changes
-  do not persist because the game never writes the chip back. Needs a firmware
-  trace to establish whether hardware does the same.
+- **Model 1 save states.** Snapshots cover Model 2 only; Model 1 games save NVRAM but not machine state.
+- **Encrypted sets.** The 315-5881 implementation is in the tree but unused, so Dynamite Cop, Zero Gunner and the rest do not run.
+- **`model1io2`.** Not emulated, so Wing War and Sega NetMerc are left out of the database's I/O firmware wiring.
 
 ## Layout
 
