@@ -202,9 +202,10 @@ impl Debugger {
                 sys.copro_fifo_out.len(),
             ),
             Machine::Model2(sys) => format!(
-                "state frame={} i960_ip={:08X} sharc_pc={:06X} tgpx4_pc={:04X} \
+                "state frame={} cycles={} i960_ip={:08X} sharc_pc={:06X} tgpx4_pc={:04X} \
                  fifo_in={} fifo_out={} geo_rd={:08X} geo_wr={:08X} irq={:08X}",
                 self.frames,
+                sys.machine_cycles,
                 sys.main_cpu.ip,
                 sys.sharc.pc,
                 sys.tgpx4.pc,

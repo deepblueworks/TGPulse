@@ -149,6 +149,25 @@ impl Session {
         nvram::save(&self.set, &b, &e);
     }
 
+    /// i960 cycles actually retired so far. This is the only honest measure
+    /// of emulation speed: `step()` returns whether or not the CPU ran, so
+    /// counting frames reports full speed while the machine crawls.
+    fn machine_cycles(&self) -> u64 {
+        match &self.machine {
+            Machine::Model2(sys) => sys.machine_cycles,
+            Machine::Model1(_) => 0,
+        }
+    }
+
+    /// Words in the display list the rasterizer just consumed. A frame whose
+    /// list collapses to near nothing is a dropped scene -- the flashing.
+    fn display_list_words(&self) -> u32 {
+        match &self.machine {
+            Machine::Model2(sys) => sys.geo_write_start_address >> 2,
+            Machine::Model1(_) => 0,
+        }
+    }
+
     /// Advances one emulated frame.
     fn step(&mut self) {
         match &mut self.machine {
@@ -257,6 +276,8 @@ struct App {
     last_frame: Instant,
     last_present: Instant,
     stats_at: Instant,
+    /// Retired-cycle mark at the start of the current stats window.
+    cycles_at: u64,
     presented: u32,
     emulated: u32,
     stats: Stats,
@@ -296,6 +317,7 @@ impl App {
             last_frame: now,
             last_present: now,
             stats_at: now,
+            cycles_at: 0,
             presented: 0,
             emulated: 0,
             stats: Stats::default(),
@@ -705,9 +727,26 @@ impl App {
         while now.duration_since(self.last_frame) >= self.frame_duration && catch_up < MAX_CATCH_UP
         {
             self.last_frame += self.frame_duration;
+            let step_start = Instant::now();
             session.step();
+            let step_ms = step_start.elapsed().as_secs_f32() * 1000.0;
+            if step_ms > self.stats.step_max_ms {
+                self.stats.step_max_ms = step_ms;
+            }
+            if step_ms > 17.0 {
+                self.stats.step_overruns += 1;
+            }
             self.emulated += 1;
             catch_up += 1;
+            let words = session.display_list_words();
+            self.stats.list_min = self.stats.list_min.min(words);
+            self.stats.list_max = self.stats.list_max.max(words);
+            if words * 4 < self.stats.list_max {
+                self.stats.dropped_scenes += 1;
+            }
+        }
+        if catch_up > 1 {
+            self.stats.catch_up_bursts += 1;
         }
         if catch_up == MAX_CATCH_UP && now.duration_since(self.last_frame) >= self.frame_duration {
             self.last_frame = now;
@@ -801,8 +840,35 @@ impl App {
         if elapsed >= 0.5 {
             self.stats.video_fps = self.presented as f32 / elapsed;
             self.stats.emulated_fps = self.emulated as f32 / elapsed;
+            // The real speed. `step()` calls are not frames: the i960 is
+            // skipped whenever the coprocessor FIFO backs up, so the frame
+            // counter can read 60 while the board retires a fraction of a
+            // frame's cycles. Dividing retired cycles by the per-frame budget
+            // gives the rate the player actually sees.
+            let cycles = self
+                .session
+                .as_ref()
+                .map(|s| s.machine_cycles())
+                .unwrap_or(0);
+            let retired = cycles.saturating_sub(self.cycles_at);
+            self.stats.effective_fps = retired as f32 / CYCLES_PER_FRAME as f32 / elapsed;
+            self.cycles_at = cycles;
+            log::info!(target: "stats",
+                "REAL {:.1} fps ({:.0}% speed) | counted: video {:.1} emulated {:.1} | step max {:.1} ms, {} overruns, {} bursts | list {}..{} words, {} dropped scenes",
+                self.stats.effective_fps,
+                100.0 * self.stats.effective_fps / 57.5,
+                self.stats.video_fps, self.stats.emulated_fps,
+                self.stats.step_max_ms, self.stats.step_overruns, self.stats.catch_up_bursts,
+                if self.stats.list_min == u32::MAX { 0 } else { self.stats.list_min },
+                self.stats.list_max, self.stats.dropped_scenes);
             self.presented = 0;
             self.emulated = 0;
+            self.stats.step_max_ms = 0.0;
+            self.stats.step_overruns = 0;
+            self.stats.catch_up_bursts = 0;
+            self.stats.list_min = u32::MAX;
+            self.stats.list_max = 0;
+            self.stats.dropped_scenes = 0;
             self.stats_at = Instant::now();
         }
 

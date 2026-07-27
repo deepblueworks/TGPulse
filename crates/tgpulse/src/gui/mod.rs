@@ -51,6 +51,24 @@ pub struct Stats {
     pub video_fps: f32,
     pub emulated_fps: f32,
     pub render_ms: f32,
+    /// Slowest single emulated frame in the current window, in milliseconds.
+    /// A frame budget is ~17ms; spikes past it are the judder a fps average
+    /// cannot show.
+    pub step_max_ms: f32,
+    /// Frames that blew the budget in the current window.
+    pub step_overruns: u32,
+    /// Presents that had to run more than one emulated frame to catch up.
+    pub catch_up_bursts: u32,
+    /// True emulation speed: i960 cycles retired per second, divided by the
+    /// per-frame cycle budget. Unlike `emulated_fps` this cannot be inflated
+    /// by frames that returned without running the CPU.
+    pub effective_fps: f32,
+    /// Smallest and largest display list the rasterizer consumed this window.
+    pub list_min: u32,
+    pub list_max: u32,
+    /// Frames whose display list collapsed to a quarter of the window's
+    /// largest -- a scene that failed to build, seen as flashing.
+    pub dropped_scenes: u32,
 }
 
 pub struct Gui {
