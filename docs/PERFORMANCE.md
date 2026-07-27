@@ -1,95 +1,278 @@
 # Performance plan
 
 Current state: every processor core (i960, V60, SHARC ADSP-21062, MB86233,
-MB86235, 68000) is an interpreter with match-based dispatch, and all chips
-run sequentially on one thread. On desktop this is enough; on Android phones
-games run below full speed.
+MB86235, 68000) is an interpreter with match-based dispatch, and all chips run
+sequentially on one thread. On desktop this is enough; on Android phones games
+run below full speed.
 
-This document records what was researched before changing anything, and the
-order of work that follows from it.
+This document is the second version of the plan. The first one produced
+`feat/gottagofast`, whose headline result -- "daytona 1.70s -> 1.15s, vf2
+1.67s -> 1.13s, vstriker 2.78s -> 1.31s" -- was an artifact of measuring the
+wrong quantity. The work was not slow to write and not obviously wrong to
+read; it was wrong to *believe*, and the belief survived because the number
+that was supposed to check it could not. So the measurement rules come first
+here, before any plan, and the post-mortem is kept in full rather than
+summarised away.
 
-## What already exists elsewhere
+Everything below was measured on an AMD Ryzen 9 5900XT (16 cores / 32
+threads), x86-64 Linux. **No measurement in this document was taken on a
+low-powered device.** That is the single largest gap in it.
 
-Checked before writing any code, to avoid rebuilding something available:
+## 1. What "speed" means, and why frame counts do not mean it
 
-- **No dynarec exists for the i960, V60 or MB86233**, in any language. The
-  only i960 recompiler ever written is the closed-source x86 one in ElSemi's
-  Model 2 Emulator (last release 2014). These three front-ends must be
-  written regardless of approach.
-- **MAME has DRC front-ends for the SHARC and MB86235** (`src/devices/cpu/
-  sharc/sharcdrc.cpp`, `src/devices/cpu/mb86235/mb86235drc.cpp`) and an ARM64
-  DRC back-end (`drcbearm64.cpp`, built on asmjit). All BSD-3-Clause. The
-  code is tied to MAME's device framework and cannot be imported, but it is a
-  usable blueprint for lowering these instruction sets to IR.
-- **68000 has several fast cores** (Amiberry and Emu68 have AArch64 JITs;
-  Cyclone 68000 is ARM32-only). Not needed: the 68k runs sound, is cheap to
-  interpret, and stays on the main thread.
+A frame counter is not a measure of work. `Model2System::run_slice` skips the
+i960 for a whole quantum when the coprocessor input FIFO is backed up
+(`system.rs`, the `copro_fifo_in_len() <= COPRO_FIFO_DEPTH` guard), and an
+empty output FIFO read ends its quantum early through `main_stall`. The
+timers and the sound board still advance by that quantum either way. So a
+frame can complete having retired a fraction of a frame's cycles: the board's
+clocks move forward while the CPU does nothing.
 
-## JIT back-end: Cranelift
+The consequence is that **timing a fixed number of frames rewards doing less
+work**. A change that makes the machine skip more CPU time makes the benchmark
+finish sooner and reports as a speedup. That is precisely what happened.
 
-Chosen back-end for any dynarec work: `cranelift-jit`, from the Bytecode
-Alliance (Wasmtime's compiler).
+The honest metric is retired cycles:
 
-- Pure Rust; AArch64 is a tier-1 target; Apache-2.0 with LLVM exception.
-- Compile latency is designed for JIT workloads, unlike LLVM.
-- Already used this way by emulators: Gecko (GameCube/Wii, Rust) runs
-  Cranelift JITs for PowerPC, the GameCube DSP and the vertex decoder;
-  RustEE (PS2, Rust) offers interpreter and Cranelift backends. PowerPC is a
-  32-bit load/store RISC, structurally close to the i960 and V60, so Gecko
-  is the reference implementation to follow.
+```
+real speed = (i960 cycles retired in the window / elapsed seconds) / CYCLES_PER_FRAME
+```
 
-Alternatives considered and rejected: LLVM via inkwell (compile latency,
-linking LLVM for Android is painful), libgccjit (runtime shared-library
-dependency, GPL), QEMU libtcg (no maintained upstream library), dynarmic
-(recompiles guest ARM only), GNU lightning (GPLv3), dynasm-rs (has an
-AArch64 backend but MPL-2.0 and little maintenance), asmjit (capable, but
-C++ FFI and a full code generator to write; kept as fallback).
+A `step()` that skipped the CPU contributes nothing to it, so it cannot be
+inflated. It is implemented in `crates/tgpulse/src/app.rs` and logged under
+the `stats` target, and the debugger's `state` line carries the same counter
+as `cycles=` for headless work:
 
-On Android, JIT is permitted (Dolphin, PPSSPP, Flycast ship dynarecs); W^X
-applies, which Cranelift's memory API handles.
+```sh
+RUST_LOG=warn,stats=info ./tgpulse --roms ../roms daytona
+# REAL 57.5 fps (100% speed) | counted: video 60.0 emulated 58.0 | ...
+```
 
-## Threading the coprocessors
+The `counted:` half is retained deliberately, as a permanent illustration:
+across the interpreter, the threaded and the threaded+JIT configurations it
+prints `video 60.0 emulated 58.0` for all three, while the real figure moves
+between 57.5 and 46.3. Any metric that cannot separate those configurations
+is not a performance metric.
 
-The coprocessors are separate chips communicating through FIFO mailboxes,
-and the main CPU already stalls when an output FIFO is empty. That stall is
-the same backpressure model as PCSX2's MTVU, so the proven pattern applies
-directly:
+Two further rules, both learned the hard way:
 
-- One long-lived worker thread per SHARC/TGP. Each hardware FIFO direction
-  becomes a bounded SPSC ring buffer (cache-padded head/tail atomics, or
-  `crossbeam-channel` bounded). The existing stall logic becomes the
-  blocking point; no new synchronization semantics.
-- Batch DSP work: run thousands of cycles per wake-up. PCSX2's Time Crisis 2
-  regressed under MTVU because of fine-grained synchronization; batching is
-  the tuning knob.
-- The sound CPU stays on the main thread (Flycast's approach: it is
-  audio-rate-coupled and cheap).
-- Savestates use Supermodel's stop-the-world method: pause all worker
-  threads at a frame boundary, serialize every core plus the FIFO contents,
-  resume. Dolphin's DSP savestates show the rule: in-flight mailbox/FIFO
-  contents are part of the serialized state.
-- Keep a `multithreaded = off` setting that runs the current cooperative
-  loop. It is the determinism reference for A/B testing, as Supermodel and
-  PCSX2 do with their own toggles.
-- Pin the main CPU thread to a big core (`sched_setaffinity`) on Android's
-  big.LITTLE schedulers.
+- **Never report a bare average.** An earlier round of instrumentation logged
+  0.5-second means of presented and emulated frames and read "video 60,
+  emulated 58" while the game visibly juddered, because `advance()` bursts up
+  to `MAX_CATCH_UP` frames per displayed frame: stall, fast-forward, repeat.
+  Report worst case and distribution -- max step time, budget overruns,
+  catch-up bursts -- alongside any mean.
+- **Speed claims need a work witness.** State the retired-cycle count next to
+  every timing. Two configurations may only be compared by wall time if they
+  retired the same cycles; otherwise compare cycles per second, or the
+  comparison is meaningless.
 
-Expected gain: 1.5-2.5x in DSP-heavy scenes on an 8-core phone.
+## 2. How to run a performance test
 
-## Order of work
+1. **Establish determinism first.** Run the same workload three times and hash
+   the output frame (`-c "run 600; screenshot out.ppm"`). If the hashes differ,
+   stop: nothing timed against this configuration means anything yet, and the
+   nondeterminism is itself the bug to fix. The single-threaded path satisfies
+   this today -- five runs of daytona are bit-identical.
+2. **Pin the work.** Record `cycles=` from `state` for both sides. If they
+   differ by more than a fraction of a percent, the wall-clock comparison is
+   invalid; normalise to cycles per second and say so.
+3. **Check the picture, not just the clock.** Compare screenshots against the
+   reference configuration. A change that alters output is an accuracy
+   regression until proven otherwise, whatever it does to the clock.
+4. **Measure the thing the player feels.** Wall time for N frames is a
+   throughput measure and hides stalls. For interactive behaviour use the real
+   fps line above, over at least 20 seconds, and look at the minimum.
+5. **Measure on the target.** Desktop headroom hides everything. A phone is
+   the device this work exists for; a 32-thread desktop is not a proxy for it.
 
-1. **Profile.** Confirm the build is CPU-bound and measure which cores cost
-   the most. Cheap, and it decides how far the later steps need to go.
-2. **Thread the coprocessors** as described above. Moderate effort, no new
-   correctness surface beyond synchronization, helps every game.
-3. **Cranelift dynarec for the i960.** The i960 is the bottleneck CPU and a
-   simple RISC, so it goes first. Gecko is the template. Expect 3-10x on
-   main-CPU-bound workloads.
-4. **SHARC/TGP dynarecs** afterwards, using MAME's BSD-3 DRC front-ends as
-   the lowering reference.
-5. The 68k stays interpreted.
+A useful sanity check that needs no instrumentation at all: how far does the
+game actually get? Capture frames at fixed intervals and diff consecutive
+images. If a configuration produces less motion per emulated frame, it is
+running the game slower no matter what the frame counter says. This is what
+finally exposed the branch -- VF2 threaded is still on the boot screen at
+frame 650 where the interpreter is running the attract demo.
 
-### Status: step 3 landed (feat/gottagofast)
+## 3. Accuracy gates
+
+These are not optional and none of them may be waived for a speedup.
+
+- **Bit-exactness is verified in the configuration that ships.** The branch
+  verified its JITs under `--copro-mt off` while shipping `--copro-mt on`.
+  That validated a path no user runs. Whatever is default is what must be
+  proven.
+- **Determinism is a correctness property.** Same input, same output, every
+  run. A configuration that cannot reproduce its own frame cannot be
+  regression-tested, savestated reliably, or debugged from a report.
+- **The interpreter stays the behavioural authority.** Any dynarec falls back
+  to it per instruction for anything not lowered, and a lockstep differential
+  test diffs full architected state.
+- **Savestates round-trip in both directions**, including states written by
+  the other engine.
+- **A golden-frame test per board.** One screenshot hash per game per fixed
+  frame count, checked in CI. The branch's whole failure would have been
+  caught by this on day one: daytona under threading produces a different
+  frame on 25-40% of runs.
+
+## 4. Post-mortem: what went wrong on feat/gottagofast
+
+The branch is six commits: profiling, coprocessor threading, and Cranelift
+dynarecs for the i960, SHARC and MB86235.
+
+**The threading commit is the defect.** Measured with the real-speed metric,
+daytona in the GUI:
+
+| configuration | real speed | old counters | smallest display list |
+| --- | --- | --- | --- |
+| interpreter, lockstep | 57.5 fps (100%) | video 60.0 / emulated 58.0 | 308 words |
+| threaded, no JIT | 46.5 fps (81%) | video 60.0 / emulated 58.0 | 9 words |
+| threaded + all JITs | 46.3 fps (80%) | video 60.0 / emulated 58.0 | 9 words |
+
+Two failures, one cause:
+
+- **It is slower.** The i960 retires 84.6% (daytona) to 96.6% (hotd) of the
+  cycles it retires in lockstep, because it is skipped whenever the worker
+  falls behind on the FIFO. VF2 is far worse than the average suggests: it
+  produces ~17x less motion per frame and is roughly two attract screens
+  behind at frame 900.
+- **It corrupts the picture.** The display list collapses from ~17,300 words
+  to 9 on some frames -- a scene that never got built, seen as flashing. In
+  headless runs 25-40% of daytona runs end on a frame with the entire 3D scene
+  missing. It reproduces with every JIT disabled, and `--copro-mt off` is
+  bit-identical across five runs, so it is the threading, not the dynarecs.
+
+The mechanism is a broken producer/consumer contract. The FIFOs pace the i960
+against the DSP, and that part is modelled carefully. But nothing paces the
+DSP against the *rasterizer*: `trigger_vblank` snapshots `buffer_ram` and
+parses it whenever the frame ends, while the worker free-runs. In lockstep the
+DSP had deterministically finished the list by then. Taking the coprocessor
+lock around the snapshot does **not** fix it -- tested, still 3 of 10 runs bad
+-- because the list is not torn, it is genuinely unfinished. The code comment
+above that parse already warned about "the intermittent exploded/inverted
+scenes" from reading the buffer while it is rebuilt; threading reintroduced
+exactly that hazard from the other side.
+
+**The dynarecs are not where the reported gains came from.** Held to equal
+work in lockstep mode (cycles within 0.2%), the i960 JIT is worth 13%
+(daytona 1.79s -> 1.56s), 9% (vf2), 4% (vstriker) and 13% (hotd). Real, useful,
+and an order of magnitude smaller than the branch's headline. The other two
+measured nothing at all:
+
+| | threaded (shipping default) | lockstep |
+| --- | --- | --- |
+| `--sharc-jit` on / off | 1.35 / 1.36 s | 4.10 / **3.02** s |
+| `--mb86235-jit` on / off | 1.69 / 1.68 s | 3.20 / 3.23 s |
+
+In the configuration that ships they are worth nothing, because the worker is
+off the critical path -- the i960 is. In lockstep the SHARC JIT is a 36%
+*regression*. Two of the six commits are pure risk: ~1,800 lines of new
+unvalidated code generation on the worker thread for no measured payoff.
+
+**The off-switches do not restore the old path.** The branch states that each
+`off` flag "restores the exact pre-branch code path". Behaviourally true --
+all four games produce screenshots bit-identical to the `Android` branch. But
+with everything off it is 5-11% *slower* than `Android` (daytona 1.69s vs
+1.57s, vf2 1.72s vs 1.63s, vstriker 2.88s vs 2.70s, hotd 3.62s vs 3.27s). The
+refactor taxed the fallback.
+
+**Process failures worth naming, because they are the reusable part:**
+
+- The benchmark was chosen before it was known what it measured. `run 600` is
+  a fine *throughput* harness for a fixed workload and a broken *speed*
+  harness for a variable one, and nothing in it announced the difference.
+- Validation was run in the non-default configuration.
+- Batch size (`BATCH_CYCLES = 8`) was swept against the interpreter and never
+  revisited once the JITs changed the cost of a batch.
+- "Expected gain: 1.5-2.5x" was asserted from the pattern's reputation
+  elsewhere, not derived from a profile of this codebase. No Amdahl bound was
+  computed, so there was nothing to falsify the result against.
+- The user's report ("it's slow") was weighed against the instrumentation and
+  lost, twice. The instrumentation was wrong both times. When a player's
+  perception and a counter disagree, the counter is the hypothesis.
+
+## 5. What to do with the branch
+
+- **Keep** the i960 dynarec. It is the only measured win, it is deterministic,
+  and its own status notes are honest about its remaining work.
+- **Keep** the real-speed instrumentation (commit `0502403`, currently unpushed
+  on that branch). Nothing else on the branch can be evaluated without it.
+- **Revert** the coprocessor threading. It causes both reported symptoms and
+  its design cannot be repaired by a lock; see the next section for what a
+  correct version would require.
+- **Revert or shelve** the SHARC and MB86235 dynarecs. They may be worth
+  revisiting if the DSP ever becomes the critical path on a real device, but
+  they should not ship on measurements that do not show a gain.
+- **Fix** the 5-11% tax the refactor put on the interpreter path, or unwind the
+  abstraction that caused it.
+
+## 6. The corrected plan for low-powered devices
+
+The ordering principle: cheapest and most certain first, and nothing proceeds
+without a profile that bounds what it can win.
+
+1. **Profile on the target device, and compute the bound.** Split a frame into
+   i960, geometry DSP, rasterizer, tilemap, audio and present. Until that
+   split exists for a phone, every estimate in this document is a guess --
+   including the ones below. Amdahl's law then caps each candidate: if the
+   rasterizer is 60% of a phone frame, no CPU dynarec can do better than 1.6x,
+   and the effort belongs in the renderer. This step is cheap and it decides
+   everything after it.
+
+2. **Reduce per-quantum overhead.** The scheduler runs a 64-cycle quantum with
+   a fixed cost each time -- core swap in and out of the system struct, timer
+   ticks, sound tick, IRQ reconcile. That cost is paid ~6,800 times a frame
+   regardless of how fast the cores are, and it is deterministic work with no
+   accuracy risk in reducing it. Measure it before assuming it is small.
+
+3. **Finish the i960 dynarec.** Its own notes name the remaining work: every
+   block exit re-enters the dispatcher, and call/ret is not lowered, so
+   call-heavy code still pays the fallback. Block chaining and call/ret are
+   the obvious next gains on the one core that is demonstrably the critical
+   path, with an existing differential harness to keep it honest.
+
+4. **Look hard at the renderer before threading anything.** On a phone the
+   rasterizer and the present path are the likeliest bottleneck, and they are
+   the part with the most headroom that costs no accuracy: the geometry is
+   already parsed into a display list, and `trigger_vblank` already hands the
+   rasterizer an owned snapshot. Rendering is where parallelism is safe here,
+   precisely because that snapshot boundary already exists.
+
+5. **Only then reconsider threading, and only with a frame contract.** The
+   lesson from the failure is not "threading is impossible", it is that the
+   geometry DSP has *two* consumers -- the i960 through the FIFOs, and the
+   rasterizer through `buffer_ram` at vblank -- and the branch modelled only
+   the first. A correct design must add a barrier: at `trigger_vblank` the
+   main thread waits until the worker has drained the frame's queued input and
+   completed its pending writes. That preserves within-frame overlap, which is
+   the actual win, while restoring the guarantee that a display list is
+   finished before it is parsed.
+
+   Be honest about the cost: free-running threads make the FIFO interleaving
+   irreproducible, so a threaded coprocessor cannot be bit-deterministic even
+   with the barrier. That is why it must stay opt-in, with lockstep as the
+   default and the reference, and why it is last on this list rather than
+   second.
+
+6. **Pin to big cores on Android** (`sched_setaffinity`) once there is a
+   threaded configuration worth pinning. Not before.
+
+The 68000 stays interpreted: it runs sound, it is cheap, and it is
+audio-rate-coupled.
+
+## 7. Implementation record
+
+What was actually built on this branch, kept because it is an accurate
+description of the code and the only such description that exists. Section 5
+says what each piece is worth; this says what each piece *is*.
+
+Read the timing figures inside these sections with the warning in section 1
+in mind: they were taken with the `run 600` harness, so they measure frames
+rather than work and none of them can be trusted as a speed claim. The
+descriptions of what is lowered, what falls back to the interpreter, how
+invalidation works and what was validated are unaffected by that and remain
+correct.
+
+### The i960 dynarec
 
 The i960 has a Cranelift block dynarec (`crates/i960/src/cpu/jit.rs`,
 feature `jit`, default on; runtime switch `Config::i960_jit` /
@@ -113,7 +296,7 @@ call-heavy code still pays the fallback. Compile latency is tuned with
 `opt_level=none`; block-compile cost is ~2% of frame time at boot and
 negligible steady-state.
 
-### Status: step 4 landed for the SHARC (feat/gottagofast)
+### The SHARC dynarec
 
 The ADSP-21062 has a Cranelift block dynarec (`crates/sharc/src/jit.rs`,
 feature `jit` on the sharc crate, default on; runtime switch
@@ -175,7 +358,7 @@ vtable/bus-erasure pattern and the epoch invalidation carry over unchanged --
 but note its bus is already `'static`, so monomorphizing the cache like the
 i960 does is also an option there.
 
-### Status: step 4 landed for the MB86235 (feat/gottagofast)
+### The MB86235 dynarec
 
 The Fujitsu MB86235 "TGPx4" (Model 2C) has a Cranelift block dynarec
 (`crates/mb86235/src/jit.rs`, feature `jit` on the mb86235 crate, default
@@ -232,7 +415,7 @@ accesses), block chaining, and lowering stall-retry-friendly forms (DSP time
 parked on an empty input FIFO retries through the interpreter today, which
 caps the win on FIFO-bound scenes like hotd's boot).
 
-### Status: the MB86233 stays interpreted (feat/gottagofast)
+### Why the MB86233 stays interpreted
 
 The MB86233 TGP (Model 1, and the original Model 2 board) is the one
 coprocessor without a dynarec, deliberately:
@@ -246,6 +429,33 @@ coprocessor without a dynarec, deliberately:
 
 If a future profile says otherwise, the SHARC/MB86235 JIT pattern carries
 over; the gating and bus-sharing machinery is already generic.
+
+## Prior art and back-end choice
+
+This section is unchanged from the first plan; the research held up, only the
+conclusions drawn from it did not.
+
+- **No dynarec exists for the i960, V60 or MB86233**, in any language. The only
+  i960 recompiler ever written is the closed-source x86 one in ElSemi's Model 2
+  Emulator (last release 2014). These front-ends must be written regardless of
+  approach.
+- **MAME has DRC front-ends for the SHARC and MB86235** (`src/devices/cpu/
+  sharc/sharcdrc.cpp`, `src/devices/cpu/mb86235/mb86235drc.cpp`) and an ARM64
+  DRC back-end (`drcbearm64.cpp`, on asmjit). All BSD-3-Clause. Tied to MAME's
+  device framework and not importable, but a usable lowering blueprint.
+- **68000 has several fast cores** (Amiberry and Emu68 have AArch64 JITs).
+  Not needed, per above.
+
+`cranelift-jit` remains the back-end: pure Rust, AArch64 tier-1, Apache-2.0
+with LLVM exception, compile latency designed for JIT workloads, and proven in
+Rust emulators (Gecko runs Cranelift JITs for PowerPC and the GameCube DSP;
+RustEE offers a Cranelift backend for the PS2). On Android JIT is permitted --
+Dolphin, PPSSPP and Flycast ship dynarecs -- and W^X is handled by Cranelift's
+memory API. Alternatives rejected: LLVM via inkwell (compile latency, painful
+Android linking), libgccjit (runtime shared-library dependency, GPL), QEMU
+libtcg (no maintained upstream library), dynarmic (guest ARM only), GNU
+lightning (GPLv3), dynasm-rs (MPL-2.0, little maintenance), asmjit (capable,
+but C++ FFI and a full code generator to write; kept as fallback).
 
 ## References
 
