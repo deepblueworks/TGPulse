@@ -175,6 +175,63 @@ vtable/bus-erasure pattern and the epoch invalidation carry over unchanged --
 but note its bus is already `'static`, so monomorphizing the cache like the
 i960 does is also an option there.
 
+### Status: step 4 landed for the MB86235 (feat/gottagofast)
+
+The Fujitsu MB86235 "TGPx4" (Model 2C) has a Cranelift block dynarec
+(`crates/mb86235/src/jit.rs`, feature `jit` on the mb86235 crate, default
+on; runtime switch `Config::mb86235_jit` / `--mb86235-jit on|off`, mirrored
+at savestate restore). It follows the SHARC JIT's architecture: blocks are
+cached by entry address with per-256-word-page code epochs bumped by every
+`upload_program_half`, the bus is type-erased through a vtable (the copro
+worker's `BatchBus<'_>` borrows and is not `'static`), and all guest state
+lives in the `Mb86235` struct in memory, consistent at every block exit, so
+the worker's savestate pause/sync sees exactly the interpreter's state.
+Blocks end at control flow (DJMP/DBcc/DCcc/DCALL/DRET/DBLP/DBBC/DBBS), at
+REP arming (the repeat holds the PC at runtime), and at a 32-instruction
+cap; the driver runs the interpreter's `step` for delay slots, REP
+repetitions and input-FIFO stall retries -- the states where the fetch
+address is not simply `pc`. A FIFO stall inside a block exits immediately
+with `pc`/`stall_pc` consistent, and the driver retries through `step` like
+the interpreter loop does. Lowering decisions follow MAME's BSD-3 MB86235
+DRC front-end's basic-block contract (`src/devices/cpu/mb86235/
+mb86235drc.cpp`); the interpreter remains the behavioural authority.
+
+Lowered natively: the control-class NOP (free), the illegal class (a counted
+fault), class-7 immediate-to-register transfers, and the register-only forms
+of classes 0/1/4/5 (no FIFO, no external bus, no EA post-actions, sources
+kept off the PR ring) whose ALU slot is one of the float/integer arithmetic,
+compare, logical or shift operations (FEA/FES/FRCP/FRSQ/FLOG/CFIB excluded)
+and whose multiplier slot is FMUL/IMUL. Everything else goes through a
+trampoline that runs the interpreter's per-instruction bookkeeping and its
+own `execute_op` verbatim, so nothing behaves differently. Flag updates
+reproduce the interpreter's exact set/clear/sticky semantics; host f32
+arithmetic is bit-identical to the interpreter's own.
+
+Validation: `cargo test --workspace` green (71 tests). The mb86235 suite
+gained two lockstep differentials (`jit_matches_interpreter`,
+`jit_matches_interpreter_alu_sweep`, single-instruction blocks via
+`BLOCK_CAP`, diffing the full architected state and asserting the JIT
+compiled blocks) covering REP, call/return delay slots, DJMP, FIFO stalls,
+every lowered ALU/multiplier form, the constant tables and the EB/ST
+control-register transfers, plus an upload-invalidation test. `run 600`
+boots hotd and waverunr with the JIT on and off; `run 3600` hotd soak;
+savestate round trip on hotd with the JIT on, and interpreter-saved states
+load into a JIT machine (layout unchanged, FORMAT_VERSION 2). Bit-exact:
+single-threaded lockstep (`--copro-mt off`) produces identical screenshots
+and identical TGPx4 register/PC/state dumps after `run 600` on hotd, JIT vs
+interpreter (only the retired-instruction counter moves -- the JIT charges
+`icount` at block exits, so batch overshoot burns extra park iterations).
+
+Timing (`run 600`, median of 3, same session): hotd parity (1.63s both
+engines -- i960-bound boot scene; 3.07s vs 3.10s in `--copro-mt off`
+lockstep), waverunr 1.73s -> 1.65s (~5%).
+
+Remaining work: native lowering of the memory-transfer forms (EA addressing
+without bus side effects -- internal RAM A/B reads/writes are pure state
+accesses), block chaining, and lowering stall-retry-friendly forms (DSP time
+parked on an empty input FIFO retries through the interpreter today, which
+caps the win on FIFO-bound scenes like hotd's boot).
+
 ## References
 
 - Cranelift: https://github.com/bytecodealliance/wasmtime/tree/main/cranelift

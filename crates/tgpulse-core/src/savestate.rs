@@ -53,6 +53,7 @@ macro_rules! snapshot_fields {
                 // Runtime-only engine switches are not serialized; re-apply
                 // the live configuration.
                 self.sharc.jit_enabled = self.config.sharc_jit;
+                self.tgpx4.jit_enabled = self.config.mb86235_jit;
                 self.copro_sync_to_worker();
             }
         }

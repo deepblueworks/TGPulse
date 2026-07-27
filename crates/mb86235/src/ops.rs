@@ -46,46 +46,58 @@ pub fn classify(op: u64) -> Class {
 impl Mb86235 {
     /// Runs the core for `cycles` instructions.
     pub fn execute<B: Mb86235Bus>(&mut self, bus: &mut B, cycles: i32) {
+        #[cfg(feature = "jit")]
+        if self.jit_enabled {
+            crate::jit::execute(self, bus, cycles);
+            return;
+        }
         self.icount = cycles;
         while self.icount > 0 {
-            // A stalled instruction re-fetches from where it stalled, unless a
-            // REP is active -- the repeat holds the PC itself.
-            let curpc = if self.stalled && self.st & crate::state::flag::RP == 0 {
-                self.stall_pc
-            } else {
-                self.pc
-            };
-            let op = self.fetch(curpc);
-            self.ppc = curpc;
-
-            if self.delay_slot {
-                // A branch's delay slot runs the instruction after it, then
-                // the branch target takes effect.
-                self.pc = self.delay_pc;
-                self.delay_slot = false;
-            } else if !self.stalled {
-                // REP re-executes the *same* instruction: the PC does not
-                // advance while the repeat flag is live, it just counts down.
-                // Missing this leaves the repeat permanently armed, which is
-                // what stalled Wave Runner's coprocessor handshake.
-                if self.st & crate::state::flag::RP != 0 {
-                    self.rpc = self.rpc.wrapping_sub(1);
-                    if self.rpc == 1 {
-                        self.st &= !crate::state::flag::RP;
-                    }
-                } else {
-                    self.pc = self.pc.wrapping_add(1);
-                }
-            }
-
-            self.execute_op(bus, op);
-
-            self.insns = self.insns.wrapping_add(1);
-            self.icount -= 1;
+            self.step(bus);
         }
     }
 
-    fn execute_op<B: Mb86235Bus>(&mut self, bus: &mut B, op: u64) {
+    /// Executes exactly one instruction (one tick of the interpreter loop):
+    /// refetch from the stall point when a FIFO stall is being retried, run
+    /// the delay-slot redirect, hold the PC while a REP is live, then issue.
+    pub fn step<B: Mb86235Bus>(&mut self, bus: &mut B) {
+        // A stalled instruction re-fetches from where it stalled, unless a
+        // REP is active -- the repeat holds the PC itself.
+        let curpc = if self.stalled && self.st & crate::state::flag::RP == 0 {
+            self.stall_pc
+        } else {
+            self.pc
+        };
+        let op = self.fetch(curpc);
+        self.ppc = curpc;
+
+        if self.delay_slot {
+            // A branch's delay slot runs the instruction after it, then
+            // the branch target takes effect.
+            self.pc = self.delay_pc;
+            self.delay_slot = false;
+        } else if !self.stalled {
+            // REP re-executes the *same* instruction: the PC does not
+            // advance while the repeat flag is live, it just counts down.
+            // Missing this leaves the repeat permanently armed, which is
+            // what stalled Wave Runner's coprocessor handshake.
+            if self.st & crate::state::flag::RP != 0 {
+                self.rpc = self.rpc.wrapping_sub(1);
+                if self.rpc == 1 {
+                    self.st &= !crate::state::flag::RP;
+                }
+            } else {
+                self.pc = self.pc.wrapping_add(1);
+            }
+        }
+
+        self.execute_op(bus, op);
+
+        self.insns = self.insns.wrapping_add(1);
+        self.icount -= 1;
+    }
+
+    pub(crate) fn execute_op<B: Mb86235Bus>(&mut self, bus: &mut B, op: u64) {
         // A stall is per-instruction: cleared before issue, set if a slot
         // pops an empty input FIFO, and re-run next cycle if so.
         self.stalled = false;

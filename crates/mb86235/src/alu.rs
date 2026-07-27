@@ -119,7 +119,7 @@ impl Mb86235 {
 
     /// Whether an ALU opcode reads a second source. The logical, ATRx, ABS
     /// and single-operand floating-point forms do not.
-    fn alu_has_second_src(which: u8) -> bool {
+    pub(crate) fn alu_has_second_src(which: u8) -> bool {
         if which & 0x1c == 0x1c {
             return false; // logical
         }
