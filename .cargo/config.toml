@@ -1,0 +1,66 @@
+# Build settings that have to travel with the checkout rather than live in a
+# developer's `$CARGO_HOME/config.toml`, because a binary built without them
+# is broken for the people who download it.
+#
+# Only the Windows targets appear here. The Linux build already needs nothing
+# beyond `libgcc_s.so.1`, which is part of every base system, and the Android
+# library gets the NDK's `libc++_shared.so` packaged beside it inside the APK.
+# The linker name is deliberately not set: it differs between a Linux cross
+# build (`x86_64-w64-mingw32-gcc`) and a native MSYS2 one (`gcc`), so it stays
+# a per-machine setting in docs/BUILDING.md.
+
+# `imgui-sys` compiles cimgui as C++, so the build needs a C++ standard
+# library, and the GNU toolchain links it as a DLL by default. The result
+# imports `libstdc++-6.dll`, which exists only on a machine that has had MinGW
+# installed -- so the executable will not start on any machine a player
+# downloads it to.
+#
+# Passing `-static-libstdc++` does NOT fix this, which is worth recording
+# because it is the obvious thing to reach for. Those are driver flags and
+# rustc appends `-C link-arg` values at the very end of the link line, long
+# after it has emitted its own
+#
+#     -Wl,-Bdynamic ... -lstdc++
+#
+# from the `cc` crate's `dylib=stdc++` directive. By then the import is
+# already resolved against `libstdc++.dll.a` and nothing later undoes it.
+#
+# So stop the dynamic request at the source instead. `cc` reads
+# `CXXSTDLIB_<target>` to decide which C++ library to name; empty means "name
+# none", which drops the `-lstdc++` entirely (see `[env]` below). The archive
+# is then linked explicitly here. Being last on the line is correct for a
+# static archive: the undefined C++ symbols from cimgui already exist at that
+# point, so the linker pulls the members it needs out of it.
+[target.x86_64-pc-windows-gnu]
+# rustc passes `-nodefaultlibs`, so the driver contributes nothing after our
+# arguments and the archive has to be followed by everything it itself needs:
+# winpthread for the `pthread_*` it calls, the CRT for `fputs`/`getenv`/
+# `sprintf`, and libgcc for `__emutls_get_address`. The group lets the linker
+# resolve the cycle between them rather than depending on a single correct
+# order.
+rustflags = [
+    "-C", "link-arg=-Wl,--start-group",
+    "-C", "link-arg=-l:libstdc++.a",
+    "-C", "link-arg=-l:libwinpthread.a",
+    "-C", "link-arg=-lmingwex",
+    "-C", "link-arg=-lmsvcrt",
+    "-C", "link-arg=-lgcc",
+    "-C", "link-arg=-lgcc_eh",
+    "-C", "link-arg=-lkernel32",
+    "-C", "link-arg=-luser32",
+    "-C", "link-arg=-ladvapi32",
+    "-C", "link-arg=-Wl,--end-group",
+]
+
+# Consulted only by a build for this exact target, so the Linux and Android
+# builds are untouched by it.
+[env]
+CXXSTDLIB_x86_64_pc_windows_gnu = ""
+
+# MSVC has the same failure under different names: without a static CRT the
+# executable imports `VCRUNTIME140.dll` and `MSVCP140.dll` from the Visual C++
+# redistributable, which a player has no reason to have installed. The `cc`
+# crate reads this same feature flag, so cimgui is compiled `/MT` to match and
+# the two halves agree on one CRT.
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

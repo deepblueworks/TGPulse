@@ -35,8 +35,9 @@ sudo apt install mingw-w64          # or: pacman -S mingw-w64-gcc
 cargo build --release --target x86_64-pc-windows-gnu
 ```
 
-The linker has to be named somewhere Cargo reads, either in the checkout's
-`.cargo/config.toml` or in `$CARGO_HOME/config.toml`:
+The linker has to be named somewhere Cargo reads. It differs between a cross
+build and a native one, so it stays a per-machine setting in
+`$CARGO_HOME/config.toml` rather than in the checkout:
 
 ```toml
 [target.x86_64-pc-windows-gnu]
@@ -49,6 +50,44 @@ Building on Windows itself with the MSVC toolchain needs no configuration:
 ```sh
 cargo build --release --target x86_64-pc-windows-msvc
 ```
+
+### The GCC and MSVC runtimes are linked statically
+
+Both Windows targets are built against static C and C++ runtimes, set for the
+whole workspace in `.cargo/config.toml`. This is not a size preference: the
+GNU toolchain otherwise emits an executable that imports `libstdc++-6.dll`
+(`imgui-sys` compiles cimgui as C++) and the MSVC one imports
+`VCRUNTIME140.dll`. Neither exists on a Windows machine that has not had a
+compiler or the Visual C++ redistributable installed, so the build fails to
+start with a missing-DLL dialog on exactly the machines it is shipped to.
+
+Note that the obvious fix does not work, and the configuration is shaped by
+why. Adding `-static-libstdc++` changes nothing: rustc appends `-C link-arg`
+values at the very end of the link line, long after it has already emitted
+`-Wl,-Bdynamic ... -lstdc++` on behalf of the `cc` crate, and by then the
+import is resolved. The dynamic request has to be stopped at the source
+instead, with `CXXSTDLIB_x86_64_pc_windows_gnu=""`, and `libstdc++.a` named
+explicitly afterwards.
+
+That in turn means the archive is last on a line rustc has already marked
+`-nodefaultlibs`, so nothing follows it to satisfy what it needs itself --
+winpthread, the CRT, libgcc, and the kernel32 imports winpthread makes. They
+are listed after it inside `--start-group`, which lets the linker resolve the
+cycle between them instead of depending on one exact order.
+
+Check a build before shipping it. The only imports should be Windows' own
+DLLs -- `kernel32`, `user32`, `gdi32`, `opengl32`, the `api-ms-win-*` set and
+so on. Any `lib*.dll` is a runtime that will not be there:
+
+```sh
+objdump -p target/x86_64-pc-windows-gnu/release/tgpulse.exe |
+    grep 'DLL Name' | sort -u
+```
+
+The Linux and Android builds do not have this problem and need no equivalent
+setting: Linux links only `libgcc_s.so.1`, which is part of every base
+system, and `cargo apk` packages the NDK's `libc++_shared.so` into the APK
+next to the library that needs it.
 
 ## Android
 
