@@ -556,7 +556,6 @@ impl Model2System {
         system.main_cpu = cpu;
 
         system.sharc.jit_enabled = system.config.sharc_jit;
-        system.tgpx4.jit_enabled = system.config.mb86235_jit;
         if system.config.multithreaded {
             log::info!(target: "copro", "geometry coprocessor on worker thread");
             system.start_copro_worker();

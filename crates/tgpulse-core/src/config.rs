@@ -231,10 +231,6 @@ pub struct Config {
     /// dynarec (the interpreter is the per-instruction fallback inside it).
     /// Off is the pure-interpreter reference for A/B testing.
     pub sharc_jit: bool,
-    /// Executes the Model 2C MB86235 (TGPx4) geometry DSP with the Cranelift
-    /// dynarec (the interpreter is the per-instruction fallback inside it).
-    /// Off is the pure-interpreter reference for A/B testing.
-    pub mb86235_jit: bool,
 }
 
 impl Default for Config {
@@ -260,7 +256,6 @@ impl Default for Config {
             multithreaded: true,
             i960_jit: true,
             sharc_jit: true,
-            mb86235_jit: true,
         }
     }
 }

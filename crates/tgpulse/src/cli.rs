@@ -97,7 +97,6 @@ fn parse_from(args: Vec<String>, mut config: Config) -> Result<Args, String> {
             "--copro-mt" => config.multithreaded = on_off(arg, &next(&mut i)?)?,
             "--i960-jit" => config.i960_jit = on_off(arg, &next(&mut i)?)?,
             "--sharc-jit" => config.sharc_jit = on_off(arg, &next(&mut i)?)?,
-            "--mb86235-jit" => config.mb86235_jit = on_off(arg, &next(&mut i)?)?,
             "--smooth-shadows" => config.smooth_shadows = on_off(arg, &next(&mut i)?)?,
             "--widescreen" => config.widescreen = on_off(arg, &next(&mut i)?)?,
             "--widescreen-stretch-2d" => {
@@ -253,9 +252,6 @@ Machine:
   --sharc-jit on|off    Execute the SHARC geometry DSP with the Cranelift
                         dynarec (default on). Off is the interpreter
                         reference for A/B testing.
-  --mb86235-jit on|off  Execute the MB86235 (TGPx4) geometry DSP with the
-                        Cranelift dynarec (default on). Off is the
-                        interpreter reference for A/B testing.
 
 Debugger:
   -c \"cmd; cmd\"         Run these commands, then exit
